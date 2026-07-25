@@ -1,0 +1,4 @@
+# components/sections/
+#
+# Page-level section components (Hero, About, Projects, etc.).
+# Each section is a self-contained component that composes ui/ primitives.

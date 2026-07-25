@@ -1,0 +1,5 @@
+# app/
+#
+# Next.js 15 App Router directory.
+# Pages, layouts, and route handlers live here.
+# This file can be deleted once app/layout.tsx and app/page.tsx are created.

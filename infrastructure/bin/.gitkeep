@@ -1,0 +1,7 @@
+# bin/
+#
+# CDK app entry point. This is where stacks are instantiated.
+# Convention: one file per CDK app — typically named after the project.
+# Example: bin/portfolio.ts
+#
+# This file can be deleted once bin/portfolio.ts is created.

@@ -1,0 +1,7 @@
+# lib/stacks/
+#
+# CDK Stack definitions. Each file = one CloudFormation stack.
+# Planned stacks:
+#   hosting-stack.ts     — AWS Amplify Hosting + Route 53 + ACM
+#   ai-stack.ts          — Lambda + API Gateway + Bedrock IAM roles
+#   monitoring-stack.ts  — CloudWatch dashboards, alarms, budget alerts

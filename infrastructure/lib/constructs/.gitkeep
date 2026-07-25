@@ -1,0 +1,6 @@
+# lib/constructs/
+#
+# Reusable L3 CDK constructs (higher-level abstractions over AWS resources).
+# Planned constructs:
+#   amplify-site.ts       — Amplify app + branch + domain + ACM cert
+#   bedrock-function.ts   — Lambda function pre-wired with Bedrock IAM permissions
