@@ -1,5 +1,0 @@
-# public/
-#
-# Static assets served at the root URL.
-# Place favicon.ico, og-image.png, robots.txt, and sitemap.xml here.
-# Files here are NOT processed by webpack — reference them with absolute paths.

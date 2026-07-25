@@ -1,4 +1,0 @@
-# hooks/
-#
-# Custom React hooks (e.g. useScrollPosition, useTheme, useChat).
-# Naming convention: use<PascalCase>.ts
