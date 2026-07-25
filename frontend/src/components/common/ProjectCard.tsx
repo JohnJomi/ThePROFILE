@@ -1,8 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
+
 import { ArrowUpRight } from "lucide-react";
 
-import type { Project } from "@/types/project";
 import { cn } from "@/lib/utils";
+import type { Project } from "@/types/project";
 
 import { Badge } from "./Badge";
 import { Card } from "./Card";
@@ -48,10 +50,12 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
       {/* Cover image */}
       {coverImage && (
         <div className="relative aspect-video w-full overflow-hidden bg-muted">
-          <img
+          <Image
             src={coverImage}
             alt={`${title} project cover`}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
       )}

@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed — Phase 3: Final Polish Pass
+
+**ESLint / Code Quality**
+- Fixed 18 `import/order` warnings across `Footer.tsx`, `Navbar.tsx`, `ThemeToggle.tsx`, `useScrollReveal.ts`, `Card.tsx`, `ProjectCard.tsx`, `SkillBadge.tsx`, `TimelineCard.tsx`, `layout.tsx` — all import groups now ordered correctly per ESLint config
+- Replaced raw `<img>` tag in `ProjectCard.tsx` with `next/image` `<Image fill>` for automatic image optimisation, responsive sizing, and LCP improvement
+- Added `images.remotePatterns` to `next.config.ts` to allow `next/image` to optimise any HTTPS source (to be restricted to specific domains before Phase 6 launch)
+
+**Build status (post-fix):** ✅ TypeScript clean. ESLint clean (0 errors, 0 warnings). Production build passes.
+
+---
+
 ### Added — Phase 3: Core UI Implementation
 
 **Design System — New Components**

@@ -3,17 +3,18 @@
 import { useState, useEffect } from "react";
 
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+
 import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
 import { primaryNavLinks, socialLinks } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 import { fadeDown } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
+import { ThemeToggle } from "./ThemeToggle";
 import { SocialButton } from "../common/SocialButton";
 import { socialIconMap } from "../common/SocialIcons";
-import { ThemeToggle } from "./ThemeToggle";
 
 /**
  * Navbar — sticky top navigation bar.

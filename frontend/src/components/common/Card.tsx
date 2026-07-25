@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { cva, type VariantProps } from "class-variance-authority";
+import { motion } from "framer-motion";
 
 import { fadeUp, hoverLift } from "@/lib/motion";
 import { cn } from "@/lib/utils";

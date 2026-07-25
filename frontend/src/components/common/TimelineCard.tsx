@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 
-import type { TimelineItem, TimelineItemType } from "@/types/timeline";
 import { fadeUp } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import type { TimelineItem, TimelineItemType } from "@/types/timeline";
 
 import { Badge } from "./Badge";
 

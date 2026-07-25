@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { siteConfig } from "@/config/site";
-import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { Navbar } from "@/components/layout/Navbar";
+import { siteConfig } from "@/config/site";
 import { fontMono, fontSans } from "@/lib/fonts";
 import { defaultMetadata } from "@/lib/metadata";
 import { Providers } from "@/providers/Providers";

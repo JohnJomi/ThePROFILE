@@ -388,4 +388,30 @@ import { cn } from "@/lib/utils";
 
 ---
 
-*Last updated: Phase 3 — Core UI Implementation*
+## Images
+
+Always use `next/image` (`<Image>`) rather than a raw `<img>` tag for any image rendered in a component.
+
+```tsx
+import Image from "next/image";
+
+// ✅ Good — automatic optimisation, responsive sizing, LCP boost
+<div className="relative aspect-video w-full overflow-hidden">
+  <Image
+    src={coverImage}
+    alt="Descriptive alt text"
+    fill
+    sizes="(max-width: 768px) 100vw, 50vw"
+    className="object-cover"
+  />
+</div>
+
+// ❌ Bad — no optimisation, triggers ESLint @next/next/no-img-element warning
+<img src={coverImage} alt="..." />
+```
+
+For images from external domains, add a `remotePatterns` entry to `next.config.ts`. Before Phase 6 launch, restrict the wildcard `hostname: "**"` to the specific CDN domains you use.
+
+---
+
+*Last updated: Phase 3 — Final Polish Pass*

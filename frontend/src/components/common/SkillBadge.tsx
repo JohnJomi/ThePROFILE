@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 
-import type { ProficiencyLevel, SkillCategory } from "@/types/skill";
 import { scalePop } from "@/lib/motion";
 import { cn } from "@/lib/utils";
+import type { ProficiencyLevel, SkillCategory } from "@/types/skill";
 
 import { Badge } from "./Badge";
 

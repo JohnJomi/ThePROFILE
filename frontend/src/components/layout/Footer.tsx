@@ -3,9 +3,10 @@ import Link from "next/link";
 import { primaryNavLinks, socialLinks } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { socialIconMap } from "../common/SocialIcons";
 
 import { SocialButton } from "../common/SocialButton";
+import { socialIconMap } from "../common/SocialIcons";
+
 
 /**
  * Footer — site-wide footer with nav links and social buttons.
