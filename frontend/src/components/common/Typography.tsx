@@ -180,3 +180,20 @@ export function InlineCode({ className, ...props }: React.HTMLAttributes<HTMLEle
     />
   );
 }
+
+// ─── Text (alias for Paragraph) ───────────────────────────────────────────────
+
+/**
+ * Text — semantic alias for Paragraph.
+ *
+ * Exported as `Text` to match the design system spec.
+ * All props are identical to Paragraph — use whichever name reads
+ * more naturally at the call site.
+ *
+ * @example
+ * <Text>Standard body copy.</Text>
+ * <Text variant="lead">Larger intro paragraph.</Text>
+ * <Text variant="muted">Secondary note.</Text>
+ */
+export const Text = Paragraph;
+export type TextProps = ParagraphProps;

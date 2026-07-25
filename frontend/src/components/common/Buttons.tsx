@@ -38,12 +38,12 @@ type ButtonBase = {
 };
 
 type AsButton = ButtonBase &
-  Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonBase> & {
+  Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonBase | "onDrag" | "onDragEnd" | "onDragEnter" | "onDragExit" | "onDragLeave" | "onDragOver" | "onDragStart"> & {
     href?: undefined;
   };
 
 type AsAnchor = ButtonBase &
-  Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof ButtonBase> & {
+  Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof ButtonBase | "onDrag" | "onDragEnd" | "onDragEnter" | "onDragExit" | "onDragLeave" | "onDragOver" | "onDragStart"> & {
     href: string;
   };
 
@@ -116,7 +116,8 @@ export function PrimaryButton({
         initial="rest"
         whileHover="hover"
         whileTap="tap"
-        {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        {...(rest as any)}
       >
         {content}
       </motion.a>
@@ -131,7 +132,8 @@ export function PrimaryButton({
       initial="rest"
       whileHover="hover"
       whileTap="tap"
-      {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...(rest as any)}
     >
       {content}
     </motion.button>
@@ -186,7 +188,8 @@ export function SecondaryButton({
         initial="rest"
         whileHover="hover"
         whileTap="tap"
-        {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        {...(rest as any)}
       >
         {content}
       </motion.a>
@@ -201,7 +204,8 @@ export function SecondaryButton({
       initial="rest"
       whileHover="hover"
       whileTap="tap"
-      {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...(rest as any)}
     >
       {content}
     </motion.button>

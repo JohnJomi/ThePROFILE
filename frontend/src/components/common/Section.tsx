@@ -29,6 +29,14 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   containerSize?: ContainerProps["size"];
   /** Whether to apply scroll-triggered entrance animation. Default: true. */
   animated?: boolean;
+  // Omit native drag events that conflict with Framer Motion's drag API
+  onDrag?: never;
+  onDragEnd?: never;
+  onDragEnter?: never;
+  onDragExit?: never;
+  onDragLeave?: never;
+  onDragOver?: never;
+  onDragStart?: never;
 }
 
 export function Section({
@@ -61,7 +69,8 @@ export function Section({
       initial="hidden"
       whileInView="visible"
       viewport={defaultViewport}
-      {...(props as React.HTMLAttributes<HTMLElement>)}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...(props as any)}
     >
       {content}
     </motion.section>

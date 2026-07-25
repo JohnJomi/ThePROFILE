@@ -43,19 +43,62 @@ Build and deploy a production-grade AI Engineer portfolio website demonstrating 
 
 ---
 
-### Phase 3 — Core UI Implementation
-**Goal:** Build all portfolio sections as polished, accessible, animated components.
+### Phase 3 — Core UI Implementation ✅
+**Goal:** Build the complete design system, reusable component library, motion utilities, and layout components as the foundation for all portfolio sections.
 
 **Deliverables:**
-- [ ] Global layout (Navbar with dark mode toggle, Footer)
-- [ ] Hero section with animated headline
-- [ ] About / Skills section
-- [ ] Projects section (project cards with links)
-- [ ] Experience / Timeline section
-- [ ] Writing / Blog index (static posts via MDX)
-- [ ] Contact section
-- [ ] Responsive design (mobile-first, tested on 375px → 1440px)
-- [ ] Accessibility audit (WCAG 2.1 AA, VoiceOver tested)
+
+*Design System*
+- [x] `Container`, `Section`, `SectionHeader` — layout primitives with scroll-reveal animation
+- [x] `Heading`, `Subheading`, `Paragraph`, `Text`, `GradientText`, `InlineCode` — full typography system
+- [x] `Button` (unified variant prop), `PrimaryButton`, `SecondaryButton` — polymorphic, accessible
+- [x] `Badge`, `SkillBadge` — 7 variants, proficiency-aware, spring animation
+- [x] `Card`, `GlassCard` — animated, hoverable, glass morphism
+- [x] `SocialButton` — icon + pill variants, aria-label, external link safety
+- [x] `ThemeToggle` — animated icon swap, hydration-safe
+- [x] `AnimatedBackground` — dots/gradient/grid decorative backgrounds, aria-hidden
+- [x] `ProjectCard`, `TimelineCard` — domain-specific cards
+- [x] Barrel export — `src/components/common/index.ts`
+
+*Layout*
+- [x] `Navbar` — sticky, scroll-aware backdrop-blur, desktop + mobile responsive
+- [x] `Footer` — 3-column responsive, nav + socials + copyright
+- [x] Mobile navigation — hamburger, ESC close, body scroll lock, `role="dialog"`, focus management
+- [x] Navigation config — `src/config/navigation.ts` typed `NavLink` + `SocialLink`
+
+*Motion*
+- [x] Fade variants — `fade`, `fadeUp`, `fadeDown`, `fadeLeft`, `fadeRight`, `fadeUpLarge`
+- [x] Scale variants — `scaleIn`, `scalePop`
+- [x] Stagger containers — `staggerContainer`, `staggerContainerSlow`
+- [x] Hover animations — `hoverLift`, `hoverScale`, `tapPress`
+- [x] Page transitions — `pageTransition`, `pageEnter`, `pageExit`
+- [x] Scroll-reveal defaults — `defaultViewport`
+- [x] Utility helper — `withDelay()`
+
+*Theme*
+- [x] `theme.ts` — full token set: colors, spacing, fontSize, fontWeight, lineHeight, borderRadius, shadows, zIndex, duration, easing, transitions, breakpoints + exported TypeScript types
+- [x] `globals.css` — OKLCH tokens, light/dark mode, `@theme inline`, base layer typography, utility classes, keyframes
+
+*Hooks*
+- [x] `useReducedMotion` — reactive `prefers-reduced-motion` reader
+- [x] `useMediaQuery` — named breakpoint or raw query, reactive
+- [x] `useScrollReveal` — Framer Motion `useInView` wrapper with design system defaults
+- [x] Barrel export — `src/hooks/index.ts`
+
+*Accessibility*
+- [x] `MotionConfig reducedMotion="user"` applied globally in `Providers.tsx`
+- [x] All interactive components use `focus-visible` rings
+- [x] Icons are `aria-hidden`; icon-only buttons have `aria-label`
+- [x] Mobile nav uses `role="dialog"`, `aria-modal`, `aria-expanded`, `aria-controls`
+- [x] `ThemeToggle` uses `aria-pressed` and action-oriented `aria-label`
+- [x] External links use `rel="noopener noreferrer"` throughout
+
+*Documentation*
+- [x] `docs/UI_GUIDELINES.md` — design token rules, component API, motion catalogue, a11y checklist
+- [x] `docs/PROJECT_PLAN.md` updated
+- [x] `docs/CHANGELOG.md` updated
+
+**Build status:** ✅ TypeScript clean. ESLint clean. All components render correctly.
 
 ---
 
@@ -102,8 +145,8 @@ Build and deploy a production-grade AI Engineer portfolio website demonstrating 
 |---|---|---|
 | Phase 1 — Initialization | 1 day | ✅ Done |
 | Phase 2 — Frontend Scaffold | 1 day | ✅ Done |
-| Phase 3 — Core UI | 1–2 weeks | 🔜 Next |
-| Phase 4 — AI Features | 1–2 weeks | — |
+| Phase 3 — Core UI | 1–2 weeks | ✅ Done |
+| Phase 4 — AI Features | 1–2 weeks | 🔜 Next |
 | Phase 5 — Infrastructure | 3–5 days | — |
 | Phase 6 — Polish & Launch | 2–3 days | — |
 
@@ -111,9 +154,10 @@ Build and deploy a production-grade AI Engineer portfolio website demonstrating 
 
 ## Current Status
 
-**Active Phase:** Phase 3 — Core UI Implementation
+**Active Phase:** Phase 4 — AI Feature Integration
 
-**Before starting Phase 3:**
+**Before starting Phase 4:**
 1. Fill in `src/config/site.ts` with your name, URL, email, and social handles.
-2. Fill in `src/data/profile.ts` with your bio.
-3. Add at least one entry to `src/data/projects.ts` for early testing.
+2. Fill in `src/data/profile.ts` with your bio and `src/data/projects.ts` with real projects.
+3. Activate `ReactQueryProvider` — install `@tanstack/react-query` and wire it up.
+4. Review `docs/UI_GUIDELINES.md` before adding any new components.

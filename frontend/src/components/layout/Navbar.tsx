@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, Twitter } from "lucide-react";
 
 import { primaryNavLinks, socialLinks } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
@@ -12,6 +12,7 @@ import { fadeDown } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 import { SocialButton } from "../common/SocialButton";
+import { socialIconMap } from "../common/SocialIcons";
 import { ThemeToggle } from "./ThemeToggle";
 
 /**
@@ -34,12 +35,6 @@ import { ThemeToggle } from "./ThemeToggle";
  *
  * Used by: app/layout.tsx
  */
-
-const iconMap: Record<string, React.ReactNode> = {
-  Github: <Github />,
-  Linkedin: <Linkedin />,
-  Twitter: <Twitter />,
-};
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -118,7 +113,7 @@ export function Navbar() {
                 key={link.label}
                 label={link.label}
                 href={link.href}
-                icon={iconMap[link.icon] ?? null}
+                icon={socialIconMap[link.icon] ?? null}
                 variant="icon"
               />
             ))}
@@ -199,7 +194,7 @@ export function Navbar() {
                   key={link.label}
                   label={link.label}
                   href={link.href}
-                  icon={iconMap[link.icon] ?? null}
+                  icon={socialIconMap[link.icon] ?? null}
                   variant="icon"
                 />
               ))}

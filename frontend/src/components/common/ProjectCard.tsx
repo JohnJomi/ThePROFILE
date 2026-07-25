@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { ArrowUpRight, Github } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 import type { Project } from "@/types/project";
 import { cn } from "@/lib/utils";
 
 import { Badge } from "./Badge";
 import { Card } from "./Card";
+import { GithubIcon } from "./SocialIcons";
 
 /**
  * ProjectCard — layout-only card for a portfolio project.
@@ -114,7 +115,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
                 aria-label={`${title} source code on GitHub`}
                 className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
               >
-                <Github className="size-3.5" aria-hidden="true" />
+                <GithubIcon className="size-3.5" />
                 Source
               </a>
             )}

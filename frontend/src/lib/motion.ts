@@ -224,6 +224,58 @@ export const tapPress = {
   },
 };
 
+// ─── Page transition variants ────────────────────────────────────────────────
+
+/**
+ * pageTransition — applied to the top-level page wrapper to animate route
+ * entries and exits. Combine with AnimatePresence in a layout component.
+ *
+ * Pattern:
+ *   <AnimatePresence mode="wait">
+ *     <motion.div key={pathname} variants={pageTransition} initial="initial" animate="enter" exit="exit">
+ *       {children}
+ *     </motion.div>
+ *   </AnimatePresence>
+ */
+export const pageTransition: Variants = {
+  initial: { opacity: 0, y: 8 },
+  enter: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: duration.normal, ease: easing.easeOut },
+  },
+  exit: {
+    opacity: 0,
+    y: -8,
+    transition: { duration: duration.fast, ease: easing.easeIn },
+  },
+};
+
+/**
+ * pageEnter — standalone enter-only variant for pages that don't need
+ * an exit animation (e.g., the root / home page).
+ */
+export const pageEnter: Variants = {
+  initial: { opacity: 0, y: 16 },
+  enter: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: duration.slow, ease: easing.easeOut },
+  },
+};
+
+/**
+ * pageExit — standalone exit-only variant.
+ * Use when you need the exit to differ from the paired entry animation.
+ */
+export const pageExit: Variants = {
+  initial: { opacity: 1 },
+  exit: {
+    opacity: 0,
+    transition: { duration: duration.fast, ease: easing.easeIn },
+  },
+};
+
 // ─── Utility helpers ──────────────────────────────────────────────────────────
 
 /**

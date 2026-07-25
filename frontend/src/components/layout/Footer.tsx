@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { Github, Linkedin, Twitter } from "lucide-react";
 
 import { primaryNavLinks, socialLinks } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { socialIconMap } from "../common/SocialIcons";
 
 import { SocialButton } from "../common/SocialButton";
 
@@ -24,12 +24,6 @@ import { SocialButton } from "../common/SocialButton";
  *
  * Used by: app/layout.tsx
  */
-
-const iconMap: Record<string, React.ReactNode> = {
-  Github: <Github />,
-  Linkedin: <Linkedin />,
-  Twitter: <Twitter />,
-};
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -82,7 +76,7 @@ export function Footer() {
                 key={link.label}
                 label={link.label}
                 href={link.href}
-                icon={iconMap[link.icon] ?? null}
+                icon={socialIconMap[link.icon] ?? null}
                 variant="icon"
                 size="sm"
               />

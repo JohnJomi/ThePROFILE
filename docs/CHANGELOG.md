@@ -9,6 +9,74 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — Phase 3: Core UI Implementation
+
+**Design System — New Components**
+- `Button` (`src/components/common/Button.tsx`) — unified variant prop (`primary` | `secondary`) wrapping `PrimaryButton` / `SecondaryButton`
+- `Text` — exported alias for `Paragraph` in `Typography.tsx` per design system spec
+- Barrel export `src/components/common/index.ts` — all common components available from a single import path
+
+**Motion — New Variants** (`src/lib/motion.ts`)
+- `pageTransition` — full-page route transition with enter + exit states
+- `pageEnter` — enter-only page transition for the home / root route
+- `pageExit` — exit-only variant for asymmetric route transitions
+
+**Hooks** (`src/hooks/`)
+- `useReducedMotion` — reactive `prefers-reduced-motion` reader; returns `true` when user has opted into reduced motion
+- `useMediaQuery` — accepts a named breakpoint key (`sm`, `md`, `lg`, etc.) or a raw CSS media query string; reactive to viewport changes
+- `useScrollReveal` — wraps Framer Motion `useInView` with design system defaults (`once: true`, `margin: "-80px"`); returns `[ref, isInView]` tuple
+- `src/hooks/index.ts` — barrel export for all hooks
+
+**Accessibility**
+- `MotionConfig reducedMotion="user"` added to `Providers.tsx` — all Framer Motion animations globally respect `prefers-reduced-motion` without per-component opt-in
+
+**Documentation**
+- `docs/UI_GUIDELINES.md` — new: design token rules, typography system, color system, spacing/layout guide, full component API reference, motion variant catalogue, accessibility checklist, dark mode rules, import conventions
+- `docs/PROJECT_PLAN.md` — Phase 3 marked complete with full deliverable checklist; Phase 4 set as active
+
+### Added — Phase 3: Core UI (previously implemented, documented here)
+
+**Design System — Existing Components**
+- `Container` — layout primitive, 4 width variants, polymorphic `as` prop
+- `Section` — full-width section wrapper with scroll-triggered stagger animation
+- `SectionHeader` — overline + heading + description with fade-up entrance
+- `Heading` — h1–h6 with polymorphic `as` and cva variant sizes
+- `Subheading` — monospace overline label
+- `Paragraph` — body text with 4 variants (default, lead, muted, small)
+- `GradientText` — animated gradient inline text for heading highlights
+- `InlineCode` — styled inline code snippet
+- `PrimaryButton` / `SecondaryButton` — polymorphic anchor/button, 3 sizes, icon slots, tap animation
+- `Badge` — 7 variants, 3 sizes, accessible inline label
+- `SkillBadge` — proficiency-aware badge with dot indicator and spring entrance animation
+- `Card` / `GlassCard` — animated, hoverable surface with 4 padding variants and glass morphism variant
+- `SocialButton` — icon + pill variants, aria-label, `rel="noopener noreferrer"`
+- `AnimatedBackground` — dots / gradient / grid decorative backgrounds, `aria-hidden`, reduced-motion via CSS
+- `ProjectCard` — project display card with links and tech badges
+- `TimelineCard` — experience/education timeline entry card
+
+**Layout**
+- `Navbar` — sticky, scroll-aware backdrop-blur; desktop nav + social icons + theme toggle; mobile hamburger with ESC close, body scroll lock, `role="dialog"`, `aria-expanded`, `aria-controls`
+- `Footer` — 3-column responsive layout; brand, nav links, socials, copyright year
+- `ThemeToggle` — AnimatePresence icon swap, hydration-safe, `aria-pressed`
+- `src/config/navigation.ts` — typed `NavLink` and `SocialLink` arrays
+
+**Theme** (`src/config/theme.ts`, `src/app/globals.css`)
+- Design token constants: `colorTokens`, `spacing`, `fontSize`, `fontWeight`, `lineHeight`, `borderRadius`, `shadows`, `zIndex`, `duration`, `easing`, `transitions`, `breakpoints`
+- Exported TypeScript types: `ColorToken`, `SpacingStep`, `FontSizeStep`, `ShadowKey`, `EasingKey`, `DurationKey`, `BreakpointKey`
+- OKLCH color tokens in light/dark mode, brand accent slots, `@theme inline` Tailwind mapping
+- Custom keyframes: `gradient-shift`, `shimmer`, `float`
+
+**Motion** (`src/lib/motion.ts`)
+- Fade: `fade`, `fadeUp`, `fadeDown`, `fadeLeft`, `fadeRight`, `fadeUpLarge`
+- Scale: `scaleIn`, `scalePop`
+- Stagger: `staggerContainer`, `staggerContainerSlow`
+- Hover/tap: `hoverLift`, `hoverScale`, `tapPress`
+- Utility: `withDelay()`, `defaultViewport`
+
+---
+
+## [Unreleased — Phase 2]
+
 ### Added — Phase 2: Next.js Project Foundation
 
 **Scaffolding & Build**

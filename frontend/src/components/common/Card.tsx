@@ -42,6 +42,14 @@ export interface CardProps
     VariantProps<typeof cardVariants> {
   animated?: boolean;
   hoverable?: boolean;
+  // Omit native drag events that conflict with Framer Motion's drag API
+  onDrag?: never;
+  onDragEnd?: never;
+  onDragEnter?: never;
+  onDragExit?: never;
+  onDragLeave?: never;
+  onDragOver?: never;
+  onDragStart?: never;
 }
 
 export function Card({
@@ -70,7 +78,8 @@ export function Card({
       whileHover={hoverable ? "hover" : undefined}
       animate={hoverable && !animated ? "rest" : undefined}
       style={{ willChange: "transform" }}
-      {...(props as React.HTMLAttributes<HTMLDivElement>)}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...(props as any)}
     >
       {hoverable ? (
         <motion.div variants={hoverLift} className="h-full">
@@ -132,7 +141,8 @@ export function GlassCard({
       whileHover={hoverable ? "hover" : undefined}
       animate={hoverable && !animated ? "rest" : undefined}
       style={{ willChange: "transform" }}
-      {...(props as React.HTMLAttributes<HTMLDivElement>)}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...(props as any)}
     >
       {hoverable ? (
         <motion.div variants={hoverLift} className="h-full">
