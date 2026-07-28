@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added — Phase 1/2: Documentation Overhaul (This Session)
+
+**Documentation — New Files**
+- `docs/PROJECT_STATUS.md` — Current phase, completed work, work in progress, remaining roadmap, technical debt, known issues, next priorities
+- `docs/ARCHITECTURE.md` — Folder structure, routing, providers, state management, data flow, component hierarchy, motion system, theme system, build/deploy, key design decisions
+- `docs/COMPONENTS.md` — Every reusable component documented: Purpose, Props, Usage example, Dependencies, Future improvements
+- `docs/DATA_MODEL.md` — Every data file explained: profile.ts, projects.ts, skills.ts, experience.ts, education.ts, certifications.ts, achievements.ts, socials.ts, timeline.ts, plus config/site.ts and config/navigation.ts. How they are consumed and derived exports.
+
+**Documentation — Updated**
+- `docs/CHANGELOG.md` — This entry added
+
+**Code Quality**
+- No code changes — documentation only per session constraints
+
+---
+
 ### Fixed — Phase 3: Final Polish Pass
 
 **ESLint / Code Quality**
