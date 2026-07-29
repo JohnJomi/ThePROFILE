@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { siteConfig } from "@/config/site";
-import { fontMono, fontSans } from "@/lib/fonts";
+import { fontHeading, fontMono, fontSans } from "@/lib/fonts";
 import { defaultMetadata } from "@/lib/metadata";
 import { Providers } from "@/providers/Providers";
 
@@ -20,7 +20,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
     <html
       lang={siteConfig.locale.split("_")[0] ?? "en"}
       suppressHydrationWarning
-      className={`${fontSans.variable} ${fontMono.variable}`}
+      className={`${fontHeading.variable} ${fontSans.variable} ${fontMono.variable}`}
     >
       <body className="flex min-h-screen flex-col">
         <Providers>

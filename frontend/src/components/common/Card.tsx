@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
  */
 
 const glassSurface =
-  "relative rounded-2xl border border-white/15 bg-white/75 text-card-foreground backdrop-blur-xl shadow-[0_10px_30px_rgb(15_23_42/0.08),0_2px_8px_rgb(15_23_42/0.04),inset_0_1px_0_rgb(255_255_255/0.45)] transition-all duration-300 ease-out dark:border-white/10 dark:bg-white/10 dark:shadow-[0_18px_50px_rgb(0_0_0/0.35),0_1px_0_rgb(255_255_255/0.06),inset_0_1px_0_rgb(255_255_255/0.08)]";
+  "relative rounded-sm border border-border/70 bg-transparent text-card-foreground transition-all duration-300 ease-out";
 
 const cardVariants = cva(glassSurface, {
   variants: {
@@ -63,7 +63,7 @@ export function Card({
   const cls = cn(
     cardVariants({ padding }),
     hoverable &&
-      "cursor-pointer hover:-translate-y-1 hover:shadow-[0_20px_60px_rgb(15_23_42/0.14),0_4px_16px_rgb(15_23_42/0.08)] dark:hover:shadow-[0_24px_70px_rgb(0_0_0/0.45),0_4px_18px_rgb(0_0_0/0.2)]",
+      "cursor-pointer hover:-translate-y-1 hover:bg-foreground/3",
     className,
   );
 
@@ -121,10 +121,10 @@ export function GlassCard({
   ...props
 }: Readonly<GlassCardProps>) {
   const cls = cn(
-    "relative rounded-2xl border border-white/20 bg-white/82 text-card-foreground backdrop-blur-xl shadow-[0_14px_40px_rgb(15_23_42/0.1),0_2px_10px_rgb(15_23_42/0.05),inset_0_1px_0_rgb(255_255_255/0.5)] transition-all duration-300 ease-out dark:border-white/12 dark:bg-white/12 dark:shadow-[0_22px_70px_rgb(0_0_0/0.4),0_1px_0_rgb(255_255_255/0.08),inset_0_1px_0_rgb(255_255_255/0.1)]",
+    "relative rounded-sm border border-border/70 bg-transparent text-card-foreground transition-all duration-300 ease-out",
     cardVariants({ padding }),
     hoverable &&
-      "cursor-pointer hover:-translate-y-1 hover:shadow-[0_22px_70px_rgb(15_23_42/0.16),0_6px_20px_rgb(15_23_42/0.1)] dark:hover:shadow-[0_26px_80px_rgb(0_0_0/0.48),0_6px_22px_rgb(0_0_0/0.22)]",
+      "cursor-pointer hover:-translate-y-1 hover:bg-foreground/3",
     className,
   );
 

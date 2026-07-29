@@ -25,7 +25,7 @@ import { cn } from "@/lib/utils";
 const sizeClasses = {
   sm: "h-8 px-3.5 text-sm gap-1.5 [&_svg]:size-3.5",
   default: "h-10 px-5 text-sm gap-2 [&_svg]:size-4",
-  lg: "h-12 px-7 text-base gap-2.5 [&_svg]:size-5",
+  lg: "h-12 px-6 text-base gap-2.5 [&_svg]:size-5",
 } as const;
 
 type ButtonBase = {
@@ -92,11 +92,11 @@ export function PrimaryButton({
   const isExternal = href?.startsWith("http");
 
   const cls = cn(
-    "inline-flex items-center justify-center rounded-2xl border font-medium",
-    "bg-brand/90 text-brand-foreground border-brand/20 backdrop-blur-xl shadow-[0_10px_24px_rgb(37_99_235/0.18),0_2px_8px_rgb(15_23_42/0.08)]",
-    "hover:-translate-y-0.5 hover:bg-brand hover:border-brand/30 hover:shadow-[0_18px_36px_rgb(37_99_235/0.24),0_8px_20px_rgb(15_23_42/0.12)] active:translate-y-0 active:shadow-[0_8px_20px_rgb(37_99_235/0.16)]",
+    "inline-flex items-center justify-center rounded-md border font-medium tracking-tight",
+    "bg-accent-rust text-white border-accent-rust",
+    "hover:-translate-y-0.5 hover:bg-accent-rust/90 hover:border-accent-rust/90 active:translate-y-0",
     "transition-all duration-300 ease-out",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-rust focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     "disabled:pointer-events-none disabled:opacity-50",
     sizeClasses[size],
     className,
@@ -163,11 +163,9 @@ export function SecondaryButton({
   const isExternal = href?.startsWith("http");
 
   const cls = cn(
-    "inline-flex items-center justify-center rounded-2xl border font-medium",
-    "bg-white/70 text-foreground border-white/20 backdrop-blur-xl shadow-[0_8px_22px_rgb(15_23_42/0.06),inset_0_1px_0_rgb(255_255_255/0.45)]",
-    "dark:bg-white/10 dark:text-foreground dark:border-white/10 dark:shadow-[0_12px_30px_rgb(0_0_0/0.28),inset_0_1px_0_rgb(255_255_255/0.08)]",
-    "hover:-translate-y-0.5 hover:bg-white/85 hover:border-white/30 hover:shadow-[0_16px_32px_rgb(15_23_42/0.1),0_6px_18px_rgb(15_23_42/0.08)]",
-    "dark:hover:bg-white/15 dark:hover:border-white/15 dark:hover:shadow-[0_18px_40px_rgb(0_0_0/0.36),0_6px_18px_rgb(0_0_0/0.16)]",
+    "inline-flex items-center justify-center rounded-md border font-medium tracking-tight",
+    "bg-transparent text-foreground border-border/70",
+    "hover:-translate-y-0.5 hover:border-foreground/35 hover:bg-foreground/5 active:translate-y-0",
     "transition-all duration-300 ease-out",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
     "disabled:pointer-events-none disabled:opacity-50",

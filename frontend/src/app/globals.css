@@ -27,7 +27,7 @@
   /* These variable names must match the `variable` prop in src/lib/fonts.ts */
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-heading);
 
   /* ── shadcn/ui color tokens ────────────────────────────────────────────── */
   --color-background: var(--background);
@@ -53,6 +53,16 @@
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
   --color-brand-muted: var(--brand-muted);
+
+  /* ── Editorial section palette ───────────────────────────────────────── */
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-text-primary: var(--text-primary);
+  --color-text-primary-inverse: var(--text-primary-inverse);
+  --color-accent-rust: var(--accent-rust);
+  --color-accent-gold: var(--accent-gold);
+  --color-border-hairline: var(--border-hairline);
 
   /* ── Radius tokens ─────────────────────────────────────────────────────── */
   --radius-sm: calc(var(--radius) * 0.6);
@@ -97,37 +107,45 @@
    shadcn/ui base-nova palette — extended with brand accent slots.
    -------------------------------------------------------------------------- */
 :root {
+  --bg-primary: #1b2620;
+  --bg-secondary: #12140f;
+  --bg-tertiary: #f3eee3;
+  --text-primary: #f3eee3;
+  --text-primary-inverse: #161810;
+  --accent-rust: #d9663d;
+  --accent-gold: #e8b93e;
+  --border-hairline: rgb(243 238 227 / 15%);
+
   /* ── Base ─────────────────────────────────────────────────────────────── */
-  --background: oklch(0.962 0.004 260);
-  --foreground: oklch(0.218 0.01 260);
+  --background: oklch(0.955 0.012 93);
+  --foreground: oklch(0.2 0.01 95);
 
   /* ── Cards and popovers ───────────────────────────────────────────────── */
-  --card: oklch(0.982 0.003 260);
-  --card-foreground: oklch(0.218 0.01 260);
-  --popover: oklch(0.982 0.003 260);
-  --popover-foreground: oklch(0.218 0.01 260);
+  --card: oklch(0.975 0.01 93);
+  --card-foreground: oklch(0.2 0.01 95);
+  --popover: oklch(0.975 0.01 93);
+  --popover-foreground: oklch(0.2 0.01 95);
 
   /* ── Interactive ──────────────────────────────────────────────────────── */
-  --primary: oklch(0.28 0.015 260);
+  --primary: oklch(0.28 0.02 93);
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.945 0.005 260);
-  --secondary-foreground: oklch(0.218 0.01 260);
-  --muted: oklch(0.94 0.004 260);
-  --muted-foreground: oklch(0.51 0.015 260);
-  --accent: oklch(0.94 0.006 260);
-  --accent-foreground: oklch(0.218 0.01 260);
+  --secondary: oklch(0.94 0.01 93);
+  --secondary-foreground: oklch(0.2 0.01 95);
+  --muted: oklch(0.93 0.008 93);
+  --muted-foreground: oklch(0.48 0.015 93);
+  --accent: oklch(0.93 0.008 93);
+  --accent-foreground: oklch(0.2 0.01 95);
   --destructive: oklch(0.577 0.245 27.325);
 
   /* ── Borders and inputs ───────────────────────────────────────────────── */
-  --border: oklch(0.885 0.01 260);
-  --input: oklch(0.885 0.01 260);
-  --ring: oklch(0.68 0.09 286);
+  --border: oklch(0.86 0.01 93);
+  --input: oklch(0.86 0.01 93);
+  --ring: oklch(0.65 0.1 35);
 
   /* ── Brand accent ─────────────────────────────────────────────────────── */
-  /* Violet accent tuned to the reference's border tone. */
-  --brand: oklch(0.62 0.17 286);
+  --brand: oklch(0.64 0.18 35);
   --brand-foreground: oklch(0.985 0 0);
-  --brand-muted: oklch(0.92 0.05 286);
+  --brand-muted: oklch(0.9 0.05 35);
 
   /* ── Border radius ────────────────────────────────────────────────────── */
   --radius: 0.625rem;
@@ -154,19 +172,28 @@
    Dark mode token values
    -------------------------------------------------------------------------- */
 .dark {
-  --background: oklch(0.24 0.01 260);
-  --foreground: oklch(0.975 0.002 260);
-  --card: oklch(0.285 0.01 260);
+  --bg-primary: #1b2620;
+  --bg-secondary: #212520;
+  --bg-tertiary: #ece5d7;
+  --text-primary: #f3eee3;
+  --text-primary-inverse: #161810;
+  --accent-rust: #d9663d;
+  --accent-gold: #e8b93e;
+  --border-hairline: rgb(243 238 227 / 14%);
+
+  --background: oklch(0.24 0.01 92);
+  --foreground: oklch(0.95 0.01 92);
+  --card: oklch(0.285 0.01 92);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.285 0.01 260);
+  --popover: oklch(0.285 0.01 92);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.9 0.01 260);
-  --primary-foreground: oklch(0.24 0.01 260);
-  --secondary: oklch(0.315 0.01 260);
+  --primary: oklch(0.9 0.01 92);
+  --primary-foreground: oklch(0.24 0.01 92);
+  --secondary: oklch(0.315 0.01 92);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.315 0.01 260);
-  --muted-foreground: oklch(0.76 0.01 260);
-  --accent: oklch(0.315 0.01 260);
+  --muted: oklch(0.315 0.01 92);
+  --muted-foreground: oklch(0.76 0.01 92);
+  --accent: oklch(0.315 0.01 92);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 12%);
@@ -174,9 +201,9 @@
   --ring: oklch(0.78 0.06 286);
 
   /* ── Brand accent (dark) ──────────────────────────────────────────────── */
-  --brand: oklch(0.74 0.16 286);
-  --brand-foreground: oklch(0.18 0.01 260);
-  --brand-muted: oklch(0.34 0.05 286);
+  --brand: oklch(0.74 0.16 35);
+  --brand-foreground: oklch(0.18 0.01 92);
+  --brand-muted: oklch(0.34 0.05 35);
 
   /* ── Charts (dark) ────────────────────────────────────────────────────── */
   --chart-1: oklch(0.87 0 0);
@@ -186,14 +213,14 @@
   --chart-5: oklch(0.269 0 0);
 
   /* ── Sidebar (dark) ───────────────────────────────────────────────────── */
-  --sidebar: oklch(0.285 0.01 260);
+  --sidebar: oklch(0.285 0.01 92);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.62 0.17 286);
+  --sidebar-primary: oklch(0.64 0.18 35);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.315 0.01 260);
+  --sidebar-accent: oklch(0.315 0.01 92);
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.78 0.06 286);
+  --sidebar-ring: oklch(0.78 0.06 35);
 }
 
 /* --------------------------------------------------------------------------
@@ -329,6 +356,14 @@
   /* ── Gradient text (for headings) ─────────────────────────────────────── */
   .gradient-text {
     @apply bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent;
+  }
+
+  .section-shell {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-pad-y {
+    @apply py-20 md:py-28 lg:py-32;
   }
 
   /* ── Glass morphism card ──────────────────────────────────────────────── */

@@ -1,18 +1,33 @@
-import { Manrope, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 
 /**
- * Manrope — primary sans-serif typeface.
+ * Fraunces — display serif for headings and hero typography.
  *
  * Rationale:
- * - Variable font (single file, all weights) → zero extra network cost for weight variation.
- * - Geometric but restrained, which reads more editorial than a default UI font.
- * - Keeps the portfolio professional without looking overly “template-like”.
- * - Subsets: "latin" covers all standard English content; add more if you use other scripts.
+ * - Strong editorial presence without becoming overly ornamental.
+ * - Gives the site a magazine-like identity similar to the reference.
+ *
+ * CSS variable: --font-heading
+ * Used by: headings, display labels, and hero typography.
+ */
+export const fontHeading = Fraunces({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
+
+/**
+ * Inter — primary sans-serif typeface.
+ *
+ * Rationale:
+ * - Clean, highly legible body font.
+ * - Keeps the UI professional and restrained.
  *
  * CSS variable: --font-sans
- * Used by: body text, navigation, UI components, headings.
+ * Used by: body text, nav, labels, and supporting copy.
  */
-export const fontSans = Manrope({
+export const fontSans = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",

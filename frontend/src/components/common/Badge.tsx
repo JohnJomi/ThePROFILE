@@ -16,25 +16,23 @@ import { cn } from "@/lib/utils";
  */
 
 const badgeVariants = cva(
-  "inline-flex items-center gap-1 rounded-full font-medium transition-colors",
+  "inline-flex items-center gap-1 rounded-md border border-border/70 bg-transparent font-medium transition-colors",
   {
     variants: {
       variant: {
-        default: "bg-primary/10 text-primary border border-primary/20",
-        secondary: "bg-secondary text-secondary-foreground border border-border",
-        muted: "bg-muted text-muted-foreground border border-border/60",
-        brand: "bg-brand/10 text-brand border border-brand/25",
-        outline: "text-foreground border border-border bg-transparent",
-        success:
-          "bg-green-500/10 text-green-700 dark:text-green-400 border border-green-500/20",
-        warning:
-          "bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20",
-        destructive: "bg-destructive/10 text-destructive border border-destructive/20",
+        default: "text-foreground",
+        secondary: "text-foreground",
+        muted: "text-muted-foreground",
+        brand: "text-accent-rust border-accent-rust/35",
+        outline: "text-foreground",
+        success: "text-emerald-600 dark:text-emerald-300 border-emerald-600/25",
+        warning: "text-amber-600 dark:text-amber-300 border-amber-600/25",
+        destructive: "text-destructive border-destructive/25",
       },
       size: {
-        sm: "px-2 py-0.5 text-[0.65rem]",
-        default: "px-2.5 py-0.5 text-xs",
-        lg: "px-3 py-1 text-sm",
+        sm: "px-2 py-0.5 text-[0.65rem] tracking-[0.12em] uppercase",
+        default: "px-2.5 py-0.5 text-xs tracking-[0.12em] uppercase",
+        lg: "px-3 py-1 text-sm tracking-[0.12em] uppercase",
       },
     },
     defaultVariants: {

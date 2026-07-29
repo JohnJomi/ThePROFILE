@@ -33,21 +33,21 @@ export function Footer() {
   return (
     <footer
       role="contentinfo"
-      className="w-full border-t border-border bg-background"
+      className="w-full border-t border-border-hairline bg-bg-secondary text-text-primary"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="section-shell py-12 md:py-16">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           {/* Brand */}
           <div className="flex flex-col gap-2">
             <Link
               href="/"
-              className="font-heading font-semibold text-foreground hover:text-brand transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
+              className="font-heading text-lg font-semibold text-text-primary hover:text-accent-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded-sm"
               aria-label="Go to homepage"
             >
               {name}
             </Link>
             {siteConfig.title && (
-              <p className="text-sm text-muted-foreground">{siteConfig.title}</p>
+              <p className="max-w-sm text-sm text-text-primary/70">{siteConfig.title}</p>
             )}
           </div>
 
@@ -60,8 +60,8 @@ export function Footer() {
                 target={link.external ? "_blank" : undefined}
                 rel={link.external ? "noopener noreferrer" : undefined}
                 className={cn(
-                  "text-sm text-muted-foreground transition-colors",
-                  "hover:text-foreground",
+                  "text-xs uppercase tracking-[0.18em] text-text-primary/70 transition-colors",
+                  "hover:text-text-primary",
                   "focus-visible:outline-none focus-visible:underline",
                 )}
               >
@@ -86,12 +86,12 @@ export function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-8 border-t border-border/60 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-xs text-muted-foreground">
+        <div className="mt-8 border-t border-border-hairline pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-xs text-text-primary/60">
             &copy; {currentYear} {name}. All rights reserved.
           </p>
           {siteConfig.location && (
-            <p className="text-xs text-muted-foreground">{siteConfig.location}</p>
+            <p className="text-xs text-text-primary/60">{siteConfig.location}</p>
           )}
         </div>
       </div>

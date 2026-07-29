@@ -47,8 +47,10 @@ export function Section({
   children,
   ...props
 }: SectionProps) {
+  const containerClassName = containerSize === "full" ? "" : "section-padding";
+
   const content = (
-    <Container size={containerSize} className="section-padding">
+    <Container size={containerSize} className={containerClassName}>
       {children}
     </Container>
   );
@@ -103,6 +105,9 @@ export interface SectionHeaderProps {
   /** Text alignment. Default: "center". */
   align?: "left" | "center";
   className?: string;
+  overlineClassName?: string;
+  headingClassName?: string;
+  descriptionClassName?: string;
 }
 
 export function SectionHeader({
@@ -111,22 +116,37 @@ export function SectionHeader({
   description,
   align = "center",
   className,
+  overlineClassName,
+  headingClassName,
+  descriptionClassName,
 }: SectionHeaderProps) {
   const alignClass = align === "left" ? "items-start text-left" : "items-center text-center";
 
   return (
     <motion.div
       variants={fadeUp}
-      className={cn("mb-12 flex flex-col gap-3", alignClass, className)}
+      className={cn("mb-12 flex flex-col gap-4", alignClass, className)}
     >
       {overline && (
-        <span className="font-mono text-xs font-semibold tracking-widest text-brand uppercase">
+        <span
+          className={cn(
+            "text-xs font-medium uppercase tracking-[0.22em] text-brand",
+            overlineClassName,
+          )}
+        >
           {overline}
         </span>
       )}
-      <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">{heading}</h2>
+      <h2 className={cn("font-heading text-4xl leading-[0.98] md:text-5xl lg:text-6xl", headingClassName)}>
+        {heading}
+      </h2>
       {description && (
-        <p className="max-w-2xl text-muted-foreground text-pretty leading-relaxed">
+        <p
+          className={cn(
+            "max-w-2xl text-pretty leading-relaxed text-muted-foreground",
+            descriptionClassName,
+          )}
+        >
           {description}
         </p>
       )}

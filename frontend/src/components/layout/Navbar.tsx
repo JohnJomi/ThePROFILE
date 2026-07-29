@@ -4,17 +4,16 @@ import { useState, useEffect, useRef } from "react";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
-import { primaryNavLinks, socialLinks } from "@/config/navigation";
+import { primaryNavLinks } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { fadeDown } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
-import { SocialButton } from "../common/SocialButton";
-import { socialIconMap } from "../common/SocialIcons";
 import { ThemeToggle } from "./ThemeToggle";
 
 /**
@@ -114,35 +113,30 @@ export function Navbar() {
   }
 
   const linkBaseClass = cn(
-    "rounded-2xl border px-3 py-1.5 text-sm font-medium",
-    "transition-all duration-300 ease-out",
+    "relative text-[0.72rem] font-medium uppercase tracking-[0.2em]",
+    "transition-colors duration-200",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
   );
 
-  const linkActiveClass =
-    "border-white/25 bg-white/80 text-foreground shadow-[0_8px_20px_rgb(15_23_42/0.08),inset_0_1px_0_rgb(255_255_255/0.45)] dark:border-white/10 dark:bg-white/10 dark:shadow-[0_10px_24px_rgb(0_0_0/0.28),inset_0_1px_0_rgb(255_255_255/0.08)]";
-  const linkInactiveClass =
-    "border-transparent text-muted-foreground hover:border-white/20 hover:bg-white/70 hover:text-foreground dark:hover:border-white/15 dark:hover:bg-white/10";
+  const linkActiveClass = "text-foreground after:absolute after:left-0 after:-bottom-2 after:h-px after:w-full after:bg-accent-gold";
+  const linkInactiveClass = "text-muted-foreground hover:text-foreground";
 
   return (
     <>
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-[200]",
-          "border-b border-white/15 backdrop-blur-xl transition-all duration-300",
-          scrolled
-            ? "bg-white/80 shadow-[0_10px_30px_rgb(15_23_42/0.08)] dark:bg-background/75 dark:shadow-[0_12px_40px_rgb(0_0_0/0.35)]"
-            : "bg-white/65 shadow-[0_6px_20px_rgb(15_23_42/0.05)] dark:bg-background/55 dark:shadow-[0_8px_28px_rgb(0_0_0/0.22)]",
+          "fixed top-0 left-0 right-0 z-[200] border-b border-border-hairline transition-colors duration-300",
+          scrolled ? "bg-background/92" : "bg-background/80",
         )}
       >
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
           {/* Logo / name */}
           <Link
             href="/"
             className={cn(
-              "font-heading font-semibold text-foreground",
-              "hover:text-brand transition-colors duration-150",
+              "font-heading text-lg font-semibold text-foreground",
+              "hover:text-accent-rust transition-colors duration-150",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm",
             )}
             aria-label="Go to homepage"
@@ -151,7 +145,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop nav */}
-          <nav aria-label="Main navigation" className="hidden md:flex items-center gap-1">
+          <nav aria-label="Main navigation" className="hidden md:flex items-center gap-8">
             {primaryNavLinks.map((link) => {
               const active = isActive(link.href);
                 const sectionId = extractSectionId(link.href);
@@ -175,16 +169,7 @@ export function Navbar() {
           </nav>
 
           {/* Desktop right actions */}
-          <div className="hidden md:flex items-center gap-1">
-            {socialLinks.map((link) => (
-              <SocialButton
-                key={link.label}
-                label={link.label}
-                href={link.href}
-                icon={socialIconMap[link.icon] ?? null}
-                variant="icon"
-              />
-            ))}
+          <div className="hidden md:flex items-center gap-2">
             <ThemeToggle />
           </div>
 
@@ -199,11 +184,8 @@ export function Navbar() {
               aria-controls="mobile-menu"
               onClick={() => setMobileOpen((prev) => !prev)}
               className={cn(
-                "inline-flex size-9 items-center justify-center rounded-2xl border border-transparent",
-                "bg-white/70 text-muted-foreground backdrop-blur-xl shadow-[0_8px_20px_rgb(15_23_42/0.05),inset_0_1px_0_rgb(255_255_255/0.45)]",
-                "transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-white/85 hover:text-foreground hover:shadow-[0_14px_28px_rgb(15_23_42/0.1),0_4px_14px_rgb(15_23_42/0.06)]",
-                "dark:bg-white/10 dark:text-muted-foreground dark:shadow-[0_10px_26px_rgb(0_0_0/0.28),inset_0_1px_0_rgb(255_255_255/0.08)]",
-                "dark:hover:bg-white/15 dark:hover:text-foreground dark:hover:shadow-[0_16px_36px_rgb(0_0_0/0.36),0_6px_16px_rgb(0_0_0/0.16)]",
+                "inline-flex size-9 items-center justify-center rounded-md border border-border-hairline",
+                "bg-background text-muted-foreground transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-foreground/25 hover:bg-foreground/5 hover:text-foreground",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               )}
             >
@@ -227,7 +209,7 @@ export function Navbar() {
             aria-modal="true"
             className={cn(
               "fixed inset-0 z-[199] flex flex-col",
-              "bg-white/70 backdrop-blur-2xl dark:bg-background/60",
+              "bg-background/95 backdrop-blur-sm",
               "pt-16",
             )}
             variants={fadeDown}
@@ -237,7 +219,7 @@ export function Navbar() {
           >
             <nav
               aria-label="Mobile navigation"
-              className="mx-4 mt-6 flex flex-col gap-1 rounded-2xl border border-white/15 bg-white/75 p-2 shadow-[0_18px_50px_rgb(15_23_42/0.1)] dark:border-white/10 dark:bg-white/10 dark:shadow-[0_22px_60px_rgb(0_0_0/0.34)]"
+              className="mx-4 mt-6 flex flex-col gap-1 border-t border-border-hairline pt-4"
             >
               {primaryNavLinks.map((link) => {
                 const active = isActive(link.href);
@@ -255,12 +237,12 @@ export function Navbar() {
                     onClick={() => setMobileOpen(false)}
                     aria-current={ariaCurrent}
                     className={cn(
-                      "rounded-2xl border px-4 py-3 text-base font-medium",
-                      "transition-all duration-300 ease-out",
+                      "border-b border-border-hairline px-2 py-4 text-lg font-medium uppercase tracking-[0.18em]",
+                      "transition-colors duration-200",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                       active
-                        ? "border-white/25 bg-white/80 text-foreground shadow-[0_8px_20px_rgb(15_23_42/0.08)] dark:border-white/10 dark:bg-white/10 dark:text-foreground"
-                        : "border-transparent text-foreground/80 hover:border-white/20 hover:bg-white/70 hover:text-foreground dark:hover:border-white/15 dark:hover:bg-white/10",
+                        ? "text-foreground"
+                        : "text-muted-foreground hover:text-foreground",
                     )}
                   >
                     {link.label}
@@ -268,19 +250,6 @@ export function Navbar() {
                 );
               })}
             </nav>
-
-            {/* Social links in mobile menu */}
-            <div className="mx-4 mt-auto flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/75 px-4 py-8 shadow-[0_18px_50px_rgb(15_23_42/0.1)] dark:border-white/10 dark:bg-white/10 dark:shadow-[0_22px_60px_rgb(0_0_0/0.34)]">
-              {socialLinks.map((link) => (
-                <SocialButton
-                  key={link.label}
-                  label={link.label}
-                  href={link.href}
-                  icon={socialIconMap[link.icon] ?? null}
-                  variant="icon"
-                />
-              ))}
-            </div>
           </motion.div>
         )}
       </AnimatePresence>

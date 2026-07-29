@@ -25,12 +25,12 @@ import { cn } from "@/lib/utils";
 const headingVariants = cva("font-heading font-semibold tracking-tight text-foreground", {
   variants: {
     size: {
-      h1: "text-4xl md:text-5xl lg:text-6xl leading-[1.1]",
-      h2: "text-3xl md:text-4xl leading-[1.15]",
-      h3: "text-2xl md:text-3xl leading-[1.2]",
-      h4: "text-xl md:text-2xl leading-[1.25]",
-      h5: "text-lg md:text-xl leading-snug",
-      h6: "text-base md:text-lg leading-snug",
+      h1: "text-5xl md:text-7xl lg:text-8xl leading-[0.95]",
+      h2: "text-4xl md:text-5xl lg:text-6xl leading-[0.98]",
+      h3: "text-3xl md:text-4xl leading-[1.02]",
+      h4: "text-2xl md:text-3xl leading-[1.08]",
+      h5: "text-xl md:text-2xl leading-snug",
+      h6: "text-lg md:text-xl leading-snug",
     },
   },
   defaultVariants: { size: "h2" },
@@ -61,19 +61,16 @@ export function Heading({ as, size = "h2", className, children, ...props }: Head
 
 // ─── Subheading ───────────────────────────────────────────────────────────────
 
-const subheadingVariants = cva(
-  "font-mono font-semibold uppercase tracking-widest text-brand",
-  {
-    variants: {
-      size: {
-        sm: "text-[0.65rem]",
-        default: "text-xs",
-        lg: "text-sm",
-      },
+const subheadingVariants = cva("font-sans font-medium uppercase tracking-[0.22em] text-brand", {
+  variants: {
+    size: {
+      sm: "text-[0.65rem]",
+      default: "text-xs",
+      lg: "text-sm",
     },
-    defaultVariants: { size: "default" },
   },
-);
+  defaultVariants: { size: "default" },
+});
 
 export interface SubheadingProps
   extends React.HTMLAttributes<HTMLParagraphElement>,

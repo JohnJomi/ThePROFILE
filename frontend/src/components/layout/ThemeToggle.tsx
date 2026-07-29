@@ -60,9 +60,9 @@ export function ThemeToggle({ className, size = "default" }: ThemeToggleProps) {
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       aria-pressed={isDark}
       className={cn(
-        "relative inline-flex items-center justify-center rounded-lg",
-        "text-muted-foreground transition-colors duration-150",
-        "hover:text-foreground hover:bg-muted",
+        "relative inline-flex items-center justify-center rounded-md border border-border-hairline",
+        "bg-background text-muted-foreground transition-colors duration-150",
+        "hover:text-foreground hover:border-foreground/25 hover:bg-foreground/5",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         size === "sm" ? "size-8" : "size-9",
