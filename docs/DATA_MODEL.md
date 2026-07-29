@@ -1,322 +1,254 @@
 # Data Model
 
-This document describes every data file in `src/data/`, its TypeScript interface, exported values, and how it's consumed by components.
+This repository uses typed static modules under [frontend/src/data](../frontend/src/data) as the content source of truth. The data model is well designed, but the current arrays are intentionally empty.
 
----
+## Inventory
 
-## Overview
-
-All content is **data-driven** — components receive typed props from these files. No hardcoded strings in JSX.
-
-| File | Domain | Exports | Derived Exports |
-|------|--------|---------|-----------------|
-| `profile.ts` | Personal identity | `profile: Profile` | — |
-| `projects.ts` | Portfolio projects | `projects: Project[]` | `featuredProjects: Project[]` |
-| `skills.ts` | Technical skills | `skills: Skill[]` | `skillGroups: SkillGroup[]` |
-| `experience.ts` | Work history | `experience: Experience[]` | — |
-| `education.ts` | Education history | `education: Education[]` | — |
-| `certifications.ts` | Certifications | `certifications: Certification[]` | `activeCertifications: Certification[]` |
-| `achievements.ts` | Awards, talks, publications | `achievements: Achievement[]` | — |
-| `socials.ts` | Social/professional links | `socials: Social[]` | `featuredSocials: Social[]` |
-| `timeline.ts` | Unified chronological view | `timeline: TimelineItem[]` | — |
-
----
+| File | Domain | Export(s) | Status |
+|---|---|---|---|
+| [profile.ts](../frontend/src/data/profile.ts) | Personal identity | `profile` | Empty |
+| [projects.ts](../frontend/src/data/projects.ts) | Portfolio projects | `projects`, `featuredProjects` | Empty |
+| [skills.ts](../frontend/src/data/skills.ts) | Technical skills | `skills`, `skillGroups` | Empty |
+| [experience.ts](../frontend/src/data/experience.ts) | Work history | `experience` | Empty |
+| [education.ts](../frontend/src/data/education.ts) | Education history | `education` | Empty |
+| [certifications.ts](../frontend/src/data/certifications.ts) | Certifications | `certifications`, `activeCertifications` | Empty |
+| [achievements.ts](../frontend/src/data/achievements.ts) | Awards and recognitions | `achievements` | Empty |
+| [socials.ts](../frontend/src/data/socials.ts) | Social profiles | `socials`, `featuredSocials` | Empty |
+| [timeline.ts](../frontend/src/data/timeline.ts) | Unified chronology | `timeline` | Derived from empty sources |
 
 ## profile.ts
 
-**File**: `src/data/profile.ts`
+File: [frontend/src/data/profile.ts](../frontend/src/data/profile.ts)
 
-**Type**: `src/types/profile.ts`
+Type: [frontend/src/types/profile.ts](../frontend/src/types/profile.ts)
 
-```ts
-interface Profile {
-  name: string;                    // Full display name
-  title: string;                   // Professional title (hero, <title>)
-  tagline: string;                 // Short tagline (hero subtitle, meta description)
-  bio: string;                     // Full bio (About section)
-  shortBio: string;                // OpenGraph/Twitter Card description
-  location: string;                // City, Country (Footer, About)
-  email: string;                   // Contact email (Contact, Footer, schema.org)
-  avatarUrl: string;               // Profile photo (Hero, About, schema.org)
-  openToWork: boolean;             // "Open to opportunities" badge
-  birthYear?: number;              // schema.org Person.birthDate (year only)
-  pronouns?: string;               // Optional pronouns display
-}
-```
+Fields:
 
-**Current State**: All fields empty strings / false — **must populate before deploy**.
+`name`, `title`, `tagline`, `bio`, `shortBio`, `location`, `email`, `avatarUrl`, `openToWork`, `birthYear?`, `pronouns?`
 
-**Consumers**:
-- `app/layout.tsx` → `siteConfig` (indirectly via `siteConfig` which mirrors this)
-- Hero section (planned) → `name`, `title`, `tagline`, `avatarUrl`
-- About section (planned) → `bio`, `location`, `email`
-- Contact section (planned) → `email`, `location`
-- `lib/metadata.ts` → `shortBio` for OpenGraph description
-- schema.org Person structured data (planned)
+Consumers:
 
----
+`Hero`, `Footer`, metadata helpers, future About and Contact sections, and future structured data.
+
+Current state:
+
+All fields are blank or false. This is the highest-priority content gap in the repository.
+
+Future extension:
+
+Add optional structured-data helpers if the site needs Person schema generation.
 
 ## projects.ts
 
-**File**: `src/data/projects.ts`
+File: [frontend/src/data/projects.ts](../frontend/src/data/projects.ts)
 
-**Type**: `src/types/project.ts`
+Type: [frontend/src/types/project.ts](../frontend/src/types/project.ts)
 
-```ts
-type ProjectStatus = "completed" | "in-progress" | "archived";
+Fields:
 
-interface Project {
-  slug: string;                    // URL-safe: /projects/[slug]
-  title: string;
-  description: string;             // Short (card) description
-  longDescription?: string;        // Full MDX for detail page
-  tags: string[];                  // Technologies (rendered as Badges)
-  coverImage?: string;             // Path to /public or CDN URL
-  githubUrl?: string;              // Source code link
-  liveUrl?: string;                // Live demo link
-  caseStudyUrl?: string;           // Case study / write-up link
-  featured: boolean;               // Shows on home page Projects section
-  status: ProjectStatus;
-  publishedAt: string;             // ISO-8601 (YYYY-MM-DD)
-  updatedAt?: string;              // ISO-8601
-}
-```
+`slug`, `title`, `description`, `longDescription?`, `tags`, `coverImage?`, `githubUrl?`, `liveUrl?`, `caseStudyUrl?`, `featured`, `status`, `publishedAt`, `updatedAt?`
 
-**Derived Export**:
-```ts
-export const featuredProjects: Project[] = projects.filter((p) => p.featured);
-```
+Derived export:
 
-**Current State**: Empty array — **add real projects before deploy**.
+`featuredProjects = projects.filter((p) => p.featured)`
 
-**Consumers**:
-- Projects section (planned) → `featuredProjects` mapped to `ProjectCard`
-- `/projects` listing page (planned) → `projects`
-- `/projects/[slug]` detail page (planned) → single `Project`
-- Semantic search index builder (Phase 4) → `projects` for embeddings
+Consumers:
 
----
+Project cards, future `/projects` routes, and future semantic search indexing.
+
+Current state:
+
+The array is empty, so every downstream consumer has nothing to render.
+
+Future extension:
+
+If project detail pages are added later, `longDescription` and `caseStudyUrl` are the obvious expansion points.
 
 ## skills.ts
 
-**File**: `src/data/skills.ts`
+File: [frontend/src/data/skills.ts](../frontend/src/data/skills.ts)
 
-**Type**: `src/types/skill.ts`
+Type: [frontend/src/types/skill.ts](../frontend/src/types/skill.ts)
 
-```ts
-type SkillCategory =
-  | "Languages"
-  | "Frameworks & Libraries"
-  | "AI / ML"
-  | "Cloud & Infrastructure"
-  | "Databases"
-  | "Tools & Platforms";
+Fields:
 
-type ProficiencyLevel = "expert" | "proficient" | "familiar";
+`name`, `category`, `proficiency`, `url?`, `icon?`
 
-interface Skill {
-  name: string;
-  category: SkillCategory;
-  proficiency: ProficiencyLevel;
-  url?: string;                    // Official docs/website
-  icon?: string;                   // Lucide icon name or /public path
-}
+Derived export:
 
-interface SkillGroup {
-  category: SkillCategory;
-  skills: Skill[];
-}
-```
+`skillGroups` groups skills by category using `reduce`.
 
-**Derived Export**:
-```ts
-export const skillGroups: SkillGroup[] = Object.values(
-  skills.reduce<Record<string, SkillGroup>>((acc, skill) => {
-    if (!acc[skill.category]) {
-      acc[skill.category] = { category: skill.category, skills: [] };
-    }
-    acc[skill.category].skills.push(skill);
-    return acc;
-  }, {})
-);
-```
+Consumers:
 
-**Current State**: Empty array — **add skills before deploy**.
+`SkillBadge`, planned Skills/About sections, and future resume export.
 
-**Consumers**:
-- Skills section (planned) → `skillGroups` → each group renders `SkillBadge[]`
-- About section (planned) → top skills as `SkillBadge` row
-- Resume export (planned) → `skills` grouped by category
+Current state:
 
-**Proficiency → Visual Mapping** (in `SkillBadge`):
-| Level | Badge Variant | Dot Color |
-|-------|---------------|-----------|
-| `expert` | `brand` | `bg-brand` |
-| `proficient` | `secondary` | `bg-primary/60` |
-| `familiar` | `muted` | `bg-muted-foreground/50` |
+The array is empty, so the grouped export also resolves to an empty collection.
 
----
+Future extension:
+
+The current category enum is broad enough for most portfolio use cases, but could be expanded if the owner wants separate AI or infra taxonomies.
 
 ## experience.ts
 
-**File**: `src/data/experience.ts`
+File: [frontend/src/data/experience.ts](../frontend/src/data/experience.ts)
 
-**Type**: `src/types/experience.ts`
+Type: [frontend/src/types/experience.ts](../frontend/src/types/experience.ts)
 
-```ts
-type EmploymentType =
-  | "full-time" | "part-time" | "contract"
-  | "freelance" | "internship" | "volunteer";
+Fields:
 
-interface Experience {
-  id: string;                      // Unique key (e.g., "company-role")
-  company: string;
-  companyUrl?: string;
-  companyLogoUrl?: string;         // Logo for TimelineCard
-  role: string;
-  employmentType: EmploymentType;
-  startDate: string;               // ISO YYYY-MM
-  endDate?: string;                // Omit for current role
-  location: string;
-  remote: boolean;
-  description: string;             // Short (TimelineCard)
-  highlights: string[];            // Bullet achievements
-  technologies: string[];          // Tags for TimelineCard
-}
-```
+`id`, `company`, `companyUrl?`, `companyLogoUrl?`, `role`, `employmentType`, `startDate`, `endDate?`, `location`, `remote`, `description`, `highlights`, `technologies`
 
-**Current State**: Empty array — **add experience before deploy**.
+Consumers:
 
-**Consumers**:
-- Experience/Timeline section (planned) → mapped to `TimelineItem` in `timeline.ts`
-- Resume export (planned) → full `Experience[]`
-- TimelineCard → `role`, `company`, `startDate`/`endDate`, `description`, `technologies`
+Future Experience/Timeline sections and `timeline.ts`.
 
----
+Current state:
+
+Empty array.
+
+Future extension:
+
+The model already captures enough detail for both a concise timeline and a richer resume export.
 
 ## education.ts
 
-**File**: `src/data/education.ts`
+File: [frontend/src/data/education.ts](../frontend/src/data/education.ts)
 
-**Type**: `src/types/education.ts`
+Type: [frontend/src/types/education.ts](../frontend/src/types/education.ts)
 
-```ts
-type DegreeType =
-  | "Bachelor's" | "Master's" | "PhD" | "Associate"
-  | "Diploma" | "Certificate" | "Bootcamp" | "Online Course";
+Fields:
 
-interface Education {
-  id: string;
-  institution: string;
-  institutionUrl?: string;
-  logoUrl?: string;
-  degreeType: DegreeType;
-  field: string;
-  startDate: string;               // ISO YYYY-MM
-  endDate?: string;                // Omit if currently enrolled
-  location?: string;
-  gpa?: string;
-  description?: string;
-  highlights?: string[];
-}
-```
+`id`, `institution`, `institutionUrl?`, `logoUrl?`, `degreeType`, `field`, `startDate`, `endDate?`, `location?`, `gpa?`, `description?`, `highlights?`
 
-**Current State**: Empty array — **add education before deploy**.
+Consumers:
 
-**Consumers**:
-- Education section (planned) or merged in Timeline
-- Timeline section (planned) → mapped to `TimelineItem` in `timeline.ts`
+Future About/Education sections and `timeline.ts`.
 
----
+Current state:
+
+Empty array.
+
+Future extension:
+
+This model supports both formal education and short-form online learning.
 
 ## certifications.ts
 
-**File**: `src/data/certifications.ts`
+File: [frontend/src/data/certifications.ts](../frontend/src/data/certifications.ts)
 
-**Type**: `src/types/certification.ts`
+Type: [frontend/src/types/certification.ts](../frontend/src/types/certification.ts)
 
-```ts
-interface Certification {
-  id: string;
-  name: string;                    // e.g., "AWS Certified Solutions Architect"
-  issuer: string;                  // e.g., "Amazon Web Services"
-  issuerLogoUrl?: string;
-  issuedDate: string;              // ISO YYYY-MM
-  expiryDate?: string;             // Omit for non-expiring
-  credentialId?: string;           // Verification ID
-  credentialUrl?: string;          // Verify link
-  active: boolean;                 // Currently valid
-}
-```
+Fields:
 
-**Derived Export**:
-```ts
-export const activeCertifications: Certification[] = certifications.filter((c) => c.active);
-```
+`id`, `name`, `issuer`, `issuerLogoUrl?`, `issuedDate`, `expiryDate?`, `credentialId?`, `credentialUrl?`, `active`
 
-**Current State**: Empty array — **add certifications before deploy**.
+Derived export:
 
-**Consumers**:
-- Certifications section (planned) → `activeCertifications` as cards
-- Timeline section (planned) → mapped to `TimelineItem` in `timeline.ts`
+`activeCertifications = certifications.filter((c) => c.active)`
 
----
+Consumers:
+
+Future Certifications section and `timeline.ts`.
+
+Current state:
+
+Empty array.
+
+Future extension:
+
+The model is sufficient for certificate verification flows if the site later needs them.
 
 ## achievements.ts
 
-**File**: `src/data/achievements.ts`
+File: [frontend/src/data/achievements.ts](../frontend/src/data/achievements.ts)
 
-**Type**: `src/types/achievement.ts`
+Type: [frontend/src/types/achievement.ts](../frontend/src/types/achievement.ts)
 
-```ts
-type AchievementType =
-  | "award" | "publication" | "talk"
-  | "open-source" | "competition" | "recognition" | "other";
+Fields:
 
-interface Achievement {
-  id: string;
-  title: string;
-  type: AchievementType;
-  issuer?: string;                 // Organization/conference
-  date: string;                    // ISO YYYY-MM-DD or YYYY-MM
-  description?: string;
-  url?: string;                    // Link to proof/announcement
-}
-```
+`id`, `title`, `type`, `issuer?`, `date`, `description?`, `url?`
 
-**Current State**: Empty array — **add achievements before deploy**.
+Consumers:
 
-**Consumers**:
-- Achievements section (planned) or merged in Timeline
-- Timeline section (planned) → mapped to `TimelineItem` in `timeline.ts`
+Future About/Achievements sections and `timeline.ts`.
 
----
+Current state:
+
+Empty array.
+
+Future extension:
+
+This is flexible enough to capture talks, publications, open-source milestones, and awards.
 
 ## socials.ts
 
-**File**: `src/data/socials.ts`
+File: [frontend/src/data/socials.ts](../frontend/src/data/socials.ts)
 
-**Type**: `src/types/social.ts`
+Type: [frontend/src/types/social.ts](../frontend/src/types/social.ts)
 
-```ts
-type SocialPlatform =
-  | "github" | "linkedin" | "twitter" | "youtube"
-  | "devto" | "medium" | "hashnode" | "bluesky"
-  | "mastodon" | "email" | "website" | "other";
+Fields:
 
-interface Social {
-  platform: SocialPlatform;
-  label: string;                   // Display: "@username" or "GitHub"
-  href: string;                    // Full URL
-  icon: string;                    // Lucide icon name (maps to SocialIcons)
-  featured: boolean;               // true = Navbar + Hero, false = Footer only
-}
-```
+`platform`, `label`, `href`, `icon`, `featured`
 
-**Derived Export**:
-```ts
-export const featuredSocials: Social[] = socials.filter((s) => s.featured);
-```
+Derived export:
+
+`featuredSocials = socials.filter((s) => s.featured)`
+
+Consumers:
+
+Navbar, footer, hero, and future contact sections.
+
+Current state:
+
+Empty array. That means the visible social link components render nothing until the data is populated.
+
+Future extension:
+
+The platform enum includes future-friendly options such as Bluesky, Mastodon, and Hashnode.
+
+## timeline.ts
+
+File: [frontend/src/data/timeline.ts](../frontend/src/data/timeline.ts)
+
+Type: [frontend/src/types/timeline.ts](../frontend/src/types/timeline.ts)
+
+Purpose:
+
+Builds a unified chronological view across experience, education, achievements, and certifications.
+
+How it works:
+
+Each source array is mapped into a common `TimelineItem` shape and then sorted by date descending.
+
+Consumers:
+
+Future timeline or experience sections.
+
+Current state:
+
+The output is empty because every source collection is empty.
+
+Future extension:
+
+This module is the right place to add a unified filter or grouping strategy later if the site wants to merge chronology types differently.
+
+## Data Quality Assessment
+
+Strengths:
+
+1. The data model is fully typed and domain-specific.
+2. Derived exports reduce duplication and preserve one source of truth.
+3. The shapes already anticipate future sections and route pages.
+
+Weaknesses:
+
+1. No actual content exists yet.
+2. `siteConfig` mirrors the data layer conceptually, but the site identity values are also blank.
+3. The downstream site currently depends on placeholders and empty arrays.
+
+The content model is architecturally sound, but the repository is still missing the real portfolio data that would make it usable.
 
 **Current State**: Empty array — **add socials before deploy**.
 

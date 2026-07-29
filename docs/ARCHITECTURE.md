@@ -2,321 +2,193 @@
 
 ## System Overview
 
-The portfolio is a statically-rendered Next.js 15 site hosted on AWS Amplify, with optional server-side AI features backed by AWS Lambda and Amazon Bedrock. All infrastructure is defined as code using AWS CDK (TypeScript).
+The repository is a single Next.js frontend plus a placeholder AWS CDK infrastructure tree. The frontend is the only implemented product surface today: a themed, motion-enabled App Router site with a root layout, a hero section, shared design-system components, typed config, and an empty but fully modeled data layer.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                          User Browser                           │
-└────────────────────────────┬────────────────────────────────────┘
-                             │ HTTPS
-                             ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    AWS Amplify Hosting                          │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │              Next.js 15 (App Router)                     │   │
-│  │  Static pages + Server Components + Route Handlers       │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│  CloudFront CDN  •  Custom Domain (Route 53 + ACM)              │
-└────────────────────────────┬────────────────────────────────────┘
-                             │ API calls (optional AI features)
-                             ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    API Gateway (HTTP API)                       │
-└────────────────────────────┬────────────────────────────────────┘
-                             │
-                             ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    AWS Lambda (Node.js 20)                      │
-│  ┌─────────────────────┐   ┌───────────────────────────────┐    │
-│  │  Chat / Q&A Handler │   │  Semantic Search Handler      │    │
-│  └──────────┬──────────┘   └──────────────┬────────────────┘    │
-└─────────────┼────────────────────────────┼────────────────────┘
-              │                            │
-              ▼                            ▼
-┌─────────────────────────┐   ┌────────────────────────────────┐
-│   Amazon Bedrock        │   │   Amazon OpenSearch Serverless  │
-│   (Claude / Titan)      │   │   (vector search index)        │
-└─────────────────────────┘   └────────────────────────────────┘
-```
+The current runtime architecture is intentionally simple:
 
----
+1. Next.js App Router renders the root shell from [frontend/src/app/layout.tsx](../frontend/src/app/layout.tsx).
+2. Global providers supply theme, Framer Motion reduced-motion handling, tooltip context, and a stubbed React Query wrapper.
+3. The home page in [frontend/src/app/page.tsx](../frontend/src/app/page.tsx) currently renders the hero and placeholder anchor targets only.
+4. Shared components consume typed data from `src/config` and `src/data` rather than hardcoded content.
+5. Infrastructure is not yet implemented; [infrastructure/bin](../infrastructure/bin) and [infrastructure/lib](../infrastructure/lib) are stubs.
 
-## AWS Services
+## Repository Layout
 
-| Service | Purpose |
-|---------|---------|
-| AWS Amplify | Static site hosting, CI/CD, environment config |
-| Amazon CloudFront | CDN, edge caching (managed by Amplify) |
-| AWS Certificate Manager | TLS certificate for custom domain |
-| Amazon Route 53 | DNS for custom domain |
-| Amazon API Gateway (HTTP) | REST interface for AI Lambda functions |
-| AWS Lambda | Serverless compute for AI feature handlers |
-| Amazon Bedrock | Foundation models (Claude for chat, Titan for embeddings) |
-| Amazon OpenSearch Serverless | Vector index for semantic project search |
-| AWS Systems Manager (SSM) | Non-secret environment variables |
-| AWS Secrets Manager | API keys and sensitive config |
-| Amazon CloudWatch | Logs, metrics, alarms |
-| AWS CDK | Infrastructure-as-code for all of the above |
+| Path | Purpose |
+|---|---|
+| [frontend/src/app](../frontend/src/app) | App Router entry points, root layout, metadata, global CSS, manifest |
+| [frontend/src/components/common](../frontend/src/components/common) | Reusable design-system components and primitives |
+| [frontend/src/components/layout](../frontend/src/components/layout) | Header, footer, and theme toggle |
+| [frontend/src/components/sections](../frontend/src/components/sections) | Page sections; currently only Hero exists |
+| [frontend/src/config](../frontend/src/config) | Site identity, navigation, and design-token constants |
+| [frontend/src/data](../frontend/src/data) | Typed content sources and derived arrays |
+| [frontend/src/hooks](../frontend/src/hooks) | Custom hooks for viewport, motion, and active-section behavior |
+| [frontend/src/lib](../frontend/src/lib) | Fonts, metadata factory, motion variants, and utilities |
+| [frontend/src/providers](../frontend/src/providers) | Client-side provider composition |
+| [frontend/src/types](../frontend/src/types) | Domain interfaces used by the data layer |
+| [frontend/public](../frontend/public) | Static icons and manifest assets |
+| [infrastructure](../infrastructure) | CDK scaffold only |
+| [docs](../docs) | Repository documentation and audit output |
 
----
+## Application Flow
 
-## Frontend Architecture
+### Render Path
 
-### Directory Structure
+`layout.tsx` wraps the document body with `Providers`, `Navbar`, `main`, and `Footer`. The page body is a static, mostly server-rendered composition; only interactive components and motion wrappers are client components.
 
-```
-frontend/src/
-├── app/                    # Next.js App Router
-│   ├── layout.tsx          # Root layout (fonts, theme, metadata, providers)
-│   ├── page.tsx            # Home page — composed of Section components
-│   ├── globals.css         # Global styles, design tokens, Tailwind v4 @theme
-│   ├── manifest.ts         # Web App Manifest (PWA)
-│   ├── projects/           # /projects route (future: project listing)
-│   ├── writing/            # /writing route (future: MDX blog)
-│   └── api/                # Route Handlers (proxies to Lambda)
-├── components/
-│   ├── common/             # Reusable design system components
-│   │   ├── index.ts        # Barrel export
-│   │   ├── Section.tsx     # Full-width section wrapper + scroll-reveal
-│   │   ├── Container.tsx   # Horizontal width constraint
-│   │   ├── Card.tsx        # Animated surface component
-│   │   ├── Badge.tsx       # Label/tag component
-│   │   ├── SkillBadge.tsx  # Proficiency-aware skill badge
-│   │   ├── ProjectCard.tsx # Project display card
-│   │   ├── TimelineCard.tsx# Experience/education timeline entry
-│   │   ├── Buttons.tsx     # PrimaryButton / SecondaryButton (polymorphic)
-│   │   ├── Button.tsx      # Unified Button with variant prop
-│   │   ├── Typography.tsx  # Heading, Subheading, Paragraph, GradientText
-│   │   ├── SocialIcons.tsx # Inline SVG brand icons
-│   │   ├── SocialButton.tsx# Social link button (icon/pill variants)
-│   │   ├── AnimatedBackground.tsx # Decorative background blobs
-│   │   └── Container.tsx
-│   ├── layout/             # Structural components
-│   │   ├── Navbar.tsx      # Sticky nav, mobile drawer, active section
-│   │   ├── Footer.tsx      # 3-column footer, nav + socials
-│   │   └── ThemeToggle.tsx # Light/dark toggle with animated icon
-│   └── ui/                 # shadcn/ui primitives
-│       ├── button.tsx
-│       └── tooltip.tsx
-├── config/                 # Static configuration (single source of truth)
-│   ├── site.ts             # Identity, SEO, contact, social URLs
-│   ├── navigation.ts       # NavLink[] + SocialLink[] arrays
-│   └── theme.ts            # Design token constants (TS + types)
-├── data/                   # Typed content arrays (data layer)
-│   ├── profile.ts          # Profile (name, title, bio, etc.)
-│   ├── projects.ts         # Project[] + featuredProjects
-│   ├── skills.ts           # Skill[] + skillGroups (derived)
-│   ├── experience.ts       # Experience[]
-│   ├── education.ts        # Education[]
-│   ├── certifications.ts   # Certification[] + activeCertifications
-│   ├── achievements.ts     # Achievement[]
-│   ├── socials.ts          # Social[] + featuredSocials
-│   └── timeline.ts         # Unified TimelineItem[] (derived from all above)
-├── hooks/                  # Custom React hooks
-│   ├── index.ts            # Barrel export
-│   ├── useActiveSection.ts # IntersectionObserver for nav highlighting
-│   ├── useMediaQuery.ts    # Reactive media query listener
-│   ├── useReducedMotion.ts # prefers-reduced-motion reader
-│   └── useScrollReveal.ts  # Framer Motion useInView wrapper
-├── lib/                    # Shared utilities
-│   ├── utils.ts            # cn() = clsx + tailwind-merge
-│   ├── motion.ts           # All Framer Motion variants + helpers
-│   ├── metadata.ts         # SEO metadata factory
-│   └── fonts.ts            # next/font configurations
-├── providers/              # React context providers
-│   ├── Providers.tsx       # Root composition (Theme → MotionConfig → ReactQuery → Tooltip)
-│   ├── ThemeProvider.tsx   # next-themes wrapper
-│   ├── TooltipProvider.tsx # @base-ui/react TooltipProvider
-│   └── ReactQueryProvider.tsx # @tanstack/react-query (stubbed)
-└── types/                  # Domain interfaces (one file per domain)
-    ├── profile.ts
-    ├── project.ts
-    ├── skill.ts
-    ├── experience.ts
-    ├── education.ts
-    ├── certification.ts
-    ├── achievement.ts
-    ├── social.ts
-    └── timeline.ts
-```
+### Request Flow
 
----
+There is no implemented API layer yet. The architecture docs and requirements describe future AI chat and semantic search endpoints, but no route handlers exist in the source tree today.
+
+### Content Flow
+
+The application is designed to be data-first:
+
+`src/config/site.ts` and `src/config/navigation.ts` define identity and navigation.
+
+`src/data/*.ts` defines typed content arrays and derived views.
+
+Shared components read from those modules and render the visible UI.
+
+This pattern keeps future content updates out of JSX and makes the site maintainable once the data is populated.
 
 ## Routing
 
-| Route | Description | Rendering |
-|-------|-------------|-----------|
-| `/` | Home page — composed of Section components | Static (SSG) |
-| `/projects` | Project listing (planned) | Static (SSG) |
-| `/projects/[slug]` | Project detail page (planned) | Static (SSG) |
-| `/writing` | Writing/blog listing (planned) | Static (SSG) |
-| `/writing/[slug]` | Article detail (planned) | Static (SSG) |
-| `/api/chat` | AI chat proxy → Lambda | Server (Route Handler) |
-| `/api/search` | Semantic search proxy → Lambda | Server (Route Handler) |
+Only the root route is implemented.
 
-**Navigation convention**: All section anchors use `/#section-id` format so they work from any route. The `Navbar` maps over `primaryNavLinks` from `config/navigation.ts`.
+| Route | State | Notes |
+|---|---|---|
+| `/` | Implemented | Hero plus placeholder anchor targets |
+| `/projects` | Not implemented | Documented in plan, no page file exists |
+| `/projects/[slug]` | Not implemented | Data model exists, route does not |
+| `/writing` | Not implemented | Mentioned in navigation, no page file exists |
+| `/writing/[slug]` | Not implemented | Not scaffolded |
+| `/api/*` | Not implemented | No route handlers present |
 
----
+The navigation model already uses `/#section-id` links so future routes can jump back to anchored home-page sections from anywhere in the site.
 
 ## Providers
 
-The root `Providers` component (`src/providers/Providers.tsx`) composes all context providers in a specific order:
+The root provider composition in [frontend/src/providers/Providers.tsx](../frontend/src/providers/Providers.tsx) is:
 
-```tsx
-<ThemeProvider>                    // 1. Outermost — applies theme to all children
-  <MotionConfig reducedMotion="user">  // 2. Global Framer Motion config
-    <ReactQueryProvider>          // 3. Data fetching context (stubbed)
-      <TooltipProvider>           // 4. UI tooltip context (needs theme)
-        {children}
-      </TooltipProvider>
-    </ReactQueryProvider>
-  </MotionConfig>
-</ThemeProvider>
-```
+1. `ThemeProvider` from `next-themes`
+2. `MotionConfig` with `reducedMotion="user"`
+3. `ReactQueryProvider` as a no-op stub
+4. `TooltipProvider` from the base-ui tooltip wrapper
 
-**Adding a new provider**: Add it to `Providers.tsx` in the correct position — never directly in `layout.tsx`.
-
----
+The order matters: theme must wrap all UI, motion must be globally aware of accessibility preferences, and tooltips should inherit theme styling.
 
 ## State Management
 
-| Layer | Mechanism | Use Case |
-|-------|-----------|----------|
-| Server State | `@tanstack/react-query` (stubbed) | API calls to AI Lambda functions |
-| Client UI State | React `useState` / `useReducer` | Mobile menu, theme toggle, form inputs |
-| Theme | `next-themes` (via `ThemeProvider`) | Light/dark/system preference |
-| Animation Config | `MotionConfig` (Framer Motion) | Global `reducedMotion="user"` |
-| Derived Data | Pure functions in `data/*.ts` | `featuredProjects`, `skillGroups`, `timeline` |
+| Concern | Mechanism | Status |
+|---|---|---|
+| Theme | `next-themes` | Implemented |
+| UI state | React state hooks | Implemented for mobile nav and theme toggle |
+| Motion | Framer Motion variants in `src/lib/motion.ts` | Implemented |
+| Server/data fetching | React Query | Stubbed |
+| Content data | Typed static modules in `src/data` | Implemented but empty |
 
-**No global state library** (Redux, Zustand) — the portfolio is primarily static content with minimal interactivity.
+There is no global store. That is appropriate for the current scope because the site is content-driven rather than workflow-driven.
 
----
+## Theme System
 
-## Data Flow
+Theme is split across three layers:
 
-### Static Content (Home Page Sections)
+1. [frontend/src/config/theme.ts](../frontend/src/config/theme.ts) defines semantic token names in TypeScript.
+2. [frontend/src/app/globals.css](../frontend/src/app/globals.css) binds those tokens to OKLCH values and Tailwind v4 `@theme inline` variables.
+3. `ThemeProvider` applies the `dark` class to the root element through `next-themes`.
 
-```
-data/*.ts (typed arrays)
-       │
-       ▼
-components/common/*.tsx (Section, Card, TimelineCard, ProjectCard, etc.)
-       │
-       ▼
-app/page.tsx (composes sections)
-       │
-       ▼
-Static HTML at build time
-```
-
-All content is **data-driven** — components receive typed props from the data layer. No hardcoded strings in JSX.
-
-### Derived Data
-
-Several data files export computed arrays to avoid duplication:
-
-| Source | Derived Export | Computation |
-|--------|----------------|-------------|
-| `projects.ts` | `featuredProjects` | `projects.filter(p => p.featured)` |
-| `skills.ts` | `skillGroups` | `skills.reduce()` grouped by `category` |
-| `certifications.ts` | `activeCertifications` | `certifications.filter(c => c.active)` |
-| `socials.ts` | `featuredSocials` | `socials.filter(s => s.featured)` |
-| `experience.ts` + `education.ts` + `achievements.ts` + `certifications.ts` | `timeline.ts` → `timeline` | Mapped to `TimelineItem` + sorted by `date` descending |
-
----
-
-## Component Hierarchy
-
-```
-app/layout.tsx
-├── Providers
-│   ├── ThemeProvider
-│   ├── MotionConfig
-│   ├── ReactQueryProvider
-│   └── TooltipProvider
-├── Navbar
-│   ├── primaryNavLinks (config)
-│   ├── socialLinks (config)
-│   ├── ThemeToggle
-│   └── Mobile menu (AnimatePresence + fadeDown)
-├── main
-│   └── app/page.tsx
-│       ├── Section#hero (animated={false})
-│       │   ├── AnimatedBackground (gradient)
-│       │   ├── Heading (h1)
-│       │   ├── Paragraph (lead)
-│       │   ├── PrimaryButton (CTA)
-│       │   └── SocialButtons
-│       ├── Section#about
-│       │   ├── SectionHeader
-│       │   ├── Paragraph (bio)
-│       │   └── SkillBadges (staggerContainer)
-│       ├── Section#skills
-│       │   ├── SectionHeader
-│       │   └── SkillGroups → SkillBadge[] (stagger)
-│       ├── Section#experience
-│       │   ├── SectionHeader
-│       │   └── TimelineCard[] (staggerContainer)
-│       ├── Section#projects
-│       │   ├── SectionHeader
-│       │   └── ProjectCard[] (staggerContainer)
-│       ├── Section#certifications
-│       │   ├── SectionHeader
-│       │   └── Certification cards
-│       ├── Section#writing
-│       │   ├── SectionHeader
-│       │   └── Article previews
-│       └── Section#contact
-│           ├── SectionHeader
-│           ├── Contact form / email link
-│           └── SocialButtons
-└── Footer
-    ├── Brand + tagline
-    ├── primaryNavLinks
-    └── socialLinks
-```
-
----
+This is a strong structure because it keeps colors semantic, makes dark mode class-based, and keeps motion/config values in one place.
 
 ## Motion System
 
-All Framer Motion variants are defined in **`src/lib/motion.ts`** — no inline variants in components.
+All shared motion variants live in [frontend/src/lib/motion.ts](../frontend/src/lib/motion.ts). The codebase uses a centralized motion language rather than component-local variants.
 
-### Variant Categories
+Used primitives include:
 
 | Category | Variants |
-|----------|----------|
-| **Fade** | `fade`, `fadeUp`, `fadeUpLarge`, `fadeDown`, `fadeLeft`, `fadeRight` |
-| **Scale** | `scaleIn`, `scalePop` |
-| **Stagger Containers** | `staggerContainer` (0.08s), `staggerContainerSlow` (0.15s) |
-| **Hover/Tap** | `hoverLift`, `hoverScale`, `tapPress` |
-| **Page Transitions** | `pageTransition`, `pageEnter`, `pageExit` |
-| **Viewport Config** | `defaultViewport` (`once: true`, `margin: "-80px"`) |
-| **Utility** | `withDelay(variant, seconds)` |
+|---|---|
+| Fade | `fade`, `fadeUp`, `fadeUpLarge`, `fadeDown`, `fadeLeft`, `fadeRight` |
+| Scale | `scaleIn`, `scalePop` |
+| Stagger | `staggerContainer`, `staggerContainerSlow` |
+| Hover/tap | `hoverLift`, `hoverScale`, `tapPress` |
+| Page transitions | `pageTransition`, `pageEnter`, `pageExit` |
+| Viewport defaults | `defaultViewport` |
+| Helpers | `withDelay()` |
 
-### Scroll-Reveal Pattern
+The hero uses `withDelay` locally for a few staged entrance effects; the rest of the site is intended to consume the shared motion module directly.
 
-```tsx
-// Standard element
-<motion.div
-  variants={fadeUp}
-  initial="hidden"
-  whileInView="visible"
-  viewport={defaultViewport}
-/>
+## Navigation
 
-// Staggered list (parent triggers children)
-<motion.ul
-  variants={staggerContainer}
-  initial="hidden"
-  whileInView="visible"
-  viewport={defaultViewport}
->
-  {items.map(item => (
-    <motion.li key={item.id} variants={fadeUp} />
-  ))}
-</motion.ul>
-```
+[frontend/src/config/navigation.ts](../frontend/src/config/navigation.ts) is the single source of truth for top-level navigation and social links.
+
+`Navbar` reads the anchor and route links from that file, and `Footer` uses the same arrays so the site stays consistent.
+
+Active section highlighting is driven by `useActiveSection`, which uses `IntersectionObserver` only on the home page. Route links use `usePathname`.
+
+## Data Flow
+
+The intended flow is:
+
+`src/data/*.ts` → shared UI components → section composition in `app/page.tsx` → static HTML.
+
+Derived arrays are computed locally in the data layer to avoid duplicate state:
+
+| Source | Derived export | Purpose |
+|---|---|---|
+| `projects.ts` | `featuredProjects` | Home-page spotlight projects |
+| `skills.ts` | `skillGroups` | Category-based skill rendering |
+| `certifications.ts` | `activeCertifications` | Show valid certifications only |
+| `socials.ts` | `featuredSocials` | Prominent social links |
+| `experience.ts` + `education.ts` + `achievements.ts` + `certifications.ts` | `timeline` | Unified chronological view |
+
+## Component Hierarchy
+
+Current implemented hierarchy:
+
+`layout.tsx`
+→ `Providers`
+→ `Navbar`
+→ `main`
+→ `Hero`
+→ placeholder section anchors
+→ `Footer`
+
+The component tree is intentionally shallow. The reusable component layer is complete, but only the hero is actually composed into the page today.
+
+## Dependency Relationships
+
+| Module | Depends on |
+|---|---|
+| `app/layout.tsx` | `siteConfig`, fonts, metadata, providers, layout components |
+| `app/page.tsx` | `Hero` |
+| `components/layout/Navbar.tsx` | navigation config, site config, active-section hook, social icons, theme toggle |
+| `components/layout/Footer.tsx` | navigation config, site config, social button/icon components |
+| `components/sections/Hero.tsx` | profile data, featured socials, motion helpers, common primitives |
+| `components/common/*` | motion helpers, design tokens, typed data, utility `cn()` |
+| `data/timeline.ts` | data domain files and timeline type |
+
+## Infrastructure Boundary
+
+Infrastructure is documented in the plan but not built. There are no stacks, constructs, or deployment definitions yet. That means the current boundary between frontend and infrastructure is conceptual only.
+
+## Architectural Assessment
+
+Strengths:
+
+1. Clean separation between config, data, components, hooks, and utilities.
+2. Strong use of typed domain models and derived arrays.
+3. Centralized motion, theme, and metadata systems.
+4. Good accessibility defaults in the layout and interactive components.
+
+Weaknesses:
+
+1. Most content modules are empty, so the architecture is ahead of the data.
+2. The documented route surface is larger than the implemented route surface.
+3. Infrastructure is still a stub.
+4. There is some overlap between docs and code about the current project phase.
+
+The architecture is coherent and maintainable, but the repository is still in scaffold mode rather than launch-ready mode.
 
 ### Reduced Motion
 

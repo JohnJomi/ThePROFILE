@@ -1,322 +1,424 @@
 # Components
 
-This document catalogs every reusable component in the design system. Components are organized by category.
+This document catalogs the reusable component layer that exists in the repository today. It covers the design-system primitives, layout components, and the shadcn/base-ui wrappers.
 
----
-
-## Layout Primitives
+## Common Primitives
 
 ### Container
 
-**File**: `src/components/common/Container.tsx`
+File: [frontend/src/components/common/Container.tsx](../frontend/src/components/common/Container.tsx)
 
-**Purpose**: Horizontal width constraint for page content. Pure layout primitive — no visual styling.
+Purpose: Constrains horizontal width and provides consistent page gutters.
 
-**Props**:
+Props:
+
 ```tsx
 interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-  size?: "narrow" | "default" | "wide" | "full";  // default: "default"
-  as?: React.ElementType;                           // default: "div"
+  size?: "narrow" | "default" | "wide" | "full";
+  as?: React.ElementType;
 }
 ```
 
-**Variants**:
-| Size | Max Width | Use Case |
-|------|-----------|----------|
-| `narrow` | 768px (max-w-3xl) | Reading/prose content |
-| `default` | 1152px (max-w-6xl) | Standard page sections |
-| `wide` | 1280px (max-w-7xl) | Full-bleed with generous gutters |
-| `full` | 100% | No width constraint |
+Dependencies: `class-variance-authority`, `cn()`.
 
-**Usage**:
-```tsx
-import { Container } from "@/components/common";
+Where used: `Section`, `Navbar` layout conventions, `Footer`, and any future page-level content blocks.
 
-<Container size="default">
-  <Section>...</Section>
-</Container>
+Accessibility notes: It renders semantic meaning via its parent or the `as` prop; by itself it is non-semantic.
 
-<Container size="narrow" as="main">
-  <article>...</article>
-</Container>
-```
-
-**Dependencies**: `clsx`, `tailwind-merge` (via `cn`), `class-variance-authority`
-
-**Future Improvements**: Add `center` variant for centered content without max-width constraint.
-
----
+Future improvements: A `center` variant would be useful if a centered but unconstrained layout is ever needed.
 
 ### Section
 
-**File**: `src/components/common/Section.tsx`
+File: [frontend/src/components/common/Section.tsx](../frontend/src/components/common/Section.tsx)
 
-**Purpose**: Full-width page section wrapper with consistent vertical padding and scroll-triggered stagger animation.
+Purpose: Wraps a full-width page section, applies vertical spacing, and optionally animates the section on scroll.
 
-**Props**:
+Props:
+
 ```tsx
 interface SectionProps extends React.HTMLAttributes<HTMLElement> {
-  id?: string;                    // Anchor target for navigation
-  containerSize?: "narrow" | "default" | "wide" | "full";  // default: "default"
-  animated?: boolean;             // default: true
+  id?: string;
+  containerSize?: "narrow" | "default" | "wide" | "full";
+  animated?: boolean;
 }
 ```
 
-**Behavior**:
-- Wraps content in `Container` with `.section-padding` (py-20 md:py-28)
-- When `animated=true`: uses `staggerContainer` variant + `whileInView` + `defaultViewport`
-- Children with `variants` prop receive staggered entrance
+Dependencies: `Container`, `framer-motion`, `staggerContainer`, `defaultViewport`, `cn()`.
 
-**Usage**:
-```tsx
-import { Section, SectionHeader } from "@/components/common";
+Where used: `Hero` today; intended for every section on the home page.
 
-<Section id="about" containerSize="narrow" animated>
-  <SectionHeader
-    overline="About Me"
-    heading="Who I Am"
-    description="A paragraph of supporting text."
-  />
-  <p>Section content...</p>
-</Section>
-```
+Accessibility notes: It preserves native section semantics. `id` supports anchor navigation.
 
-**Dependencies**: `Container`, `staggerContainer`, `defaultViewport` (from `lib/motion`), `framer-motion`
-
-**Future Improvements**: Add `background` prop for optional background color/image.
-
----
+Future improvements: Optional background slot or section-level thematic styles could be added later.
 
 ### SectionHeader
 
-**File**: `src/components/common/Section.tsx` (exported from same file)
+File: [frontend/src/components/common/Section.tsx](../frontend/src/components/common/Section.tsx)
 
-**Purpose**: Standardized header for every portfolio section — overline, heading, optional description.
+Purpose: Standard section title block with optional overline and description.
 
-**Props**:
+Props:
+
 ```tsx
 interface SectionHeaderProps {
-  overline?: string;              // Small label above heading
-  heading: string;                // Primary section title
-  description?: string;           // Supporting paragraph
-  align?: "left" | "center";      // default: "center"
+  overline?: string;
+  heading: string;
+  description?: string;
+  align?: "left" | "center";
   className?: string;
 }
 ```
 
-**Usage**:
+Dependencies: `framer-motion`, `fadeUp`, `cn()`.
+
+Where used: Planned for all portfolio sections.
+
+Accessibility notes: Heading semantics are provided by the rendered `<h2>`.
+
+Future improvements: A CTA/action slot would let sections add a button without custom wrappers.
+
+### Card
+
+File: [frontend/src/components/common/Card.tsx](../frontend/src/components/common/Card.tsx)
+
+Purpose: Base content surface with padding variants and optional hover/entrance motion.
+
+Props:
+
 ```tsx
-<SectionHeader
-  overline="What I've Built"
-  heading="Projects"
-  description="Selected work demonstrating AI engineering and full-stack development."
-  align="center"
-/>
-```
-
-**Dependencies**: `fadeUp` (from `lib/motion`), `framer-motion`
-
-**Future Improvements**: Add `action` slot for CTA button in header.
-
----
-
-## Typography
-
-### Heading
-
-**File**: `src/components/common/Typography.tsx`
-
-**Purpose**: Typographically consistent heading at any level. Polymorphic `as` prop separates semantic HTML from visual size.
-
-**Props**:
-```tsx
-interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  size: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";  // default: "h2"
-  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "p" | "span" | "div";
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  padding?: "none" | "sm" | "default" | "lg";
+  animated?: boolean;
+  hoverable?: boolean;
 }
 ```
 
-**Size Scale**:
-| Size | Mobile | Desktop |
-|------|--------|---------|
-| `h1` | 4xl | 6xl |
-| `h2` | 3xl | 4xl |
-| `h3` | 2xl | 3xl |
-| `h4` | xl | 2xl |
-| `h5` | lg | xl |
-| `h6` | base | lg |
+Dependencies: `cva`, `framer-motion`, `fadeUp`, `hoverLift`, `cn()`.
 
-**Usage**:
+Where used: `ProjectCard`, `TimelineCard`, `GlassCard`, and likely future stat/callout blocks.
+
+Accessibility notes: It is non-interactive; clickable cards must be wrapped in a semantic link or button.
+
+Future improvements: A `selected` or `interactive` state could help future dashboards.
+
+### GlassCard
+
+File: [frontend/src/components/common/Card.tsx](../frontend/src/components/common/Card.tsx)
+
+Purpose: Frosted-glass variant of `Card` for floating overlays.
+
+Props: Same as `Card`.
+
+Dependencies: Same as `Card`.
+
+Where used: Not currently used in the repo.
+
+Accessibility notes: Same as `Card`.
+
+Future improvements: Could be used for future hero stats, modals, or floating panels.
+
+### Badge
+
+File: [frontend/src/components/common/Badge.tsx](../frontend/src/components/common/Badge.tsx)
+
+Purpose: Compact label for tags, statuses, and categories.
+
+Props:
+
 ```tsx
-import { Heading } from "@/components/common";
-
-<Heading size="h1">Building Intelligent Systems</Heading>
-<Heading as="h3" size="h2">Visual h2, Semantic h3</Heading>
-```
-
-**Dependencies**: `class-variance-authority`
-
-**Future Improvements**: Add `gradient` prop to apply gradient text automatically.
-
----
-
-### Subheading
-
-**File**: `src/components/common/Typography.tsx`
-
-**Purpose**: Overline label in monospace uppercase — typically placed above a section heading.
-
-**Props**:
-```tsx
-interface SubheadingProps extends React.HTMLAttributes<HTMLParagraphElement> {
-  size?: "sm" | "default" | "lg";  // default: "default"
-  as?: "p" | "span" | "div";
+interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+  variant?: "default" | "secondary" | "muted" | "brand" | "outline" | "success" | "warning" | "destructive";
+  size?: "sm" | "default" | "lg";
 }
 ```
 
-**Usage**:
+Dependencies: `cva`, `cn()`.
+
+Where used: `SkillBadge`, `ProjectCard`, `TimelineCard`, and future status labels.
+
+Accessibility notes: Renders a `<span>`; add additional semantics if the badge conveys live status.
+
+Future improvements: None required for the current scope.
+
+### SkillBadge
+
+File: [frontend/src/components/common/SkillBadge.tsx](../frontend/src/components/common/SkillBadge.tsx)
+
+Purpose: Animated badge that encodes skill proficiency visually and textually.
+
+Props:
+
 ```tsx
-import { Subheading, Heading } from "@/components/common";
-
-<Subheading>What I've Built</Subheading>
-<Heading size="h2">Projects</Heading>
-```
-
-**Dependencies**: `class-variance-authority`
-
----
-
-### Paragraph / Text
-
-**File**: `src/components/common/Typography.tsx`
-
-**Purpose**: Body text with consistent leading and color. `Text` is an exported alias for `Paragraph`.
-
-**Props**:
-```tsx
-interface ParagraphProps extends React.HTMLAttributes<HTMLParagraphElement> {
-  variant?: "default" | "lead" | "muted" | "small";  // default: "default"
-  as?: "p" | "span" | "div";
-}
-```
-
-**Variants**:
-| Variant | Style | Use Case |
-|---------|-------|----------|
-| `default` | text-base | Standard body copy |
-| `lead` | text-lg text-muted-foreground | Larger intro paragraph |
-| `muted` | text-sm text-muted-foreground | Secondary supporting text |
-| `small` | text-sm | Caption/fine print |
-
-**Usage**:
-```tsx
-import { Paragraph, Text } from "@/components/common";
-
-<Paragraph>Standard body text.</Paragraph>
-<Paragraph variant="lead">Larger intro paragraph.</Paragraph>
-<Text variant="muted">Secondary note.</Text>
-```
-
----
-
-### GradientText
-
-**File**: `src/components/common/Typography.tsx`
-
-**Purpose**: Inline text with animated gradient fill. Renders as `<span>` by default for nesting inside headings.
-
-**Props**:
-```tsx
-interface GradientTextProps extends React.HTMLAttributes<HTMLSpanElement> {
-  as?: "span" | "div" | "p";
-}
-```
-
-**Usage**:
-```tsx
-import { Heading, GradientText } from "@/components/common";
-
-<Heading size="h1">
-  Building <GradientText>intelligent</GradientText> systems
-</Heading>
-```
-
-**Dependencies**: Uses CSS `.gradient-text` utility from `globals.css`
-
----
-
-### InlineCode
-
-**File**: `src/components/common/Typography.tsx`
-
-**Purpose**: Styled inline code snippet for prose (skill names, commands, etc.).
-
-**Props**: `React.HTMLAttributes<HTMLElement>`
-
-**Usage**:
-```tsx
-import { Paragraph, InlineCode } from "@/components/common";
-
-<Paragraph>
-  Run <InlineCode>npm run dev</InlineCode> to start.
-</Paragraph>
-```
-
----
-
-## Buttons
-
-### PrimaryButton / SecondaryButton
-
-**File**: `src/components/common/Buttons.tsx`
-
-**Purpose**: Polymorphic buttons — render as `<button>` by default, or `<a>` when `href` is supplied. Includes Framer Motion tap animation.
-
-**Shared Props**:
-```tsx
-type ButtonBase = {
-  children: React.ReactNode;
+interface SkillBadgeProps {
+  name: string;
+  category?: SkillCategory;
+  proficiency?: "expert" | "proficient" | "familiar";
+  showIndicator?: boolean;
   className?: string;
-  disabled?: boolean;
-  icon?: React.ReactNode;
-  iconPosition?: "left" | "right";  // default: "right"
-  size?: "sm" | "default" | "lg";   // default: "default"
+}
+```
+
+Dependencies: `Badge`, `framer-motion`, `scalePop`, `cn()`.
+
+Where used: Planned Skills and About sections.
+
+Accessibility notes: The proficiency is encoded in `aria-label`, which is important because the dot color alone is not sufficient.
+
+Future improvements: Category could be surfaced in the label if the component is reused outside the skills grid.
+
+### ProjectCard
+
+File: [frontend/src/components/common/ProjectCard.tsx](../frontend/src/components/common/ProjectCard.tsx)
+
+Purpose: Displays a portfolio project summary card with optional cover image, badges, and outbound links.
+
+Props:
+
+```tsx
+interface ProjectCardProps {
+  project: Project;
+  className?: string;
+}
+```
+
+Dependencies: `next/image`, `next/link`, `Badge`, `Card`, GitHub icon, `cn()`.
+
+Where used: Planned Projects section.
+
+Accessibility notes: Title link and external links are labeled; image alt text is derived from the project title.
+
+Future improvements: Could support richer metadata such as role, impact metrics, or featured callouts.
+
+### TimelineCard
+
+File: [frontend/src/components/common/TimelineCard.tsx](../frontend/src/components/common/TimelineCard.tsx)
+
+Purpose: Renders a unified chronological timeline item with type-specific badge styling.
+
+Props:
+
+```tsx
+interface TimelineCardProps {
+  item: TimelineItem;
+  isLast?: boolean;
+  className?: string;
+}
+```
+
+Dependencies: `framer-motion`, `Badge`, `fadeUp`, `cn()`.
+
+Where used: Planned Experience / Timeline section.
+
+Accessibility notes: Uses `<time>` for dates and `aria-current` for current items.
+
+Future improvements: Could support an explicit icon or richer logo treatment for each item type.
+
+### Typography primitives
+
+File: [frontend/src/components/common/Typography.tsx](../frontend/src/components/common/Typography.tsx)
+
+Purpose: Shared typographic primitives with consistent visual styling.
+
+Exports:
+
+```tsx
+Heading
+Subheading
+Paragraph
+Text
+GradientText
+InlineCode
+```
+
+Dependencies: `cva`, `cn()`.
+
+Where used: `Hero` today, and intended across all section content.
+
+Accessibility notes: Semantic heading level remains the caller’s responsibility via the `as` prop.
+
+Future improvements: None required, though `GradientText` could eventually become a variant on `Heading`.
+
+### Button and Buttons
+
+Files: [frontend/src/components/common/Button.tsx](../frontend/src/components/common/Button.tsx), [frontend/src/components/common/Buttons.tsx](../frontend/src/components/common/Buttons.tsx)
+
+Purpose: Polymorphic CTA buttons with link/button rendering and Framer Motion tap feedback.
+
+Props:
+
+```tsx
+type ButtonProps = PrimaryButtonProps & {
+  variant?: "primary" | "secondary";
 };
-
-type PrimaryButtonProps = ButtonBase & (
-  | { href?: undefined } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonBase>
-  | { href: string } & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof ButtonBase>
-);
 ```
 
-**Size Classes**:
-| Size | Height | Padding | Text | Icon |
-|------|--------|---------|------|------|
-| `sm` | 32px (h-8) | px-3.5 | text-sm | size-3.5 |
-| `default` | 40px (h-10) | px-5 | text-sm | size-4 |
-| `lg` | 48px (h-12) | px-7 | text-base | size-5 |
+Dependencies: `framer-motion`, `tapPress`, `cn()`.
 
-**Behavior**:
-- External hrefs (`http/https`) → `target="_blank" rel="noopener noreferrer"`
-- `disabled` → `aria-disabled`, `tabIndex=-1`, `pointer-events-none`, `opacity-50`
-- Framer Motion `tapPress` variant: scale 0.97 on tap
+Where used: `Hero` uses `PrimaryButton` and `SecondaryButton` today.
 
-**Usage**:
+Accessibility notes: External links open in a new tab with proper `rel` values. Disabled links are rendered with `aria-disabled` and `tabIndex=-1`.
+
+Future improvements: A loading state would be the main missing enhancement.
+
+### SocialButton
+
+File: [frontend/src/components/common/SocialButton.tsx](../frontend/src/components/common/SocialButton.tsx)
+
+Purpose: External profile link rendered as either icon-only or icon-plus-label pill.
+
+Props:
+
 ```tsx
-import { PrimaryButton, SecondaryButton } from "@/components/common";
-
-<PrimaryButton>View Projects</PrimaryButton>
-<PrimaryButton href="https://github.com" icon={<Github />}>Source</PrimaryButton>
-<SecondaryButton variant="secondary" size="lg" href="/projects">All Projects</SecondaryButton>
+interface SocialButtonProps {
+  label: string;
+  href: string;
+  icon: React.ReactNode;
+  variant?: "icon" | "pill";
+  size?: "sm" | "default";
+  className?: string;
+}
 ```
 
-**Dependencies**: `framer-motion` (`tapPress` from `lib/motion`)
+Dependencies: `framer-motion`, `hoverScale`, `cn()`.
 
-**Future Improvements**: Add `loading` prop with spinner state.
+Where used: `Navbar`, `Footer`, and `Hero`.
 
----
+Accessibility notes: Returns `null` when `href` is empty, which prevents broken links during configuration work.
 
-### Button (Unified)
+Future improvements: A `title` or `description` prop would help if it is used in richer contexts later.
+
+### SocialIcons
+
+File: [frontend/src/components/common/SocialIcons.tsx](../frontend/src/components/common/SocialIcons.tsx)
+
+Purpose: Inline SVG icons for GitHub, LinkedIn, and Twitter/X.
+
+Exports:
+
+```tsx
+GithubIcon
+LinkedinIcon
+TwitterIcon
+socialIconMap
+```
+
+Dependencies: None beyond React JSX.
+
+Where used: `Navbar`, `Footer`, `Hero`.
+
+Accessibility notes: Icons are decorative and should be paired with an accessible label from the parent component.
+
+Future improvements: Add more social icons if the config expands.
+
+### AnimatedBackground
+
+File: [frontend/src/components/common/AnimatedBackground.tsx](../frontend/src/components/common/AnimatedBackground.tsx)
+
+Purpose: Decorative background layer with dots, gradient blobs, or a grid.
+
+Props:
+
+```tsx
+interface AnimatedBackgroundProps {
+  variant?: "dots" | "gradient" | "grid";
+  className?: string;
+}
+```
+
+Dependencies: React state/effect, `cn()`.
+
+Where used: `Hero`.
+
+Accessibility notes: `aria-hidden` and `pointer-events-none` keep it out of the accessibility tree and interaction flow.
+
+Future improvements: It could optionally expose intensity or color tokens for future sections.
+
+## Layout Components
+
+### Navbar
+
+File: [frontend/src/components/layout/Navbar.tsx](../frontend/src/components/layout/Navbar.tsx)
+
+Purpose: Sticky site navigation with scroll-aware styling, desktop links, mobile drawer, active section highlighting, and theme toggle.
+
+Props: None.
+
+Dependencies: `usePathname`, `useActiveSection`, `AnimatePresence`, `motion`, `Menu`, `X`, `ThemeToggle`, `SocialButton`, `socialIconMap`, navigation config, site config.
+
+Where used: Root layout.
+
+Accessibility notes: Good baseline. It exposes `aria-expanded`, `aria-controls`, dialog semantics for the mobile menu, and focus return to the hamburger button.
+
+Future improvements: The current mobile menu is functional, but once more routes exist it may need route-aware grouping.
+
+### Footer
+
+File: [frontend/src/components/layout/Footer.tsx](../frontend/src/components/layout/Footer.tsx)
+
+Purpose: Site-wide footer with brand, navigation, socials, and copyright.
+
+Props: None.
+
+Dependencies: Navigation config, site config, `SocialButton`, `socialIconMap`, `cn()`.
+
+Where used: Root layout.
+
+Accessibility notes: Uses a footer landmark and a labeled nav region.
+
+Future improvements: If the site gains more route depth, the footer may need more explicit site-map organization.
+
+### ThemeToggle
+
+File: [frontend/src/components/layout/ThemeToggle.tsx](../frontend/src/components/layout/ThemeToggle.tsx)
+
+Purpose: Switches between light and dark mode using `next-themes`.
+
+Props:
+
+```tsx
+interface ThemeToggleProps {
+  className?: string;
+  size?: "sm" | "default";
+}
+```
+
+Dependencies: `useTheme`, `framer-motion`, `AnimatePresence`, `Sun`, `Moon`, `cn()`.
+
+Where used: `Navbar`.
+
+Accessibility notes: The action-oriented `aria-label` and `aria-pressed` are correct. The mounted placeholder prevents hydration mismatch.
+
+Future improvements: None required.
+
+## Base UI Wrappers
+
+### ui/button
+
+File: [frontend/src/components/ui/button.tsx](../frontend/src/components/ui/button.tsx)
+
+Purpose: Base-ui button primitive wrapped with project tokens.
+
+Where used: Not currently referenced by the custom design-system components, which use their own CTA implementation.
+
+Accessibility notes: It inherits the accessibility behavior of the base-ui primitive.
+
+Future improvements: Decide whether the project should standardize on this primitive or continue using the custom CTA components only.
+
+### ui/tooltip
+
+File: [frontend/src/components/ui/tooltip.tsx](../frontend/src/components/ui/tooltip.tsx)
+
+Purpose: Base-ui tooltip wrapper used by the root tooltip provider.
+
+Where used: [frontend/src/providers/TooltipProvider.tsx](../frontend/src/providers/TooltipProvider.tsx).
+
+Accessibility notes: Uses a portal and ARIA-aware primitives from base-ui.
+
+Future improvements: None required.
+
+## Reuse Assessment
+
+Reusable component quality is generally strong. The current gap is not component quality but missing content composition around those components. The design system is ready for expansion; the app shell is not yet populated with the planned section modules.
 
 **File**: `src/components/common/Button.tsx`
 

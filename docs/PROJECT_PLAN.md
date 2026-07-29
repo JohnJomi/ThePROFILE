@@ -154,10 +154,11 @@ Build and deploy a production-grade AI Engineer portfolio website demonstrating 
 
 ## Current Status
 
-**Active Phase:** Phase 4 — AI Feature Integration
+The repository is not yet at the AI-feature phase in practice. The remaining work is still primarily portfolio content, route scaffolding, and infrastructure implementation. In other words, the architecture has advanced further than the actual product content.
 
-**Before starting Phase 4:**
-1. Fill in `src/config/site.ts` with your name, URL, email, and social handles.
-2. Fill in `src/data/profile.ts` with your bio and `src/data/projects.ts` with real projects.
-3. Activate `ReactQueryProvider` — install `@tanstack/react-query` and wire it up.
-4. Review `docs/UI_GUIDELINES.md` before adding any new components.
+Before starting any AI feature work, the content and route prerequisites still need to be completed:
+
+1. Fill in `src/config/site.ts` with real identity, SEO, and contact information.
+2. Populate `src/data/profile.ts` and the other data modules with real content.
+3. Decide whether `ReactQueryProvider` should remain stubbed or become active only when the first API surface exists.
+4. Review `docs/UI_GUIDELINES.md` before adding new sections or components.
