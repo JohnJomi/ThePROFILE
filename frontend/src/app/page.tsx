@@ -7,6 +7,7 @@
  */
 
 import { Hero } from "@/components/sections/Hero";
+import { Skills } from "@/components/sections/Skills";
 
 export default function HomePage() {
   return (
@@ -15,7 +16,7 @@ export default function HomePage() {
       {/* Anchor targets for navigation — real sections will replace these */}
       <div id="about" />
       <div id="projects" />
-      <div id="skills" />
+      <Skills />
       <div id="experience" />
       <div id="contact" />
     </>
