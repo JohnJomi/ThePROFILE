@@ -66,33 +66,40 @@ export interface TimelineCardProps {
   className?: string;
 }
 
-export function TimelineCard({ item, isLast = false, className }: TimelineCardProps) {
+export function TimelineCard({ item, isLast = false, className }: Readonly<TimelineCardProps>) {
   const { type, title, subtitle, date, endDate, description, tags, url, current } = item;
 
-  const dateLabel = endDate
-    ? `${formatDate(date)} – ${formatDate(endDate)}`
-    : current
-      ? `${formatDate(date)} – Present`
-      : formatDate(date);
+  let dateLabel = formatDate(date);
+  if (endDate) {
+    dateLabel = `${formatDate(date)} – ${formatDate(endDate)}`;
+  } else if (current) {
+    dateLabel = `${formatDate(date)} – Present`;
+  }
 
   return (
     <motion.div
       variants={fadeUp}
       aria-current={current ? "true" : undefined}
-      className={cn("relative flex gap-4 pb-8", !isLast && "border-l border-border", className)}
+      className={cn(
+        "relative mb-4 rounded-2xl border border-white/15 bg-white/75 p-5 pl-10",
+        "shadow-[0_14px_40px_rgb(15_23_42/0.08),0_2px_10px_rgb(15_23_42/0.04),inset_0_1px_0_rgb(255_255_255/0.45)] backdrop-blur-xl",
+        "transition-all duration-300 ease-out dark:border-white/10 dark:bg-white/10",
+        "dark:shadow-[0_20px_60px_rgb(0_0_0/0.34),0_2px_10px_rgb(0_0_0/0.18),inset_0_1px_0_rgb(255_255_255/0.08)]",
+        className,
+      )}
     >
       {/* Connector dot */}
       <div
         aria-hidden="true"
         className={cn(
-          "absolute -left-[9px] top-1 size-[18px] rounded-full border-2 flex-shrink-0",
-          "border-background bg-border",
+          "absolute left-4 top-6 size-[18px] flex-shrink-0 rounded-full border-2",
+          "border-background bg-border shadow-[0_4px_10px_rgb(15_23_42/0.12)]",
           current && "border-brand bg-brand",
         )}
       />
 
       {/* Content */}
-      <div className="ml-6 flex flex-col gap-2">
+      <div className="flex flex-col gap-2">
         {/* Type badge */}
         <Badge variant={typeVariant[type]} size="sm">
           {typeLabel[type]}

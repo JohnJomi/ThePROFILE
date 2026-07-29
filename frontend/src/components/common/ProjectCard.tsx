@@ -36,7 +36,7 @@ export interface ProjectCardProps {
   className?: string;
 }
 
-export function ProjectCard({ project, className }: ProjectCardProps) {
+export function ProjectCard({ project, className }: Readonly<ProjectCardProps>) {
   const { slug, title, description, tags, coverImage, githubUrl, liveUrl, status, featured } =
     project;
 
@@ -45,7 +45,13 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
       animated
       hoverable
       padding="none"
-      className={cn("group flex flex-col overflow-hidden", className)}
+      className={cn(
+        "group flex flex-col overflow-hidden",
+        featured
+          ? "border-white/25 bg-white/82 shadow-[0_24px_70px_rgb(15_23_42/0.14),0_6px_20px_rgb(15_23_42/0.08)] dark:border-white/15 dark:bg-white/12 dark:shadow-[0_30px_90px_rgb(0_0_0/0.46),0_8px_24px_rgb(0_0_0/0.2)]"
+          : "border-white/15 bg-white/75 shadow-[0_14px_40px_rgb(15_23_42/0.1),0_2px_10px_rgb(15_23_42/0.05)] dark:border-white/10 dark:bg-white/10 dark:shadow-[0_18px_60px_rgb(0_0_0/0.34)]",
+        className,
+      )}
     >
       {/* Cover image */}
       {coverImage && (

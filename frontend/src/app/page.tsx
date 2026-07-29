@@ -19,8 +19,6 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      {/* Anchor targets for navigation — real sections will replace these */}
-      <div id="about" />
       <Skills />
       <Experience />
       <Projects />

@@ -114,23 +114,25 @@ export function Navbar() {
   }
 
   const linkBaseClass = cn(
-    "px-3 py-1.5 text-sm font-medium rounded-lg",
-    "transition-colors duration-150",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+    "rounded-2xl border px-3 py-1.5 text-sm font-medium",
+    "transition-all duration-300 ease-out",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
   );
 
-  const linkActiveClass = "text-foreground bg-muted";
-  const linkInactiveClass = "text-muted-foreground hover:text-foreground hover:bg-muted";
+  const linkActiveClass =
+    "border-white/25 bg-white/80 text-foreground shadow-[0_8px_20px_rgb(15_23_42/0.08),inset_0_1px_0_rgb(255_255_255/0.45)] dark:border-white/10 dark:bg-white/10 dark:shadow-[0_10px_24px_rgb(0_0_0/0.28),inset_0_1px_0_rgb(255_255_255/0.08)]";
+  const linkInactiveClass =
+    "border-transparent text-muted-foreground hover:border-white/20 hover:bg-white/70 hover:text-foreground dark:hover:border-white/15 dark:hover:bg-white/10";
 
   return (
     <>
       <header
         className={cn(
           "fixed top-0 left-0 right-0 z-[200]",
-          "transition-all duration-300",
+          "border-b border-white/15 backdrop-blur-xl transition-all duration-300",
           scrolled
-            ? "bg-background/80 backdrop-blur-md border-b border-border/60 shadow-sm"
-            : "bg-transparent",
+            ? "bg-white/80 shadow-[0_10px_30px_rgb(15_23_42/0.08)] dark:bg-background/75 dark:shadow-[0_12px_40px_rgb(0_0_0/0.35)]"
+            : "bg-white/65 shadow-[0_6px_20px_rgb(15_23_42/0.05)] dark:bg-background/55 dark:shadow-[0_8px_28px_rgb(0_0_0/0.22)]",
         )}
       >
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -152,13 +154,18 @@ export function Navbar() {
           <nav aria-label="Main navigation" className="hidden md:flex items-center gap-1">
             {primaryNavLinks.map((link) => {
               const active = isActive(link.href);
+                const sectionId = extractSectionId(link.href);
+                let ariaCurrent: "page" | "true" | undefined;
+                if (active) {
+                  ariaCurrent = sectionId ? "true" : "page";
+                }
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   target={link.external ? "_blank" : undefined}
                   rel={link.external ? "noopener noreferrer" : undefined}
-                  aria-current={active ? (extractSectionId(link.href) ? "true" : "page") : undefined}
+                    aria-current={ariaCurrent}
                   className={cn(linkBaseClass, active ? linkActiveClass : linkInactiveClass)}
                 >
                   {link.label}
@@ -192,10 +199,12 @@ export function Navbar() {
               aria-controls="mobile-menu"
               onClick={() => setMobileOpen((prev) => !prev)}
               className={cn(
-                "inline-flex size-9 items-center justify-center rounded-lg",
-                "text-muted-foreground hover:text-foreground hover:bg-muted",
-                "transition-colors duration-150",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                "inline-flex size-9 items-center justify-center rounded-2xl border border-transparent",
+                "bg-white/70 text-muted-foreground backdrop-blur-xl shadow-[0_8px_20px_rgb(15_23_42/0.05),inset_0_1px_0_rgb(255_255_255/0.45)]",
+                "transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-white/85 hover:text-foreground hover:shadow-[0_14px_28px_rgb(15_23_42/0.1),0_4px_14px_rgb(15_23_42/0.06)]",
+                "dark:bg-white/10 dark:text-muted-foreground dark:shadow-[0_10px_26px_rgb(0_0_0/0.28),inset_0_1px_0_rgb(255_255_255/0.08)]",
+                "dark:hover:bg-white/15 dark:hover:text-foreground dark:hover:shadow-[0_16px_36px_rgb(0_0_0/0.36),0_6px_16px_rgb(0_0_0/0.16)]",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
               )}
             >
               {mobileOpen ? (
@@ -218,7 +227,7 @@ export function Navbar() {
             aria-modal="true"
             className={cn(
               "fixed inset-0 z-[199] flex flex-col",
-              "bg-background/95 backdrop-blur-md",
+              "bg-white/70 backdrop-blur-2xl dark:bg-background/60",
               "pt-16",
             )}
             variants={fadeDown}
@@ -228,10 +237,15 @@ export function Navbar() {
           >
             <nav
               aria-label="Mobile navigation"
-              className="flex flex-col gap-1 px-4 pt-6"
+              className="mx-4 mt-6 flex flex-col gap-1 rounded-2xl border border-white/15 bg-white/75 p-2 shadow-[0_18px_50px_rgb(15_23_42/0.1)] dark:border-white/10 dark:bg-white/10 dark:shadow-[0_22px_60px_rgb(0_0_0/0.34)]"
             >
               {primaryNavLinks.map((link) => {
                 const active = isActive(link.href);
+                const sectionId = extractSectionId(link.href);
+                    let ariaCurrent: "page" | "true" | undefined;
+                    if (active) {
+                      ariaCurrent = sectionId ? "true" : "page";
+                    }
                 return (
                   <Link
                     key={link.href}
@@ -239,14 +253,14 @@ export function Navbar() {
                     target={link.external ? "_blank" : undefined}
                     rel={link.external ? "noopener noreferrer" : undefined}
                     onClick={() => setMobileOpen(false)}
-                    aria-current={active ? (extractSectionId(link.href) ? "true" : "page") : undefined}
+                    aria-current={ariaCurrent}
                     className={cn(
-                      "px-4 py-3 text-base font-medium rounded-lg",
-                      "transition-colors duration-150",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      "rounded-2xl border px-4 py-3 text-base font-medium",
+                      "transition-all duration-300 ease-out",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                       active
-                        ? "text-brand bg-brand/8"
-                        : "text-foreground hover:bg-muted hover:text-brand",
+                        ? "border-white/25 bg-white/80 text-foreground shadow-[0_8px_20px_rgb(15_23_42/0.08)] dark:border-white/10 dark:bg-white/10 dark:text-foreground"
+                        : "border-transparent text-foreground/80 hover:border-white/20 hover:bg-white/70 hover:text-foreground dark:hover:border-white/15 dark:hover:bg-white/10",
                     )}
                   >
                     {link.label}
@@ -256,7 +270,7 @@ export function Navbar() {
             </nav>
 
             {/* Social links in mobile menu */}
-            <div className="mt-auto flex items-center justify-center gap-2 px-4 py-8 border-t border-border">
+            <div className="mx-4 mt-auto flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/75 px-4 py-8 shadow-[0_18px_50px_rgb(15_23_42/0.1)] dark:border-white/10 dark:bg-white/10 dark:shadow-[0_22px_60px_rgb(0_0_0/0.34)]">
               {socialLinks.map((link) => (
                 <SocialButton
                   key={link.label}

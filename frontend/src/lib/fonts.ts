@@ -1,18 +1,18 @@
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Manrope, JetBrains_Mono } from "next/font/google";
 
 /**
- * Inter — primary sans-serif typeface.
+ * Manrope — primary sans-serif typeface.
  *
  * Rationale:
  * - Variable font (single file, all weights) → zero extra network cost for weight variation.
- * - Designed for screen legibility at small sizes with excellent letter spacing.
- * - Industry standard for technical/developer-facing products.
+ * - Geometric but restrained, which reads more editorial than a default UI font.
+ * - Keeps the portfolio professional without looking overly “template-like”.
  * - Subsets: "latin" covers all standard English content; add more if you use other scripts.
  *
  * CSS variable: --font-sans
  * Used by: body text, navigation, UI components, headings.
  */
-export const fontSans = Inter({
+export const fontSans = Manrope({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
