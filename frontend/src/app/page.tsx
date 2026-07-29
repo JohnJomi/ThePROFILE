@@ -6,6 +6,7 @@
  * and active-state highlighting in the Navbar.
  */
 
+import { Experience } from "@/components/sections/Experience";
 import { Hero } from "@/components/sections/Hero";
 import { Skills } from "@/components/sections/Skills";
 
@@ -17,7 +18,7 @@ export default function HomePage() {
       <div id="about" />
       <div id="projects" />
       <Skills />
-      <div id="experience" />
+      <Experience />
       <div id="contact" />
     </>
   );
