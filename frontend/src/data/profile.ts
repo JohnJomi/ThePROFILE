@@ -11,13 +11,15 @@
 import type { Profile } from "@/types/profile";
 
 export const profile: Profile = {
-  name: "",
-  title: "",
-  tagline: "",
-  bio: "",
-  shortBio: "",
-  location: "",
-  email: "",
-  avatarUrl: "",
-  openToWork: false,
+  name: "John Jomi",
+  title: "AI Engineer & Full-Stack Developer",
+  tagline: "Building practical AI products, reliable web experiences, and cloud-native systems.",
+  bio:
+    "AI engineer and full-stack developer focused on applied machine learning, product engineering, and cloud delivery. I enjoy building clear, production-ready interfaces around intelligent systems and shipping software that is useful, maintainable, and easy to trust. Open to full-time, contract, and advisory opportunities.",
+  shortBio:
+    "AI engineer and full-stack developer focused on applied ML, product engineering, and cloud delivery.",
+  location: "Remote",
+  email: "johnjomi1234@gmail.com",
+  avatarUrl: "/avatar-placeholder.png",
+  openToWork: true,
 };
