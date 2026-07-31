@@ -1,23 +1,39 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, ImageUp, Mail } from "lucide-react";
+import { ArrowRight, ImageUp, Download } from "lucide-react";
 
 import { Heading, PrimaryButton, SecondaryButton, Section } from "@/components/common";
+import { contactInfo } from "@/data/contact";
 import { profile } from "@/data/profile";
 import { fadeUp, fadeUpLarge, staggerContainer } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 const marqueeItems = [
-  "Practical AI Products",
-  "Reliable Web Systems",
-  "Cloud-Native Delivery",
-  "Full-Stack Craft",
-  "Product Thinking",
-  "Production-Ready Systems",
+  "ARTIFICIAL INTELLIGENCE",
+  "FULL STACK DEVELOPMENT",
+  "CLOUD ENGINEERING",
+  "PRODUCTION SYSTEMS",
+  "RESEARCH",
+  "MODERN WEB APPLICATIONS",
 ] as const;
 
+const floatingChips = [
+  { label: "React", className: "left-[-1.5rem] top-10" },
+  { label: "Next.js", className: "right-[-1rem] top-6" },
+  { label: "Node.js", className: "left-[-2rem] bottom-20" },
+  { label: "Python", className: "right-[-1.5rem] bottom-28" },
+  { label: "AWS", className: "left-8 bottom-[-0.75rem]" },
+  { label: "Azure", className: "right-10 top-[45%]" },
+  { label: "AI", className: "left-[46%] top-[-1.2rem]" },
+] as const;
+
+const chipMotion = {
+  y: [0, -8, 0],
+};
+
 export function Hero() {
-  const { name, tagline, bio, openToWork } = profile;
+  const { name, bio, openToWork } = profile;
   const [firstName, ...restOfName] = (name || "Your Name").split(" ");
   const lastName = restOfName.join(" ");
 
@@ -40,9 +56,9 @@ export function Hero() {
               variants={fadeUp}
               initial="hidden"
               animate="visible"
-              className="text-xs font-medium uppercase tracking-[0.22em] text-[color:var(--accent-gold)]"
-            >
-              — AI ENGINEER {openToWork ? "· OPEN TO WORK" : ""}
+            className="text-xs font-medium uppercase tracking-[0.22em] text-[color:var(--accent-gold)]"
+          >
+              AI Engineer • Full Stack Developer • Researcher {openToWork ? "· OPEN TO WORK" : ""}
             </motion.p>
 
             <Heading as="h1" size="h1" className="max-w-4xl text-text-primary">
@@ -56,7 +72,8 @@ export function Hero() {
               animate="visible"
               className="max-w-2xl text-base leading-8 text-text-primary/72 md:text-lg"
             >
-              {tagline || bio || "Building intelligent systems that solve real problems."}
+              {bio ||
+                "Computer Science undergraduate building AI-powered applications, scalable web platforms, and cloud-native systems. Passionate about creating software that solves real-world problems through thoughtful engineering."}
             </motion.p>
 
             <motion.div
@@ -74,12 +91,12 @@ export function Hero() {
                 View Projects
               </PrimaryButton>
               <SecondaryButton
-                href="/contact"
+                href={contactInfo.resumeUrl}
                 size="lg"
-                icon={<Mail className="size-4" aria-hidden="true" />}
+                icon={<Download className="size-4" aria-hidden="true" />}
                 iconPosition="left"
               >
-                Contact Me
+                Download Resume
               </SecondaryButton>
             </motion.div>
           </div>
@@ -90,6 +107,19 @@ export function Hero() {
             animate="visible"
             className="relative mx-auto w-full max-w-md"
           >
+            {floatingChips.map((chip) => (
+              <motion.div
+                key={chip.label}
+                animate={chipMotion}
+                transition={{ duration: 6 + chip.label.length * 0.15, repeat: Infinity, ease: "easeInOut" }}
+                className={cn(
+                  "absolute z-20 rounded-full border border-border-hairline bg-bg-secondary/95 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-text-primary/80 shadow-sm backdrop-blur-sm",
+                  chip.className,
+                )}
+              >
+                {chip.label}
+              </motion.div>
+            ))}
             <div className="absolute -left-6 top-10 hidden size-24 items-center justify-center rounded-full border border-[color:var(--border-hairline)] bg-bg-secondary text-center text-[0.62rem] font-medium uppercase tracking-[0.22em] text-text-primary/80 md:flex">
               <motion.span
                 animate={{ rotate: 360 }}
