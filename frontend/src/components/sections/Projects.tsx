@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 
 function formatStatus(status: string): { label: string; color: string } {
   if (status === "in-progress") {
-    return { label: "In Progress", color: "bg-accent-gold" };
+    return { label: "In Development", color: "bg-accent-gold" };
   }
   if (status === "completed") {
     return { label: "Completed", color: "bg-accent-rust" };
@@ -21,6 +21,16 @@ export function Projects() {
     featuredProjects.find((project) => project.slug === "ieee-student-branch-erp") ??
     featuredProjects[0];
   const supportingProjects = featuredProjects.filter((project) => project.slug !== featuredProject?.slug);
+  const featuredHighlights = [
+    "Society Management",
+    "Event Management",
+    "Financial Tracking",
+    "Role-Based Authentication",
+    "AI Assistant",
+    "Azure Cloud Storage",
+    "REST APIs",
+    "Responsive Dashboard",
+  ];
 
   return (
     <Section id="projects" containerSize="full" className="bg-bg-primary text-text-primary">
@@ -49,13 +59,27 @@ export function Projects() {
               <p className="max-w-2xl text-base leading-8 text-text-primary/72 md:text-lg">
                 {featuredProject.description}
               </p>
-              <div className="flex flex-wrap items-center gap-3 text-sm text-text-primary/72">
-                {featuredProject.tags.slice(0, 4).map((tag, index) => (
-                  <span key={tag} className="inline-flex items-center gap-3">
-                    <span className={index === 0 ? "hidden" : "text-text-primary/35"}>·</span>
-                    <span>{tag}</span>
-                  </span>
-                ))}
+              <div className="flex flex-col gap-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-text-primary/60">Highlight Features</p>
+                <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-text-primary/72">
+                  {featuredHighlights.map((highlight) => (
+                    <span key={highlight} className="inline-flex items-center gap-3">
+                      <span className="text-text-primary/35">•</span>
+                      <span>{highlight}</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="flex flex-col gap-3">
+                <p className="text-xs uppercase tracking-[0.2em] text-text-primary/60">Technology Stack</p>
+                <div className="flex flex-wrap items-center gap-3 text-sm text-text-primary/72">
+                  {featuredProject.tags.map((tag, index) => (
+                    <span key={tag} className="inline-flex items-center gap-3">
+                      <span className={index === 0 ? "hidden" : "text-text-primary/35"}>·</span>
+                      <span>{tag}</span>
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -67,24 +91,40 @@ export function Projects() {
                   {formatStatus(featuredProject.status).label}
                 </p>
                 <p>
-                  <span className="font-medium text-text-primary">Published:</span>{" "}
-                  {new Date(featuredProject.publishedAt).toLocaleDateString("en-US", {
-                    month: "short",
-                    year: "numeric",
-                  })}
+                  <span className="font-medium text-text-primary">Project Links:</span>
                 </p>
-                <p>
-                  <span className="font-medium text-text-primary">Stack:</span> {featuredProject.tags.slice(0, 5).join(" · ")}
-                </p>
+                <div className="flex flex-col gap-2">
+                  {featuredProject.githubUrl ? (
+                    <a
+                      href={featuredProject.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm font-medium text-accent-gold transition-colors hover:text-text-primary"
+                    >
+                      GitHub
+                      <ArrowRight className="size-4" aria-hidden="true" />
+                    </a>
+                  ) : null}
+                  {featuredProject.liveUrl ? (
+                    <a
+                      href={featuredProject.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm font-medium text-accent-gold transition-colors hover:text-text-primary"
+                    >
+                      Live Demo
+                      <ArrowRight className="size-4" aria-hidden="true" />
+                    </a>
+                  ) : null}
+                  <Link
+                    href={`/projects/${featuredProject.slug}`}
+                    className="inline-flex items-center gap-2 text-sm font-medium text-accent-gold transition-colors hover:text-text-primary"
+                  >
+                    View Case Study
+                    <ArrowRight className="size-4" aria-hidden="true" />
+                  </Link>
+                </div>
               </div>
-
-              <Link
-                href={`/projects/${featuredProject.slug}`}
-                className="inline-flex items-center gap-2 border-b border-accent-gold pb-1 text-sm font-medium text-accent-gold transition-colors hover:border-text-primary hover:text-text-primary"
-              >
-                View Project
-                <ArrowRight className="size-4" aria-hidden="true" />
-              </Link>
             </div>
           </article>
         )}
@@ -108,13 +148,26 @@ export function Projects() {
                   <p className="text-xs uppercase tracking-[0.16em] text-text-primary/60">
                     {project.tags.slice(0, 4).join(" · ")}
                   </p>
-                  <Link
-                    href={`/projects/${project.slug}`}
-                    className="mt-auto inline-flex items-center gap-2 text-sm font-medium text-accent-gold transition-colors hover:text-text-primary"
-                  >
-                    Details
-                    <ArrowRight className="size-4" aria-hidden="true" />
-                  </Link>
+                  <div className="mt-auto flex flex-wrap items-center gap-4">
+                    {project.githubUrl ? (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-sm font-medium text-accent-gold transition-colors hover:text-text-primary"
+                      >
+                        GitHub
+                        <ArrowRight className="size-4" aria-hidden="true" />
+                      </a>
+                    ) : null}
+                    <Link
+                      href={`/projects/${project.slug}`}
+                      className="inline-flex items-center gap-2 text-sm font-medium text-accent-gold transition-colors hover:text-text-primary"
+                    >
+                      {project.slug === "hrm-research-repository" ? "Repository" : project.slug === "ai-chatbot" ? "Demo" : "Case Study"}
+                      <ArrowRight className="size-4" aria-hidden="true" />
+                    </Link>
+                  </div>
                 </article>
               );
             })}

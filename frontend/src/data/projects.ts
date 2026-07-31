@@ -11,57 +11,91 @@
 import type { Project } from "@/types/project";
 
 export const projects: Project[] = [
-	{
-		slug: "cybersecurity-research-toolkit",
-		title: "Cybersecurity Research Toolkit",
-		description:
-			"Research utilities and detection techniques for Tycoon 2FA phishing campaigns.",
-		tags: ["Python", "Machine Learning", "Cybersecurity"],
-		featured: true,
-		status: "in-progress",
-		publishedAt: "2026-07-01",
-	},
-	{
-		slug: "ieee-student-branch-erp",
-		title: "IEEE Student Branch ERP",
-		description:
-			"Enterprise platform for managing IEEE Student Branch operations, finance, events, announcements, authentication, and AI assistance.",
-		tags: [
-			"Next.js",
-			"React",
-			"TypeScript",
-			"Node.js",
-			"Express",
-			"Prisma",
-			"PostgreSQL",
-			"Azure Blob Storage",
-			"AWS",
-			"Docker",
-		],
-		featured: true,
-		status: "in-progress",
-		publishedAt: "2026-05-01",
-	},
-	{
-		slug: "ai-event-management-platform",
-		title: "AI Event Management Platform",
-		description:
-			"AI-powered event management platform that recommends events, automates participant engagement, and provides chatbot assistance.",
-		tags: ["Next.js", "Node.js", "MongoDB", "Express", "Gemini API"],
-		featured: true,
-		status: "completed",
-		publishedAt: "2025-12-01",
-	},
-	{
-		slug: "seismic-noise-filtering-system",
-		title: "Seismic Noise Filtering System",
-		description:
-			"Signal-processing platform that filters Martian seismic data using ObsPy and visualizes seismic events.",
-		tags: ["Python", "ObsPy", "Streamlit", "Scientific Computing"],
-		featured: true,
-		status: "completed",
-		publishedAt: "2025-08-01",
-	},
+  {
+    slug: "ieee-student-branch-erp",
+    title: "IEEE Student Branch ERP",
+    description:
+      "A full-scale enterprise resource planning platform built for IEEE Student Branch operations. The system streamlines society management, finance, event coordination, announcements, authentication, cloud storage, and AI-assisted workflows into a single platform.",
+    longDescription:
+      "A full-scale enterprise resource planning platform built for IEEE Student Branch operations. The system streamlines society management, finance, event coordination, announcements, authentication, cloud storage, and AI-assisted workflows into a single platform.",
+    tags: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Node.js",
+      "Express",
+      "Prisma",
+      "PostgreSQL",
+      "Azure",
+    ],
+    githubUrl: "https://github.com/JohnJomi",
+    liveUrl: "",
+    caseStudyUrl: "",
+    featured: true,
+    status: "in-progress",
+    publishedAt: "2026-05-01",
+  },
+  {
+    slug: "nasa-seismic-noise-filtering-system",
+    title: "NASA Seismic Noise Filtering System",
+    description:
+      "Scientific computing application developed to process and filter Martian seismic recordings using NASA InSight mission data. The platform removes environmental noise, visualizes seismic events, and enables cleaner geological analysis.",
+    tags: ["Python", "ObsPy", "Streamlit", "Scientific Computing", "Signal Processing"],
+    githubUrl: "https://github.com/JohnJomi",
+    caseStudyUrl: "",
+    featured: true,
+    status: "completed",
+    publishedAt: "2025-08-01",
+  },
+  {
+    slug: "pix-hub",
+    title: "Pix-Hub",
+    description:
+      "Full-stack event management platform featuring AI-powered recommendations, participant management, authentication, chatbot integration, and modern web technologies.",
+    tags: ["Next.js", "Node.js", "MongoDB", "Express", "AI"],
+    githubUrl: "https://github.com/JohnJomi",
+    caseStudyUrl: "",
+    featured: true,
+    status: "in-progress",
+    publishedAt: "2025-12-01",
+  },
+  {
+    slug: "spotify-music-recommendation-system",
+    title: "Spotify Music Recommendation System",
+    description:
+      "Machine learning powered recommendation system that analyzes listening behaviour and recommends personalized music using similarity algorithms and user preference modelling.",
+    tags: ["Python", "Machine Learning", "Recommendation System", "Data Analysis"],
+    githubUrl: "https://github.com/JohnJomi",
+    caseStudyUrl: "",
+    featured: true,
+    status: "completed",
+    publishedAt: "2025-09-01",
+  },
+  {
+    slug: "hrm-research-repository",
+    title: "HRM Research Repository",
+    description:
+      "Research-focused repository developed to organize human resource management datasets, documentation, literature reviews, and experimental findings in a structured manner.",
+    tags: ["Research", "Python", "Documentation", "Data Processing"],
+    githubUrl: "https://github.com/JohnJomi",
+    caseStudyUrl: "",
+    featured: true,
+    status: "completed",
+    publishedAt: "2025-07-01",
+  },
+  {
+    slug: "ai-chatbot",
+    title: "AI Chatbot",
+    description:
+      "Conversational AI assistant built using modern language models and prompt engineering techniques to provide intelligent responses and workflow assistance.",
+    tags: ["OpenAI API", "Next.js", "Node.js", "LLM", "Prompt Engineering"],
+    githubUrl: "https://github.com/JohnJomi",
+    caseStudyUrl: "",
+    liveUrl: "",
+    featured: true,
+    status: "in-progress",
+    publishedAt: "2026-01-01",
+  },
 ];
 
 /** Featured projects — shown on the home page Projects section. */
