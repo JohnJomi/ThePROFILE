@@ -17,7 +17,7 @@ const marqueeItems = [
 ] as const;
 
 export function Hero() {
-  const { name, tagline, bio, openToWork, email } = profile;
+  const { name, tagline, bio, openToWork } = profile;
   const [firstName, ...restOfName] = (name || "Your Name").split(" ");
   const lastName = restOfName.join(" ");
 
@@ -66,7 +66,7 @@ export function Hero() {
               className="flex flex-col gap-3 sm:flex-row"
             >
               <PrimaryButton
-                href="/#projects"
+                href="/projects"
                 size="lg"
                 icon={<ArrowRight className="size-4" aria-hidden="true" />}
                 iconPosition="right"
@@ -74,7 +74,7 @@ export function Hero() {
                 View Projects
               </PrimaryButton>
               <SecondaryButton
-                href={`mailto:${email || "hello@example.com"}`}
+                href="/contact"
                 size="lg"
                 icon={<Mail className="size-4" aria-hidden="true" />}
                 iconPosition="left"

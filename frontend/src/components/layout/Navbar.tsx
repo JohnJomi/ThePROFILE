@@ -133,7 +133,7 @@ export function Navbar() {
 
           {/* Logo / name */}
           <Link
-            href="/"
+            href="/about"
             className={cn(
               "font-heading text-lg font-semibold text-foreground",
               "hover:text-accent-rust transition-colors duration-150",

@@ -40,7 +40,7 @@ export function Footer() {
           {/* Brand */}
           <div className="flex flex-col gap-2">
             <Link
-              href="/"
+              href="/about"
               className="font-heading text-lg font-semibold text-text-primary hover:text-accent-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-gold rounded-sm"
               aria-label="Go to homepage"
             >

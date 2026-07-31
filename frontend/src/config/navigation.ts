@@ -5,10 +5,8 @@
  * The Navbar and Footer components map over these arrays — no navigation
  * logic lives in JSX.
  *
- * Anchor link convention:
- *   Use "/#section-id" so links navigate to the home page anchor from any
- *   route (e.g. /writing → /#about). On the home page itself, Next.js Link
- *   will smooth-scroll to the anchor without a full page reload.
+ * Route link convention:
+ *   Use top-level routes so each section has its own page.
  *
  * Dependencies: used by
  *   - src/components/layout/Navbar.tsx
@@ -30,15 +28,14 @@ export interface SocialLink extends NavLink {
 /**
  * Primary navigation links.
  *
- * Anchor links use "/#id" format so they work correctly from any page.
- * The Navbar's isActive() helper handles both "#id" and "/#id" formats.
+ * Route links use the page paths directly.
  */
 export const primaryNavLinks: NavLink[] = [
-  { label: "About", href: "/#about" },
-  { label: "Projects", href: "/#projects" },
-  { label: "Skills", href: "/#skills" },
-  { label: "Experience", href: "/#experience" },
-  { label: "Contact", href: "/#contact" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Skills", href: "/skills" },
+  { label: "Experience", href: "/experience" },
+  { label: "Contact", href: "/contact" },
 ];
 
 /**
