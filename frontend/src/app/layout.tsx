@@ -22,10 +22,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
       suppressHydrationWarning
       className={`${fontHeading.variable} ${fontSans.variable} ${fontMono.variable}`}
     >
-      <body className="flex min-h-screen flex-col">
+      <body className="flex min-h-screen flex-col bg-bg-primary">
         <Providers>
           <Navbar />
-          <main className="flex-1 pt-16">{children}</main>
+          <main className="flex-1 bg-bg-primary pt-16">{children}</main>
           <Footer />
         </Providers>
       </body>

@@ -1,14 +1,27 @@
 "use client";
 
+import type { ComponentType } from "react";
+
 import { motion } from "framer-motion";
+import { Cpu, Database, Layers3, Server, Wrench, Code2 } from "lucide-react";
 
 import { Section, SectionHeader } from "@/components/common";
 import { skillGroups } from "@/data/skills";
 import { fadeUp, staggerContainerSlow } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+
+const categoryMeta: Record<string, { icon: ComponentType<{ className?: string }>; summary: string }> = {
+  Languages: { icon: Code2, summary: "Core languages I use to build and ship software." },
+  "Frameworks & Libraries": { icon: Layers3, summary: "Frontend and backend tools for modern product work." },
+  "AI / ML": { icon: Cpu, summary: "AI tooling, model workflows, and applied machine learning." },
+  "Cloud & Infrastructure": { icon: Server, summary: "Deployment, APIs, and infrastructure foundations." },
+  Databases: { icon: Database, summary: "Data storage and retrieval systems I work with regularly." },
+  "Tools & Platforms": { icon: Wrench, summary: "Daily drivers for development, collaboration, and delivery." },
+};
 
 export function Skills() {
   return (
-    <Section id="skills" containerSize="full" className="bg-bg-secondary text-text-primary">
+    <Section id="skills" containerSize="full" className="bg-bg-primary text-text-primary">
       <div className="section-shell section-pad-y flex flex-col gap-12">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeader
@@ -29,7 +42,7 @@ export function Skills() {
           </div>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[1fr_1fr_1.2fr] xl:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {skillGroups.map((group) => (
             <motion.section
               key={group.category}
@@ -37,31 +50,49 @@ export function Skills() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-80px" }}
-              className="flex flex-col gap-4 border-t border-border-hairline pt-5"
+              className="flex h-full flex-col gap-5 border border-border-hairline bg-bg-secondary/35 p-6"
             >
-              <motion.h3
-                variants={fadeUp}
-                className="text-xs font-medium uppercase tracking-[0.22em] text-accent-gold"
-              >
-                {group.category}
-              </motion.h3>
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    {(() => {
+                      const Icon = categoryMeta[group.category]?.icon ?? Wrench;
+                      return <Icon className="size-4 text-accent-gold" aria-hidden="true" />;
+                    })()}
+                    <motion.h3
+                      variants={fadeUp}
+                      className="text-xs font-medium uppercase tracking-[0.22em] text-accent-gold"
+                    >
+                      {group.category}
+                    </motion.h3>
+                  </div>
+                  <p className="text-sm leading-7 text-text-primary/72">
+                    {categoryMeta[group.category]?.summary}
+                  </p>
+                </div>
 
-              <div className="flex flex-col gap-3">
+                <div className="rounded-full border border-border-hairline px-3 py-1 text-xs uppercase tracking-[0.18em] text-text-primary/60">
+                  {group.skills.length}
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
                 {group.skills.map((skill) => {
                   const isPrimary = skill.proficiency === "expert";
+                  const Icon = isPrimary ? Cpu : Wrench;
                   return (
-                    <div
+                    <span
                       key={skill.name}
-                      className="flex items-start gap-3 border-b border-border-hairline pb-3 last:border-b-0 last:pb-0"
+                      className={cn(
+                        "inline-flex items-center gap-2 border px-3 py-2 text-sm leading-none",
+                        isPrimary
+                          ? "border-accent-gold/35 bg-[rgba(232,185,62,0.12)] text-text-primary"
+                          : "border-border-hairline bg-[rgba(243,238,227,0.04)] text-text-primary/80",
+                      )}
                     >
-                      <span
-                        aria-hidden="true"
-                        className="mt-2 size-1.5 rounded-full bg-accent-gold"
-                      />
-                      <span className={isPrimary ? "font-medium text-accent-rust" : "text-text-primary/78"}>
-                        {skill.name}
-                      </span>
-                    </div>
+                      <Icon className="size-3.5" aria-hidden="true" />
+                      {skill.name}
+                    </span>
                   );
                 })}
               </div>

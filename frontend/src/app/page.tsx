@@ -19,9 +19,9 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <Skills />
-      <Experience />
       <Projects />
+      <Experience />
+      <Skills />
       <Certifications />
       <Achievements />
       <Publications />

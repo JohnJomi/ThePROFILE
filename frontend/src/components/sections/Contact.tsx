@@ -8,7 +8,7 @@ import { featuredSocials } from "@/data/socials";
 
 export function Contact() {
   return (
-    <Section id="contact" containerSize="full" className="bg-bg-secondary text-text-primary">
+    <Section id="contact" containerSize="full" className="bg-bg-primary text-text-primary">
       <div className="section-shell section-pad-y flex flex-col gap-12">
         <SectionHeader
           align="left"
