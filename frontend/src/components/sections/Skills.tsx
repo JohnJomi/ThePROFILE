@@ -6,9 +6,7 @@ import { motion } from "framer-motion";
 import { Code2, Cpu, Database, Layers3, Server, Wrench } from "lucide-react";
 
 import { Section, SectionHeader } from "@/components/common";
-import { skillGroups } from "@/data/skills";
 import { fadeUp, staggerContainerSlow } from "@/lib/motion";
-import { cn } from "@/lib/utils";
 
 const categoryMeta: Record<string, { icon: ComponentType<{ className?: string }>; summary: string }> = {
   Languages: { icon: Code2, summary: "" },
@@ -97,6 +95,20 @@ const skillChapters = [
   },
 ] as const;
 
+const editorialPositions = [
+  { top: "12%", left: "38%" },
+  { top: "25%", left: "18%" },
+  { top: "38%", left: "56%" },
+  { top: "52%", left: "8%" },
+  { top: "66%", left: "48%" },
+  { top: "78%", left: "24%" },
+  { top: "8%", left: "10%" },
+  { top: "20%", left: "58%" },
+  { top: "33%", left: "30%" },
+  { top: "58%", left: "62%" },
+  { top: "84%", left: "42%" },
+] as const;
+
 export function Skills() {
   return (
     <Section id="skills" containerSize="full" className="bg-bg-primary text-text-primary">
@@ -116,59 +128,78 @@ export function Skills() {
 
         <div className="flex flex-col gap-10">
           {skillChapters.map((chapter) => {
-            const group = skillGroups.find((skillGroup) => skillGroup.category === chapter.category);
             const Icon = categoryMeta[chapter.category]?.icon ?? Wrench;
+            const textSizes = [
+              "text-[38px]",
+              "text-[40px]",
+              "text-[36px]",
+              "text-[44px]",
+              "text-[39px]",
+              "text-[37px]",
+              "text-[41px]",
+              "text-[42px]",
+              "text-[40px]",
+              "text-[38px]",
+              "text-[36px]",
+            ];
 
             return (
-            <motion.section
-              key={chapter.id}
-              variants={staggerContainerSlow}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-20% 0px -20% 0px" }}
-              className="flex min-h-[78vh] flex-col justify-center border-t border-border-hairline py-12 first:border-t-0 first:pt-0 lg:py-16"
-            >
-              <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-                <div className="flex flex-col gap-5">
-                  <div className="flex items-center gap-3">
-                    <Icon className="size-5 text-accent-gold" aria-hidden="true" />
-                    <motion.h3
-                      variants={fadeUp}
-                      className="text-xs font-medium uppercase tracking-[0.22em] text-accent-gold"
-                    >
-                      {chapter.overline}
-                    </motion.h3>
-                  </div>
-                  <motion.h4 variants={fadeUp} className="max-w-2xl font-heading text-4xl leading-[0.96] md:text-5xl lg:text-6xl">
-                    {chapter.heading}
-                  </motion.h4>
-                  <motion.p variants={fadeUp} className="max-w-xl text-base leading-8 text-text-primary/72 md:text-lg">
-                    {chapter.summary}
-                  </motion.p>
-                </div>
-
-                <div className="flex flex-col gap-5">
-                  <div className="text-xs uppercase tracking-[0.18em] text-text-primary/55">
-                    {group?.skills.length ?? chapter.chips.length} core tools
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {chapter.chips.map((chip) => (
-                      <motion.span
-                        key={chip}
+              <motion.section
+                key={chapter.id}
+                variants={staggerContainerSlow}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-18% 0px -18% 0px" }}
+                className="flex min-h-[92vh] flex-col justify-center border-t border-border-hairline py-12 first:border-t-0 first:pt-0 lg:py-16"
+              >
+                <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+                  <div className="flex flex-col gap-5">
+                    <div className="flex items-center gap-3">
+                      <Icon className="size-5 text-accent-gold" aria-hidden="true" />
+                      <motion.h3
                         variants={fadeUp}
-                        className={cn(
-                          "inline-flex items-center gap-2 border px-3 py-2 text-sm leading-none",
-                          "border-border-hairline bg-[rgba(243,238,227,0.04)] text-text-primary/80",
-                        )}
+                        className="text-xs font-medium uppercase tracking-[0.22em] text-accent-gold"
                       >
-                        <span aria-hidden="true" className="size-1.5 rounded-full bg-accent-gold" />
-                        {chip}
+                        {chapter.overline}
+                      </motion.h3>
+                    </div>
+                    <motion.h4
+                      variants={fadeUp}
+                      className="max-w-2xl font-heading text-4xl leading-[0.96] md:text-5xl lg:text-6xl"
+                    >
+                      {chapter.heading}
+                    </motion.h4>
+                    <motion.p
+                      variants={fadeUp}
+                      className="max-w-xl text-base leading-8 text-text-primary/72 md:text-lg"
+                    >
+                      {chapter.summary}
+                    </motion.p>
+                  </div>
+
+                  <div className="relative min-h-[68vh] overflow-hidden lg:min-h-[72vh]">
+                    {chapter.chips.map((technology, index) => (
+                      <motion.span
+                        key={technology}
+                        variants={fadeUp}
+                        whileHover={{
+                          opacity: 1,
+                          y: -4,
+                          color: "var(--accent-gold)",
+                          textShadow: "0 0 18px rgb(232 185 62 / 0.35)",
+                        }}
+                        className={`absolute font-heading font-medium leading-none tracking-tight text-text-primary/35 transition-colors duration-300 ${textSizes[index % textSizes.length]}`}
+                        style={{
+                          left: editorialPositions[index % editorialPositions.length].left,
+                          top: editorialPositions[index % editorialPositions.length].top,
+                        }}
+                      >
+                        {technology}
                       </motion.span>
                     ))}
                   </div>
                 </div>
-              </div>
-            </motion.section>
+              </motion.section>
             );
           })}
         </div>
