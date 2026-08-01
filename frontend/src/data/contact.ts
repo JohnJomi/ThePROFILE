@@ -16,5 +16,5 @@ export const contactInfo: ContactInfo = {
   location: siteConfig.location || "Remote",
   availability:
     "Open to internships, full-time roles, research collaborations, and selective freelance work.",
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "/resume/John_Jomi_Resume.pdf",
 };
