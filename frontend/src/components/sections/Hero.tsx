@@ -19,13 +19,13 @@ const marqueeItems = [
 ] as const;
 
 const floatingChips = [
-  { label: "React", className: "left-[-1.5rem] top-10" },
-  { label: "Next.js", className: "right-[-1rem] top-6" },
-  { label: "Node.js", className: "left-[-2rem] bottom-20" },
-  { label: "Python", className: "right-[-1.5rem] bottom-28" },
-  { label: "AWS", className: "left-8 bottom-[-0.75rem]" },
-  { label: "Azure", className: "right-10 top-[45%]" },
-  { label: "AI", className: "left-[46%] top-[-1.2rem]" },
+  { label: "AI", className: "left-1/2 -translate-x-1/2 top-[-2.5rem] md:top-[-3rem] lg:top-[-3.5rem]" },
+  { label: "React", className: "left-[-2.5rem] top-[18%] md:left-[-3rem] md:top-[16%] lg:left-[-3.5rem] lg:top-[14%]" },
+  { label: "Next.js", className: "right-[-2.5rem] top-[18%] md:right-[-3rem] md:top-[16%] lg:right-[-3.5rem] lg:top-[14%]" },
+  { label: "AWS", className: "left-[-2.5rem] top-1/2 -translate-y-1/2 md:left-[-3rem] lg:left-[-3.5rem]" },
+  { label: "Azure", className: "right-[-2.5rem] top-1/2 -translate-y-1/2 md:right-[-3rem] lg:right-[-3.5rem]" },
+  { label: "Node.js", className: "left-[-2.5rem] bottom-[18%] md:left-[-3rem] md:bottom-[16%] lg:left-[-3.5rem] lg:bottom-[14%]" },
+  { label: "Python", className: "right-[-2.5rem] bottom-[18%] md:right-[-3rem] md:bottom-[16%] lg:right-[-3.5rem] lg:bottom-[14%]" },
 ] as const;
 
 const chipMotion = {
@@ -120,7 +120,7 @@ export function Hero() {
                 {chip.label}
               </motion.div>
             ))}
-            <div className="absolute -left-6 top-10 hidden size-24 items-center justify-center rounded-full border border-[color:var(--border-hairline)] bg-bg-secondary text-center text-[0.62rem] font-medium uppercase tracking-[0.22em] text-text-primary/80 md:flex">
+            <div className="absolute right-6 top-10 hidden size-24 items-center justify-center rounded-full border border-[color:var(--border-hairline)] bg-bg-secondary text-center text-[0.62rem] font-medium uppercase tracking-[0.22em] text-text-primary/80 md:flex">
               <motion.span
                 animate={{ rotate: 360 }}
                 transition={{ duration: 20, ease: "linear", repeat: Infinity }}
