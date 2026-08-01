@@ -40,11 +40,13 @@ type ButtonBase = {
 type AsButton = ButtonBase &
   Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, keyof ButtonBase | "onDrag" | "onDragEnd" | "onDragEnter" | "onDragExit" | "onDragLeave" | "onDragOver" | "onDragStart"> & {
     href?: undefined;
+    download?: string;
   };
 
 type AsAnchor = ButtonBase &
   Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof ButtonBase | "onDrag" | "onDragEnd" | "onDragEnter" | "onDragExit" | "onDragLeave" | "onDragOver" | "onDragStart"> & {
     href: string;
+    download?: string;
   };
 
 export type PrimaryButtonProps = AsButton | AsAnchor;
@@ -158,9 +160,11 @@ export function SecondaryButton({
   iconPosition = "right",
   size = "default",
   href,
+  download,
   ...rest
 }: SecondaryButtonProps) {
   const isExternal = href?.startsWith("http");
+  const shouldDownload = download || (!isExternal && href);
 
   const cls = cn(
     "inline-flex items-center justify-center rounded-md border font-medium tracking-tight",
@@ -184,6 +188,7 @@ export function SecondaryButton({
         tabIndex={disabled ? -1 : undefined}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noopener noreferrer" : undefined}
+        download={shouldDownload ? (typeof download === "string" ? download : undefined) : undefined}
         variants={tapPress}
         initial="rest"
         whileHover="hover"
