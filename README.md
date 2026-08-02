@@ -1,6 +1,6 @@
 # AI Engineer Portfolio
 
-A modern, production-grade portfolio website built to showcase AI engineering work, projects, and technical writing.
+A modern, production-grade portfolio website built to showcase AI engineering work, projects, and technical writing
 
 ## Tech Stack
 
