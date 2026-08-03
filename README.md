@@ -11,7 +11,7 @@ A modern, production-grade portfolio website built to showcase AI engineering wo
 | Styling | Tailwind CSS + shadcn/ui |
 | Animation | Framer Motion |
 | Hosting | AWS Amplify |
-| Infrastructure | AWS CDK (TypeScript) |
+| Infrastructure | AWS CDK (TypeScript)
 | CI/CD | GitHub Actions |
 
 ## Repository Structure
