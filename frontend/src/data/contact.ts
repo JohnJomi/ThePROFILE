@@ -15,6 +15,6 @@ export const contactInfo: ContactInfo = {
   github: "https://github.com/JohnJomi",
   location: siteConfig.location || "Remote",
   availability:
-    "Open to internships, full-time roles, research collaborations, and selective freelance work.",
+    "Open to part time-internships, part-time roles, research collaborations, and selective freelance work.",
   resumeUrl: "/resume/John_Jomi_Resume.pdf",
 };
