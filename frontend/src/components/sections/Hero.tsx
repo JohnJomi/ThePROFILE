@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
+
 import { motion } from "framer-motion";
-import { ArrowRight, ImageUp, Download } from "lucide-react";
+import { ArrowRight, Download } from "lucide-react";
 
 import { Heading, PrimaryButton, SecondaryButton, Section } from "@/components/common";
 import { contactInfo } from "@/data/contact";
@@ -124,18 +126,15 @@ export function Hero() {
             <div className="relative overflow-hidden rounded-t-[220px] rounded-b-[28px] border border-[color:var(--border-hairline)] bg-bg-secondary px-8 py-10 shadow-[inset_0_1px_0_rgb(243_238_227/0.06)]">
               <div className="absolute inset-x-8 top-8 h-px bg-[color:var(--border-hairline)]" />
               <div className="absolute inset-x-8 bottom-8 h-px bg-[color:var(--border-hairline)]" />
-              <div className="flex aspect-[4/5] items-center justify-center">
-                <div className="flex max-w-xs flex-col items-center gap-5 text-center text-text-primary">
-                  <div className="flex size-28 items-center justify-center rounded-full border border-[color:var(--border-hairline)] bg-bg-primary text-accent-gold">
-                    <ImageUp className="size-10" aria-hidden="true" />
-                  </div>
-                  <div className="space-y-2">
-                    <p className="text-2xl font-semibold tracking-tight">Photo placeholder</p>
-                    <p className="text-sm leading-6 text-text-primary/68">
-                      Replace this with your portrait when you upload one.
-                    </p>
-                  </div>
-                </div>
+              <div className="relative aspect-[4/5] overflow-hidden rounded-t-[190px] rounded-b-[18px]">
+                <Image
+                  src={profile.avatarUrl}
+                  alt={`Portrait of ${profile.name}`}
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 80vw, 420px"
+                  className="object-cover object-top"
+                />
               </div>
             </div>
 
