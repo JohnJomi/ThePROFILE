@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Section, SectionHeader } from "@/components/common";
-import { featuredProjects } from "@/data/projects";
+import { projects } from "@/data/projects";
 import { cn } from "@/lib/utils";
 
 function formatStatus(status: string): { label: string; color: string } {
@@ -18,9 +18,8 @@ function formatStatus(status: string): { label: string; color: string } {
 
 export function Projects() {
   const featuredProject =
-    featuredProjects.find((project) => project.slug === "ieee-student-branch-erp") ??
-    featuredProjects[0];
-  const supportingProjects = featuredProjects.filter((project) => project.slug !== featuredProject?.slug);
+    projects.find((project) => project.slug === "ieee-student-branch-erp") ?? projects[0];
+  const supportingProjects = projects.filter((project) => project.slug !== featuredProject?.slug);
   const featuredHighlights = [
     "Society Management",
     "Event Management",
