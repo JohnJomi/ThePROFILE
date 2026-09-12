@@ -16,6 +16,8 @@ export interface Project {
   longDescription?: string;
   /** Ordered list of technology names. */
   tags: string[];
+  /** Headline capabilities listed on the large showcase block. */
+  highlights?: string[];
   /** Path relative to /public or absolute CDN URL. */
   coverImage?: string;
   githubUrl?: string;
