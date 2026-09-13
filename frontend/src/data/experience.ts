@@ -124,28 +124,42 @@ export const experience: Experience[] = [
 		],
 	},
 	{
-		id: "independent-research-cybersecurity",
-		company: "Independent Research",
-		role: "Research Author",
-		employmentType: "volunteer",
-		startDate: "2026-01",
+		id: "tycoon-2fa-aitm-research",
+		company: "Tycoon 2FA — AiTM Phishing Detection",
+		companyUrl: "https://github.com/JohnJomi/Tycoon2FA",
+		role: "Independent Security Researcher",
+		employmentType: "research",
+		startDate: "2026-08",
 		location: "Remote",
 		remote: true,
 		description:
-			"Researching detection of phishing emails generated using Tycoon 2FA phishing kits.",
+			"Designing a multi-layer detection pipeline for Tycoon 2FA and adversary-in-the-middle phishing email, built around an explainable signal model where every detection carries its own evidence.",
 		highlights: [
-			"Studying Tycoon 2FA attack infrastructure and phishing email characteristics.",
-			"Researching detection methodologies for malicious email campaigns.",
-			"Evaluating AI-assisted email detection techniques for practical effectiveness.",
-			"Preparing a publishable research paper on the investigation.",
+			"Specified a four-layer detection architecture — header and domain intelligence, URL and redirect-chain analysis, NLP/ML body analysis, and threat-intelligence correlation — fused into a single composite risk verdict.",
+			"Designed a layer-independent DetectionSignal contract in which each signal emits human-readable evidence rather than a bare number, making per-layer ablation studies possible.",
+			"Scoped the prototype to read-only Gmail ingest of raw RFC-822 messages, taking no remediation action, to keep the research within ethical and legal boundaries.",
+			"Set a defensibility constraint for the project: every documented claim must trace back to a measurement produced by the evaluation harness.",
+			"Filed a copyright application covering the detection methodology; currently under review.",
 		],
 		technologies: [
 			"Python",
+			"asyncio",
+			"FastAPI",
+			"NLP",
 			"Machine Learning",
-			"Cybersecurity",
 			"Email Security",
 			"Threat Intelligence",
+			"Gmail API",
 		],
+		links: [
+			{ label: "Repository", url: "https://github.com/JohnJomi/Tycoon2FA" },
+			{
+				label: "Architecture",
+				url: "https://github.com/JohnJomi/Tycoon2FA/blob/main/ARCHITECTURE.md",
+			},
+			{ label: "Roadmap", url: "https://github.com/JohnJomi/Tycoon2FA/blob/main/ROADMAP.md" },
+		],
+		statusNote: { label: "Copyright", value: "Filed · Under review" },
 	},
 ];
 
@@ -155,4 +169,9 @@ export const experience: Experience[] = [
  */
 export const internships: Experience[] = experience
 	.filter((e) => e.employmentType === "internship")
+	.sort((a, b) => b.startDate.localeCompare(a.startDate));
+
+/** Research work, most recent first — rendered below the internships. */
+export const researchExperience: Experience[] = experience
+	.filter((e) => e.employmentType === "research")
 	.sort((a, b) => b.startDate.localeCompare(a.startDate));

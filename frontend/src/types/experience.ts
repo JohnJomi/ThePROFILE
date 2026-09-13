@@ -10,7 +10,8 @@ export type EmploymentType =
   | "contract"
   | "freelance"
   | "internship"
-  | "volunteer";
+  | "volunteer"
+  | "research";
 
 export interface Experience {
   id: string;
@@ -32,4 +33,6 @@ export interface Experience {
   technologies: string[];
   /** Supporting links (repos, papers, write-ups) shown under the highlights. */
   links?: { label: string; url: string }[];
+  /** Short standing note, e.g. a pending copyright filing. */
+  statusNote?: { label: string; value: string };
 }
