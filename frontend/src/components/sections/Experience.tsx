@@ -3,10 +3,9 @@
 import { motion } from "framer-motion";
 
 import { Section, SectionHeader } from "@/components/common";
-import { timeline } from "@/data/timeline";
+import { internships, researchExperience } from "@/data/experience";
 import { fadeUp, staggerContainer } from "@/lib/motion";
-import { cn } from "@/lib/utils";
-import type { TimelineItem } from "@/types/timeline";
+import type { Experience as ExperienceEntry } from "@/types/experience";
 
 function formatDate(iso: string): string {
   const [year, month] = iso.split("-");
@@ -15,38 +14,136 @@ function formatDate(iso: string): string {
   return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
 }
 
-function typeMeta(type: TimelineItem["type"]) {
-  switch (type) {
-    case "experience":
-      return { label: "Experience", color: "text-text-primary" };
-    case "education":
-      return { label: "Education", color: "text-text-primary/88" };
-    case "achievement":
-      return { label: "Achievement", color: "text-accent-rust" };
-    case "certification":
-      return { label: "Certification", color: "text-accent-gold" };
-  }
+function RoleBlock({
+  role,
+  index,
+  kicker,
+}: {
+  role: ExperienceEntry;
+  index: number;
+  kicker: string;
+}) {
+  const dateLabel = role.endDate
+    ? `${formatDate(role.startDate)} — ${formatDate(role.endDate)}`
+    : `${formatDate(role.startDate)} — Present`;
+
+  // Avoid "Remote · Remote" when the location itself is already "Remote".
+  const locationLabel =
+    role.remote && role.location.toLowerCase() !== "remote"
+      ? `${role.location} · Remote`
+      : role.location;
+
+  return (
+    <motion.article
+      variants={fadeUp}
+      className="flex flex-col gap-8 border-t border-[color:var(--border-hairline)] pt-8 lg:grid lg:grid-cols-[1fr_18rem] lg:gap-12"
+    >
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.22em] text-text-primary/55">
+          <span className="text-accent-gold">{String(index + 1).padStart(2, "0")}</span>
+          <span aria-hidden="true">/</span>
+          <span>{kicker}</span>
+          {!role.endDate && (
+            <span className="flex items-center gap-2 text-accent-gold">
+              <span className="size-1.5 rounded-full bg-accent-gold" aria-hidden="true" />
+              Ongoing
+            </span>
+          )}
+        </div>
+
+        <div className="flex flex-col gap-3">
+          {role.companyUrl ? (
+            <a
+              href={role.companyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="max-w-3xl font-heading text-4xl leading-[0.95] text-text-primary transition-colors hover:text-accent-gold md:text-5xl"
+            >
+              {role.company}
+            </a>
+          ) : (
+            <h3 className="max-w-3xl font-heading text-4xl leading-[0.95] text-text-primary md:text-5xl">
+              {role.company}
+            </h3>
+          )}
+
+          <p className="text-base text-text-primary/88">{role.role}</p>
+        </div>
+
+        <p className="max-w-2xl text-sm leading-7 text-text-primary/72">{role.description}</p>
+
+        <ul className="flex max-w-2xl flex-col gap-3">
+          {role.highlights.map((highlight) => (
+            <li key={highlight} className="relative pl-5 text-sm leading-7 text-text-primary/72">
+              <span
+                aria-hidden="true"
+                className="absolute left-0 top-[0.7rem] size-1 rounded-full bg-accent-gold"
+              />
+              {highlight}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <aside className="flex flex-col gap-6 border-t border-[color:var(--border-hairline)] pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+        {role.statusNote && (
+          <div className="flex flex-col gap-1 border-l-2 border-accent-rust pl-3">
+            <p className="text-xs uppercase tracking-[0.2em] text-text-primary/50">
+              {role.statusNote.label}
+            </p>
+            <p className="text-sm text-accent-rust">{role.statusNote.value}</p>
+          </div>
+        )}
+
+        <div className="flex flex-col gap-1">
+          <p className="text-xs uppercase tracking-[0.2em] text-text-primary/50">Duration</p>
+          <time dateTime={role.startDate} className="text-sm text-text-primary/85">
+            {dateLabel}
+          </time>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          <p className="text-xs uppercase tracking-[0.2em] text-text-primary/50">Location</p>
+          <p className="text-sm text-text-primary/85">{locationLabel}</p>
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <p className="text-xs uppercase tracking-[0.2em] text-text-primary/50">Stack</p>
+          <p className="text-sm leading-6 text-text-primary/72">
+            {role.technologies.join(" · ")}
+          </p>
+        </div>
+
+        {role.links && role.links.length > 0 && (
+          <div className="flex flex-col gap-2">
+            <p className="text-xs uppercase tracking-[0.2em] text-text-primary/50">Related Work</p>
+            {role.links.map((link) => (
+              <a
+                key={link.url}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-accent-gold/85 underline-offset-4 transition-colors hover:text-accent-gold hover:underline"
+              >
+                {link.label} ↗
+              </a>
+            ))}
+          </div>
+        )}
+      </aside>
+    </motion.article>
+  );
 }
 
 export function Experience() {
-  const itemsWithYearLabels = timeline.map((item, index) => {
-    const currentYear = item.date.slice(0, 4);
-    const previousYear = index > 0 ? timeline[index - 1]?.date.slice(0, 4) : null;
-    return {
-      item,
-      currentYear,
-      showYear: index === 0 || currentYear !== previousYear,
-    };
-  });
-
   return (
     <Section id="experience" containerSize="full" className="bg-bg-primary text-text-primary">
-      <div className="section-shell section-pad-y flex flex-col gap-12">
+      <div className="section-shell section-pad-y flex flex-col gap-16">
         <SectionHeader
           align="left"
           overline="Professional Journey"
-          heading="Experience & Education"
-          description="A reverse-chronological view of professional experience and academic progress."
+          heading="Experience"
+          description="Internships where I researched on-device AI models and shipped production full-stack features, plus independent security research."
           overlineClassName="text-accent-gold"
           headingClassName="max-w-3xl text-text-primary"
           descriptionClassName="max-w-2xl text-text-primary/72"
@@ -58,87 +155,36 @@ export function Experience() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-80px" }}
-          className="relative flex flex-col gap-10"
+          className="flex flex-col gap-16"
         >
-          <div className="absolute left-3 top-2 bottom-2 w-px bg-[color:var(--border-hairline)]" aria-hidden="true" />
-          {itemsWithYearLabels.map(({ item, currentYear, showYear }) => {
-            const meta = typeMeta(item.type);
-            const dateLabel = item.endDate
-              ? `${formatDate(item.date)} — ${formatDate(item.endDate)}`
-              : item.current
-                ? `${formatDate(item.date)} — Present`
-                : formatDate(item.date);
-
-            return (
-              <motion.article key={`${item.type}-${item.id}`} variants={fadeUp} className="relative pl-10">
-                <span
-                  aria-hidden="true"
-                  className={cn(
-                    "absolute left-[0.35rem] top-2 size-3 rounded-full border border-bg-primary",
-                    item.current ? "bg-accent-gold" : "bg-text-primary",
-                  )}
-                />
-
-                {showYear && (
-                  <div className="mb-4 pt-1 text-xs uppercase tracking-[0.22em] text-text-primary/55">
-                    {currentYear}
-                  </div>
-                )}
-
-                <div className="flex flex-col gap-3 border-t border-[color:var(--border-hairline)] pt-5">
-                  <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em]">
-                    <span className={meta.color}>{meta.label}</span>
-                    {item.current && (
-                      <span className="flex items-center gap-2 text-accent-gold">
-                        <span className="size-1.5 rounded-full bg-accent-gold" aria-hidden="true" />
-                        Current
-                      </span>
-                    )}
-                  </div>
-
-                  {item.url ? (
-                    <a
-                      href={item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="max-w-3xl font-heading text-2xl leading-[1] text-text-primary transition-colors hover:text-accent-gold md:text-3xl"
-                    >
-                      {item.title}
-                    </a>
-                  ) : (
-                    <h3 className="max-w-3xl font-heading text-2xl leading-[1] text-text-primary md:text-3xl">
-                      {item.title}
-                    </h3>
-                  )}
-
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-text-primary/72">
-                    <span>{item.subtitle}</span>
-                    <span aria-hidden="true">·</span>
-                    <time dateTime={item.date}>{dateLabel}</time>
-                  </div>
-
-                  {item.description && (
-                    <p className="max-w-3xl text-sm leading-7 text-text-primary/72">
-                      {item.description}
-                    </p>
-                  )}
-
-                  {item.tags && item.tags.length > 0 && (
-                    <p className="max-w-3xl text-xs uppercase tracking-[0.16em] text-text-primary/60">
-                      {item.tags.join(" · ")}
-                    </p>
-                  )}
-                </div>
-              </motion.article>
-            );
-          })}
-
-          {timeline.length === 0 && (
-            <motion.p variants={fadeUp} className="text-sm text-text-primary/70">
-              No timeline entries available yet.
-            </motion.p>
-          )}
+          {internships.map((role, index) => (
+            <RoleBlock key={role.id} role={role} index={index} kicker="Internship" />
+          ))}
         </motion.div>
+
+        {researchExperience.length > 0 && (
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-80px" }}
+            className="flex flex-col gap-10 pt-4"
+          >
+            <motion.div variants={fadeUp} className="flex flex-col gap-3">
+              <p className="text-xs uppercase tracking-[0.22em] text-accent-gold">Research</p>
+              <h3 className="max-w-3xl font-heading text-3xl leading-[1] text-text-primary md:text-4xl">
+                Independent Security Research
+              </h3>
+              <p className="max-w-2xl text-sm leading-7 text-text-primary/72">
+                Self-directed work on phishing detection, pursued alongside coursework.
+              </p>
+            </motion.div>
+
+            {researchExperience.map((role, index) => (
+              <RoleBlock key={role.id} role={role} index={index} kicker="Research" />
+            ))}
+          </motion.div>
+        )}
       </div>
     </Section>
   );

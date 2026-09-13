@@ -26,7 +26,6 @@ import { Badge } from "./Badge";
  *   experience    → brand
  *   education     → secondary
  *   achievement   → success
- *   certification → default
  *
  * Accessibility:
  *   - Uses <time> elements for machine-readable dates
@@ -42,14 +41,12 @@ const typeVariant: Record<
   experience: "brand",
   education: "secondary",
   achievement: "success",
-  certification: "default",
 };
 
 const typeLabel: Record<TimelineItemType, string> = {
   experience: "Experience",
   education: "Education",
   achievement: "Achievement",
-  certification: "Certification",
 };
 
 function formatDate(iso: string): string {
