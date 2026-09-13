@@ -18,7 +18,7 @@ export const experience: Experience[] = [
 		employmentType: "internship",
 		startDate: "2026-04",
 		endDate: "2026-05",
-		location: "Kochi, India",
+		location: "Trivandrum, Kerala, India",
 		remote: false,
 		description:
 			"Researched small-footprint language models and hybrid reasoning architectures, benchmarking their viability for on-device and edge AI deployment.",
