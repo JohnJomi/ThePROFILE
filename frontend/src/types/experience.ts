@@ -30,4 +30,6 @@ export interface Experience {
   /** Bullet-point achievements/highlights. */
   highlights: string[];
   technologies: string[];
+  /** Supporting links (repos, papers, write-ups) shown under the highlights. */
+  links?: { label: string; url: string }[];
 }
