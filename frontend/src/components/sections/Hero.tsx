@@ -34,7 +34,8 @@ const floatingChips = [
     label: "React",
     vector: [0, -110] as const, // up
     onMobile: true,
-    className: "left-[-2.5rem] top-[18%] md:left-[-3rem] md:top-[16%] lg:left-[-3.5rem] lg:top-[14%]",
+    className:
+      "left-[-2.5rem] top-[18%] md:left-[-3rem] md:top-[16%] lg:left-[-3.5rem] lg:top-[14%]",
   },
   {
     label: "Next.js",
@@ -192,9 +193,7 @@ export function Hero() {
               initial="hidden"
               animate="visible"
               style={
-                prefersReduced
-                  ? undefined
-                  : { y: scroll.buttonsY, opacity: scroll.buttonsOpacity }
+                prefersReduced ? undefined : { y: scroll.buttonsY, opacity: scroll.buttonsOpacity }
               }
               className="flex flex-col gap-3 sm:flex-row"
             >
@@ -253,30 +252,30 @@ export function Hero() {
               }
               className="relative"
             >
-            <div className="relative overflow-hidden rounded-t-[220px] rounded-b-[28px] border border-[color:var(--border-hairline)] bg-bg-secondary px-8 py-10 shadow-[inset_0_1px_0_rgb(243_238_227/0.06)]">
-              <div className="absolute inset-x-8 top-8 h-px bg-[color:var(--border-hairline)]" />
-              <div className="absolute inset-x-8 bottom-8 h-px bg-[color:var(--border-hairline)]" />
-              <div className="relative aspect-[4/5] overflow-hidden rounded-t-[190px] rounded-b-[18px]">
-                <Image
-                  src={profile.avatarUrl}
-                  alt={`Portrait of ${profile.name}`}
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 80vw, 420px"
-                  className="object-cover object-top"
-                />
+              <div className="relative overflow-hidden rounded-t-[220px] rounded-b-[28px] border border-[color:var(--border-hairline)] bg-bg-secondary px-8 py-10 shadow-[inset_0_1px_0_rgb(243_238_227/0.06)]">
+                <div className="absolute inset-x-8 top-8 h-px bg-[color:var(--border-hairline)]" />
+                <div className="absolute inset-x-8 bottom-8 h-px bg-[color:var(--border-hairline)]" />
+                <div className="relative aspect-[4/5] overflow-hidden rounded-t-[190px] rounded-b-[18px]">
+                  <Image
+                    src={profile.avatarUrl}
+                    alt={`Portrait of ${profile.name}`}
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 80vw, 420px"
+                    className="object-cover object-top"
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="absolute z-30 top-6 right-6 hidden size-24 items-center justify-center rounded-full border border-[color:var(--border-hairline)] bg-bg-secondary text-center text-[0.62rem] font-medium uppercase tracking-[0.22em] text-text-primary/80 md:flex">
-              <motion.span
-                animate={prefersReduced ? undefined : { rotate: 360 }}
-                transition={{ duration: 20, ease: "linear", repeat: Infinity }}
-                className="block"
-              >
-                Open to work ↻
-              </motion.span>
-            </div>
+              <div className="absolute z-30 top-6 right-6 hidden size-24 items-center justify-center rounded-full border border-[color:var(--border-hairline)] bg-bg-secondary text-center text-[0.62rem] font-medium uppercase tracking-[0.22em] text-text-primary/80 md:flex">
+                <motion.span
+                  animate={prefersReduced ? undefined : { rotate: 360 }}
+                  transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  className="block"
+                >
+                  Open to work ↻
+                </motion.span>
+              </div>
             </motion.div>
           </motion.div>
         </motion.div>

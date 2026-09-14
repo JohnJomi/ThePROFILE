@@ -50,6 +50,9 @@ export type { SkillBadgeProps } from "./SkillBadge";
 export { Card, GlassCard } from "./Card";
 export type { CardProps, GlassCardProps } from "./Card";
 
+export { RevealGroup } from "./RevealGroup";
+export type { RevealGroupProps } from "./RevealGroup";
+
 export { ProjectCard } from "./ProjectCard";
 export { TimelineCard } from "./TimelineCard";
 
