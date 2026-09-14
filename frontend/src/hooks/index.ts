@@ -6,6 +6,7 @@
  */
 
 export { useActiveSection } from "./useActiveSection";
+export { useHeroScroll, chipWindow, CHIP_VECTORS } from "./useHeroScroll";
 export { useMediaQuery } from "./useMediaQuery";
 export { useReducedMotion } from "./useReducedMotion";
 export { useScrollReveal } from "./useScrollReveal";

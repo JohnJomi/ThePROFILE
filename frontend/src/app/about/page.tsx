@@ -69,6 +69,7 @@ export default function AboutPage() {
       <Section animated={false} className="bg-bg-primary text-text-primary">
         <Container size="default" className="flex flex-col gap-12">
           <SectionHeader
+            reveal
             align="left"
             overline="Introduction"
             heading="About Me"
