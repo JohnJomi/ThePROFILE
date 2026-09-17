@@ -16,4 +16,6 @@ export interface Certificate {
   description?: string;
   /** Path to the certificate file under /public, e.g. "/certificates/foo.pdf" */
   fileUrl: string;
+  /** Highlights this certificate as a featured showcase block. */
+  featured?: boolean;
 }

@@ -18,6 +18,7 @@ export const certificates: Certificate[] = [
     description:
       "20-hour training badge covering core AWS cloud concepts, services, and architecture fundamentals.",
     fileUrl: "/certificates/aws-academy-cloud-foundations.pdf",
+    featured: true,
   },
   {
     id: "nptel-intro-to-llms",
@@ -27,6 +28,7 @@ export const certificates: Certificate[] = [
     description:
       "12-week NPTEL certification on LLM fundamentals, completed with a consolidated score of 54%.",
     fileUrl: "/certificates/nptel-intro-to-llms.pdf",
+    featured: true,
   },
   {
     id: "anthropic-claude-code-in-action",
@@ -35,6 +37,7 @@ export const certificates: Certificate[] = [
     date: "2026-03",
     description: "Hands-on certification on using Claude Code for real-world development workflows.",
     fileUrl: "/certificates/anthropic-claude-code-in-action.pdf",
+    featured: true,
   },
   {
     id: "anthropic-claude-101",
