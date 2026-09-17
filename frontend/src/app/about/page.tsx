@@ -19,7 +19,6 @@ import {
   Section,
   SectionHeader,
 } from "@/components/common";
-import { Certificates } from "@/components/sections/Certificates";
 import { Hero } from "@/components/sections/Hero";
 import { contactInfo } from "@/data/contact";
 
@@ -229,8 +228,6 @@ export default function AboutPage() {
           </RevealGroup>
         </Container>
       </Section>
-
-      <Certificates />
 
       <Section animated={false} className="bg-bg-primary text-text-primary">
         <Container size="default" className="flex flex-col gap-12">
