@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Section, SectionHeader } from "@/components/common";
+import { ProjectReveal } from "@/components/sections/ProjectReveal";
 import { projects } from "@/data/projects";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types/project";
@@ -200,11 +201,15 @@ export function Projects() {
 
         {showcaseProjects.map((project, index) => (
           <div key={project.slug} className="flex flex-col gap-12">
-            <ShowcaseProject project={project} index={index} />
+            <ProjectReveal>
+              <ShowcaseProject project={project} index={index} />
+            </ProjectReveal>
             {supportingGroups[index]?.length > 0 && (
               <div className="grid gap-6 lg:grid-cols-3">
-                {supportingGroups[index].map((supporting) => (
-                  <SupportingProject key={supporting.slug} project={supporting} />
+                {supportingGroups[index].map((supporting, order) => (
+                  <ProjectReveal key={supporting.slug} order={order} className="flex [&>article]:w-full">
+                    <SupportingProject project={supporting} />
+                  </ProjectReveal>
                 ))}
               </div>
             )}
