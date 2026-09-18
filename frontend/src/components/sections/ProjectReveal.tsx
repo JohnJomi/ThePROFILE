@@ -11,13 +11,13 @@ import { useMediaQuery, useReducedMotion } from "@/hooks";
  * behaviour per device class.
  *
  * Desktop (lg+): scroll-scrubbed. Progress is tied to the element's position
- * in the viewport, so it fades and rises as the reader scrolls it into place
- * and rewinds on the way back up. `order` shifts the window slightly so cards
+ * in the viewport, so it fades in as it arrives and out as it leaves the top,
+ * fully reversible in both scroll directions, every time. `order` shifts the window slightly so cards
  * in one row land left to right.
  *
- * Mobile (<lg): one-shot in-view fade-up. Scrubbing on touch fights momentum
- * scrolling and leaves half-faded content under the thumb, so each block
- * simply fades up once when it enters view.
+ * Mobile (<lg): in-view fade-up that replays in both directions (blocks fade
+ * out when they leave the viewport and back in on return). Scrubbing on touch
+ * fights momentum scrolling, so this is a triggered animation, not a scrub.
  *
  * The effect engages only after mount, so server-rendered content is fully
  * visible and never depends on JS to be readable. Reduced motion disables it.
@@ -27,10 +27,12 @@ interface ProjectRevealProps {
   children: React.ReactNode;
   /** Position within a row of siblings; offsets the desktop scrub window. */
   order?: number;
+  /** Direction the block travels in from on desktop. */
+  from?: "up" | "left" | "right";
   className?: string;
 }
 
-export function ProjectReveal({ children, order = 0, className }: ProjectRevealProps) {
+export function ProjectReveal({ children, order = 0, from = "up", className }: ProjectRevealProps) {
   const isDesktop = useMediaQuery("lg");
   const prefersReduced = useReducedMotion();
 
@@ -43,7 +45,7 @@ export function ProjectReveal({ children, order = 0, className }: ProjectRevealP
   if (!mounted || prefersReduced) return <div className={className}>{children}</div>;
 
   return isDesktop ? (
-    <DesktopReveal order={order} className={className}>
+    <DesktopReveal order={order} from={from} className={className}>
       {children}
     </DesktopReveal>
   ) : (
@@ -51,18 +53,27 @@ export function ProjectReveal({ children, order = 0, className }: ProjectRevealP
   );
 }
 
-function DesktopReveal({ children, order = 0, className }: ProjectRevealProps) {
+function DesktopReveal({ children, order = 0, from = "up", className }: ProjectRevealProps) {
   const ref = useRef<HTMLDivElement>(null);
+  // Full pass through the viewport: in on entry, held, out as it leaves the top.
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: [`start ${0.98 - order * 0.05}`, `start ${0.6 - order * 0.05}`],
+    offset: ["start end", "end start"],
   });
 
-  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [64, 0]);
+  const shift = 0.05 * order;
+  const stops = [0, 0.22 + shift, 0.78, 1];
+  const opacity = useTransform(scrollYProgress, stops, [0, 1, 1, 0]);
+  const y = useTransform(scrollYProgress, stops, [from === "up" ? 64 : 24, 0, 0, -40]);
+  const x = useTransform(scrollYProgress, stops, [
+    from === "left" ? -56 : from === "right" ? 56 : 0,
+    0,
+    0,
+    0,
+  ]);
 
   return (
-    <motion.div ref={ref} style={{ opacity, y }} className={className}>
+    <motion.div ref={ref} style={{ opacity, y, x }} className={className}>
       {children}
     </motion.div>
   );
@@ -73,7 +84,7 @@ function MobileReveal({ children, className }: ProjectRevealProps) {
     <motion.div
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -8% 0px" }}
+      viewport={{ once: false, margin: "-6% 0px -6% 0px" }}
       transition={{ duration: 0.5, ease: "easeOut" }}
       className={className}
     >
