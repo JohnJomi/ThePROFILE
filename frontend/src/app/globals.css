@@ -422,3 +422,19 @@
     will-change: transform;
   }
 }
+
+/*
+ * Reduced motion.
+ *
+ * `scroll-smooth` on html and the marquee keyframe are both CSS-driven, so
+ * neither is covered by Framer Motion's MotionConfig. Disable them here.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .marquee-ltr {
+    animation: none;
+  }
+}

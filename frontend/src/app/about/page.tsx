@@ -10,7 +10,15 @@ import {
 } from "lucide-react";
 
 import { JourneyTimeline } from "@/components/about/JourneyTimeline";
-import { Badge, Button, Card, Container, Section, SectionHeader } from "@/components/common";
+import {
+  Badge,
+  Button,
+  Card,
+  Container,
+  RevealGroup,
+  Section,
+  SectionHeader,
+} from "@/components/common";
 import { Hero } from "@/components/sections/Hero";
 import { contactInfo } from "@/data/contact";
 
@@ -40,7 +48,10 @@ const focusItems = [
 const values = [
   { title: "Problem First", description: "Technology should solve problems." },
   { title: "Clean Architecture", description: "Maintainable code over clever code." },
-  { title: "Continuous Learning", description: "Always improving through research and experimentation." },
+  {
+    title: "Continuous Learning",
+    description: "Always improving through research and experimentation.",
+  },
   { title: "User Experience", description: "Simple products create lasting impact." },
 ] as const;
 
@@ -69,6 +80,8 @@ export default function AboutPage() {
       <Section animated={false} className="bg-bg-primary text-text-primary">
         <Container size="default" className="flex flex-col gap-12">
           <SectionHeader
+            reveal
+            revealDrift
             align="left"
             overline="Introduction"
             heading="About Me"
@@ -80,22 +93,25 @@ export default function AboutPage() {
           />
 
           <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
-            <div className="grid gap-6">
+            <RevealGroup slow className="grid gap-6">
               {[
                 {
                   title: "AI Engineering",
                   icon: BrainCircuit,
-                  description: "Building intelligent software using modern machine learning and LLM technologies.",
+                  description:
+                    "Building intelligent software using modern machine learning and LLM technologies.",
                 },
                 {
                   title: "Full Stack Development",
                   icon: Code2,
-                  description: "Developing scalable web applications with modern frontend and backend technologies.",
+                  description:
+                    "Developing scalable web applications with modern frontend and backend technologies.",
                 },
                 {
                   title: "Cloud Computing",
                   icon: Cloud,
-                  description: "Deploying secure, production-ready systems using modern cloud infrastructure.",
+                  description:
+                    "Deploying secure, production-ready systems using modern cloud infrastructure.",
                 },
               ].map((item) => (
                 <Card key={item.title} animated hoverable className="flex flex-col gap-4">
@@ -104,15 +120,21 @@ export default function AboutPage() {
                       <item.icon className="size-6" aria-hidden="true" />
                     </div>
                   </div>
-                  <h3 className="text-2xl font-semibold tracking-tight text-text-primary">{item.title}</h3>
+                  <h3 className="text-2xl font-semibold tracking-tight text-text-primary">
+                    {item.title}
+                  </h3>
                   <p className="text-sm leading-7 text-text-primary/72">{item.description}</p>
                 </Card>
               ))}
-            </div>
+            </RevealGroup>
             <div className="relative">
-              <div className="absolute left-4 top-0 bottom-0 w-px bg-border-hairline" aria-hidden="true" />
+              <div
+                className="absolute left-4 top-0 bottom-0 w-px bg-border-hairline"
+                aria-hidden="true"
+              />
               <div className="flex flex-col gap-6 pl-10">
                 <SectionHeader
+                  reveal
                   align="left"
                   overline="Journey"
                   heading="My Journey"
@@ -130,6 +152,8 @@ export default function AboutPage() {
       <Section animated={false} className="bg-bg-primary text-text-primary">
         <Container size="default" className="flex flex-col gap-12">
           <SectionHeader
+            reveal
+            revealDrift
             align="left"
             overline="Focus"
             heading="What I'm Focused On"
@@ -137,23 +161,27 @@ export default function AboutPage() {
             headingClassName="max-w-3xl text-text-primary"
             className="mb-0"
           />
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <RevealGroup className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {focusItems.map((item) => (
               <Card key={item.title} animated hoverable className="flex flex-col gap-4">
                 <div className="flex size-12 items-center justify-center rounded-full border border-border-hairline bg-bg-secondary text-accent-gold">
                   <item.icon className="size-6" aria-hidden="true" />
                 </div>
-                <h3 className="text-xl font-semibold tracking-tight text-text-primary">{item.title}</h3>
+                <h3 className="text-xl font-semibold tracking-tight text-text-primary">
+                  {item.title}
+                </h3>
                 <p className="text-sm leading-7 text-text-primary/72">{item.description}</p>
               </Card>
             ))}
-          </div>
+          </RevealGroup>
         </Container>
       </Section>
 
       <Section animated={false} className="bg-bg-primary text-text-primary">
         <Container size="default" className="flex flex-col gap-12">
           <SectionHeader
+            reveal
+            revealDrift
             align="left"
             overline="Values"
             heading="How I Build Software"
@@ -161,7 +189,7 @@ export default function AboutPage() {
             headingClassName="max-w-3xl text-text-primary"
             className="mb-0"
           />
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+          <RevealGroup className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {values.map((value) => (
               <Card key={value.title} animated hoverable className="flex flex-col gap-4">
                 <Badge variant="muted" className="self-start">
@@ -170,13 +198,15 @@ export default function AboutPage() {
                 <p className="text-sm leading-7 text-text-primary/72">{value.description}</p>
               </Card>
             ))}
-          </div>
+          </RevealGroup>
         </Container>
       </Section>
 
       <Section animated={false} className="bg-bg-primary text-text-primary">
         <Container size="default" className="flex flex-col gap-12">
           <SectionHeader
+            reveal
+            revealDrift
             align="left"
             overline="Personal"
             heading="Beyond Development"
@@ -184,44 +214,53 @@ export default function AboutPage() {
             headingClassName="max-w-3xl text-text-primary"
             className="mb-0"
           />
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <RevealGroup className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {interests.map((interest) => (
               <Card key={interest.label} animated hoverable className="flex items-center gap-4">
                 <div className="flex size-12 items-center justify-center rounded-full border border-border-hairline bg-bg-secondary text-accent-gold">
                   <interest.icon className="size-5" aria-hidden="true" />
                 </div>
-                <p className="text-sm uppercase tracking-[0.16em] text-text-primary/80">{interest.label}</p>
+                <p className="text-sm uppercase tracking-[0.16em] text-text-primary/80">
+                  {interest.label}
+                </p>
               </Card>
             ))}
-          </div>
+          </RevealGroup>
         </Container>
       </Section>
 
       <Section animated={false} className="bg-bg-primary text-text-primary">
         <Container size="default" className="flex flex-col gap-12">
-          <Card animated hoverable className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-            <div className="flex flex-col gap-4">
-              <SectionHeader
-                align="left"
-                overline="Next Step"
-                heading="Let's Build Something Great"
-                description="Whether it's building intelligent software, collaborating on research, or developing scalable web applications, I'm always excited to work on meaningful projects."
-                overlineClassName="text-accent-gold"
-                headingClassName="max-w-3xl text-text-primary"
-                descriptionClassName="max-w-2xl text-text-primary/72"
-                className="mb-0"
-              />
-            </div>
+          <RevealGroup slow>
+            <Card
+              animated
+              hoverable
+              className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center"
+            >
+              <div className="flex flex-col gap-4">
+                <SectionHeader
+                  reveal
+                  align="left"
+                  overline="Next Step"
+                  heading="Let's Build Something Great"
+                  description="Whether it's building intelligent software, collaborating on research, or developing scalable web applications, I'm always excited to work on meaningful projects."
+                  overlineClassName="text-accent-gold"
+                  headingClassName="max-w-3xl text-text-primary"
+                  descriptionClassName="max-w-2xl text-text-primary/72"
+                  className="mb-0"
+                />
+              </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
-              <Button href="/projects" size="lg">
-                View Projects
-              </Button>
-              <Button href="/contact" variant="secondary" size="lg">
-                Contact Me
-              </Button>
-            </div>
-          </Card>
+              <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+                <Button href="/projects" size="lg">
+                  View Projects
+                </Button>
+                <Button href="/contact" variant="secondary" size="lg">
+                  Contact Me
+                </Button>
+              </div>
+            </Card>
+          </RevealGroup>
           <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.16em] text-text-primary/55">
             <span>Focused on meaningful software</span>
             <span>•</span>

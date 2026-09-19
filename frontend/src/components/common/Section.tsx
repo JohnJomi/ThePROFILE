@@ -1,7 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+
+import { useMediaQuery, useReducedMotion } from "@/hooks";
 import { fadeUp, staggerContainer, defaultViewport } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -108,6 +111,20 @@ export interface SectionHeaderProps {
   overlineClassName?: string;
   headingClassName?: string;
   descriptionClassName?: string;
+  /**
+   * Opt in to a scroll-scrubbed, word-by-word reveal of the heading — the words
+   * rise from below as the section is approached rather than simply fading in.
+   * Default `false`, so every existing call site is unchanged.
+   */
+  reveal?: boolean;
+  /**
+   * Adds a small scroll-scrubbed vertical drift to the whole header (desktop
+   * only), for page-level continuity. Requires `reveal`.
+   *
+   * Leave off for headers inside a bordered card, or alongside a fixed rule the
+   * drift would visibly desync from.
+   */
+  revealDrift?: boolean;
 }
 
 export function SectionHeader({
@@ -119,8 +136,26 @@ export function SectionHeader({
   overlineClassName,
   headingClassName,
   descriptionClassName,
+  reveal = false,
+  revealDrift = false,
 }: SectionHeaderProps) {
   const alignClass = align === "left" ? "items-start text-left" : "items-center text-center";
+
+  if (reveal) {
+    return (
+      <RevealSectionHeader
+        overline={overline}
+        heading={heading}
+        description={description}
+        alignClass={alignClass}
+        className={className}
+        overlineClassName={overlineClassName}
+        headingClassName={headingClassName}
+        descriptionClassName={descriptionClassName}
+        revealDrift={revealDrift}
+      />
+    );
+  }
 
   return (
     <motion.div
@@ -137,7 +172,12 @@ export function SectionHeader({
           {overline}
         </span>
       )}
-      <h2 className={cn("font-heading text-4xl leading-[0.98] md:text-5xl lg:text-6xl", headingClassName)}>
+      <h2
+        className={cn(
+          "font-heading text-4xl leading-[0.98] md:text-5xl lg:text-6xl",
+          headingClassName,
+        )}
+      >
         {heading}
       </h2>
       {description && (
@@ -151,5 +191,147 @@ export function SectionHeader({
         </p>
       )}
     </motion.div>
+  );
+}
+
+// ─── RevealSectionHeader ──────────────────────────────────────────────────────
+
+/**
+ * RevealSectionHeader — the `reveal` variant of SectionHeader.
+ *
+ * The heading emerges word by word from below, scrubbed by the header's own
+ * scroll position, so it reads as the section rising out of the hero rather than
+ * a plain opacity fade. The copy is only split on spaces — never rewritten.
+ *
+ * Under reduced motion it renders a plain, static header.
+ */
+function RevealSectionHeader({
+  overline,
+  heading,
+  description,
+  alignClass,
+  className,
+  overlineClassName,
+  headingClassName,
+  descriptionClassName,
+  revealDrift,
+}: Omit<SectionHeaderProps, "align" | "reveal"> & { alignClass: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const prefersReduced = useReducedMotion();
+  const isDesktop = useMediaQuery("lg");
+
+  // The reveal only engages after mount. Server-rendered markup stays fully
+  // visible, so the heading is never hidden pre-hydration or with JS disabled.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    // Deferred by a frame so the flag is not set synchronously inside the effect.
+    const frame = requestAnimationFrame(() => setMounted(true));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  // One listener drives both the word reveal and the drift. Progress runs 0
+  // (header entering from the bottom) → 1 (header leaving past the top).
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const animate = mounted && !prefersReduced;
+
+  // Words finish revealing early in the transit, so the heading is legible well
+  // before it reaches the middle of the viewport.
+  const revealProgress = useTransform(scrollYProgress, [0.05, 0.38], [0, 1]);
+
+  // A small scrubbed drift keeps the page feeling continuously scroll-driven.
+  // Desktop only, and deliberately tiny — it should be felt, not seen.
+  const driftY = useTransform(scrollYProgress, [0, 1], [24, -24]);
+
+  const words = heading.split(" ");
+
+  return (
+    <motion.div
+      ref={ref}
+      style={
+        animate && isDesktop && revealDrift ? { y: driftY, willChange: "transform" } : undefined
+      }
+      className={cn("mb-12 flex flex-col gap-4", alignClass, className)}
+    >
+      {overline && (
+        <motion.span
+          style={animate ? { opacity: revealProgress } : undefined}
+          className={cn(
+            "text-xs font-medium uppercase tracking-[0.22em] text-brand",
+            overlineClassName,
+          )}
+        >
+          {overline}
+        </motion.span>
+      )}
+
+      <h2
+        className={cn(
+          "font-heading text-4xl leading-[0.98] md:text-5xl lg:text-6xl",
+          headingClassName,
+        )}
+      >
+        {words.map((word, index) => (
+          <span key={`${word}-${index}`} className="inline-block overflow-hidden align-bottom">
+            <RevealWord
+              progress={revealProgress}
+              index={index}
+              total={words.length}
+              enabled={animate}
+            >
+              {word}
+            </RevealWord>
+            {index < words.length - 1 ? " " : ""}
+          </span>
+        ))}
+      </h2>
+
+      {description && (
+        <motion.p
+          style={animate ? { opacity: revealProgress } : undefined}
+          className={cn(
+            "max-w-2xl text-pretty leading-relaxed text-muted-foreground",
+            descriptionClassName,
+          )}
+        >
+          {description}
+        </motion.p>
+      )}
+    </motion.div>
+  );
+}
+
+/** One heading word, rising from below on its own slightly staggered window. */
+function RevealWord({
+  progress,
+  index,
+  total,
+  enabled,
+  children,
+}: {
+  progress: MotionValue<number>;
+  index: number;
+  total: number;
+  enabled: boolean;
+  children: React.ReactNode;
+}) {
+  // Later words start marginally later, giving a line-level cascade.
+  const stagger = total > 1 ? (index / total) * 0.35 : 0;
+  const start = stagger;
+  const end = Math.min(1, 0.65 + stagger);
+
+  const y = useTransform(progress, [start, end], [110, 0]);
+  const opacity = useTransform(progress, [start, end], [0, 1]);
+
+  return (
+    <motion.span
+      style={enabled ? { y, opacity, willChange: "transform" } : undefined}
+      className="inline-block"
+    >
+      {children}
+    </motion.span>
   );
 }

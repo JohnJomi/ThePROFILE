@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { Section, SectionHeader } from "@/components/common";
+import { ProjectReveal } from "@/components/sections/ProjectReveal";
 import { projects } from "@/data/projects";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types/project";
@@ -48,7 +49,7 @@ function ShowcaseProject({ project, index }: { project: Project; index: number }
 
   return (
     <article className="grid gap-8 border-t border-border-hairline pt-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
-      <div className="flex flex-col gap-6">
+      <ProjectReveal from="left" className="flex flex-col gap-6">
         <div className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-text-primary/60">
           <span className={cn("size-2 rounded-full", status.color)} />
           <span>Featured Project</span>
@@ -89,9 +90,13 @@ function ShowcaseProject({ project, index }: { project: Project; index: number }
             ))}
           </div>
         </div>
-      </div>
+      </ProjectReveal>
 
-      <div className="flex flex-col gap-4 border border-border-hairline p-6">
+      <ProjectReveal
+        from="right"
+        order={1}
+        className="flex flex-col gap-4 border border-border-hairline p-6"
+      >
         <p className="text-xs uppercase tracking-[0.2em] text-text-primary/60">Project Details</p>
         <div className="space-y-3 text-sm leading-7 text-text-primary/76">
           <p>
@@ -132,7 +137,7 @@ function ShowcaseProject({ project, index }: { project: Project; index: number }
             </Link>
           </div>
         </div>
-      </div>
+      </ProjectReveal>
     </article>
   );
 }
@@ -203,8 +208,14 @@ export function Projects() {
             <ShowcaseProject project={project} index={index} />
             {supportingGroups[index]?.length > 0 && (
               <div className="grid gap-6 lg:grid-cols-3">
-                {supportingGroups[index].map((supporting) => (
-                  <SupportingProject key={supporting.slug} project={supporting} />
+                {supportingGroups[index].map((supporting, order) => (
+                  <ProjectReveal
+                    key={supporting.slug}
+                    order={order}
+                    className="flex [&>article]:w-full"
+                  >
+                    <SupportingProject project={supporting} />
+                  </ProjectReveal>
                 ))}
               </div>
             )}

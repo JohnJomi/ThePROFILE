@@ -46,7 +46,7 @@ export const siteConfig = {
   ],
 
   /** Profile photo URL (relative to /public or absolute CDN URL). */
-  avatarUrl: "/profile-photo.png",
+  avatarUrl: "/profile-photo.jpeg",
 
   /** Open Graph / Twitter Card cover image (1200×630). */
   ogImageUrl: "/og-image.png",

@@ -25,20 +25,37 @@ export function Contact() {
           <div className="flex flex-col gap-8">
             <div className="grid gap-4 border-t border-[color:var(--border-hairline)] pt-6 sm:grid-cols-2">
               <div>
-                <p className="text-xs uppercase tracking-[0.22em] text-text-primary/55">Availability</p>
-                <p className="mt-2 text-sm leading-7 text-text-primary/72">{contactInfo.availability}</p>
+                <p className="text-xs uppercase tracking-[0.22em] text-text-primary/55">
+                  Availability
+                </p>
+                <p className="mt-2 text-sm leading-7 text-text-primary/72">
+                  {contactInfo.availability}
+                </p>
               </div>
               <div>
                 <p className="text-xs uppercase tracking-[0.22em] text-text-primary/55">Location</p>
-                <p className="mt-2 text-sm leading-7 text-text-primary/72">{contactInfo.location}</p>
+                <p className="mt-2 text-sm leading-7 text-text-primary/72">
+                  {contactInfo.location}
+                </p>
               </div>
             </div>
 
             <div className="flex flex-col gap-4 sm:flex-row">
-              <Button href={`mailto:${contactInfo.email}`} size="lg" icon={<Mail className="size-4" />}>
+              <Button
+                href={`mailto:${contactInfo.email}`}
+                size="lg"
+                icon={<Mail className="size-4" />}
+              >
                 Email Me
               </Button>
-              <Button href={contactInfo.resumeUrl} variant="secondary" size="lg" icon={<MoveUpRight className="size-4" />}>
+              <Button
+                href={contactInfo.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="secondary"
+                size="lg"
+                icon={<MoveUpRight className="size-4" />}
+              >
                 Resume
               </Button>
             </div>
@@ -46,7 +63,9 @@ export function Contact() {
 
           <div className="flex flex-col gap-6 border border-[color:var(--border-hairline)] p-6">
             <div className="flex flex-col gap-1">
-              <p className="text-xs uppercase tracking-[0.22em] text-text-primary/55">Social Links</p>
+              <p className="text-xs uppercase tracking-[0.22em] text-text-primary/55">
+                Social Links
+              </p>
               <p className="text-sm leading-7 text-text-primary/72">
                 Reach out through the most active public channels.
               </p>

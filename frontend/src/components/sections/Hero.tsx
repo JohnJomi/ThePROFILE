@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef } from "react";
+
 import Image from "next/image";
 
 import { motion } from "framer-motion";
@@ -8,36 +10,19 @@ import { ArrowRight, Download } from "lucide-react";
 import { Heading, PrimaryButton, SecondaryButton, Section } from "@/components/common";
 import { contactInfo } from "@/data/contact";
 import { profile } from "@/data/profile";
+import { useHeroScroll } from "@/hooks";
 import { fadeUp, fadeUpLarge, staggerContainer } from "@/lib/motion";
-import { cn } from "@/lib/utils";
 
-const marqueeItems = [
-  "ARTIFICIAL INTELLIGENCE",
-  "FULL STACK DEVELOPMENT",
-  "CLOUD ENGINEERING",
-  "PRODUCTION SYSTEMS",
-  "RESEARCH",
-  "MODERN WEB APPLICATIONS",
-] as const;
-
-const floatingChips = [
-  { label: "AI", className: "left-1/2 -translate-x-1/2 top-[-2.5rem] md:top-[-3rem] lg:top-[-3.5rem]" },
-  { label: "React", className: "left-[-2.5rem] top-[18%] md:left-[-3rem] md:top-[16%] lg:left-[-3.5rem] lg:top-[14%]" },
-  { label: "Next.js", className: "right-[-2.5rem] top-[18%] md:right-[-3rem] md:top-[16%] lg:right-[-3.5rem] lg:top-[14%]" },
-  { label: "AWS", className: "left-[-2.5rem] top-1/2 -translate-y-1/2 md:left-[-3rem] lg:left-[-3.5rem]" },
-  { label: "Azure", className: "right-[-2.5rem] top-1/2 -translate-y-1/2 md:right-[-3rem] lg:right-[-3.5rem]" },
-  { label: "Node.js", className: "left-[-2.5rem] bottom-[18%] md:left-[-3rem] md:bottom-[16%] lg:left-[-3.5rem] lg:bottom-[14%]" },
-  { label: "Python", className: "right-[-2.5rem] bottom-[18%] md:right-[-3rem] md:bottom-[16%] lg:right-[-3.5rem] lg:bottom-[14%]" },
-] as const;
-
-const chipMotion = {
-  y: [0, -8, 0],
-};
+import { HeroMarquee } from "./HeroMarquee";
 
 export function Hero() {
   const { name, bio, openToWork } = profile;
   const [firstName, ...restOfName] = (name || "Your Name").split(" ");
   const lastName = restOfName.join(" ");
+
+  const heroRef = useRef<HTMLDivElement>(null);
+  const scroll = useHeroScroll(heroRef);
+  const { prefersReduced } = scroll;
 
   return (
     <Section
@@ -46,7 +31,7 @@ export function Hero() {
       containerSize="full"
       className="relative overflow-hidden bg-bg-primary text-text-primary"
     >
-      <div className="section-shell section-pad-y relative z-10">
+      <div ref={heroRef} className="section-shell section-pad-y relative z-10">
         <motion.div
           variants={fadeUpLarge}
           initial="hidden"
@@ -58,20 +43,35 @@ export function Hero() {
               variants={fadeUp}
               initial="hidden"
               animate="visible"
-            className="text-xs font-medium uppercase tracking-[0.22em] text-[color:var(--accent-gold)]"
-          >
+              style={prefersReduced ? undefined : { opacity: scroll.eyebrowOpacity }}
+              className="text-xs font-medium uppercase tracking-[0.22em] text-[color:var(--accent-gold)]"
+            >
               AI Engineer • Full Stack Developer • Researcher {openToWork ? "· OPEN TO WORK" : ""}
             </motion.p>
 
-            <Heading as="h1" size="h1" className="max-w-4xl text-text-primary">
-              <span className="block">{firstName}</span>
-              <span className="block text-accent-rust">{lastName || "Jomi"}</span>
-            </Heading>
+            <motion.div
+              style={
+                prefersReduced
+                  ? undefined
+                  : {
+                      y: scroll.nameY,
+                      scale: scroll.nameScale,
+                      transformOrigin: "left top",
+                      willChange: "transform",
+                    }
+              }
+            >
+              <Heading as="h1" size="h1" className="max-w-4xl text-text-primary">
+                <span className="block">{firstName}</span>
+                <span className="block text-accent-rust">{lastName || "Jomi"}</span>
+              </Heading>
+            </motion.div>
 
             <motion.p
               variants={fadeUp}
               initial="hidden"
               animate="visible"
+              style={prefersReduced ? undefined : { y: scroll.bioY, opacity: scroll.bioOpacity }}
               className="max-w-2xl text-base leading-8 text-text-primary/72 md:text-lg"
             >
               {bio ||
@@ -82,6 +82,9 @@ export function Hero() {
               variants={staggerContainer}
               initial="hidden"
               animate="visible"
+              style={
+                prefersReduced ? undefined : { y: scroll.buttonsY, opacity: scroll.buttonsOpacity }
+              }
               className="flex flex-col gap-3 sm:flex-row"
             >
               <PrimaryButton
@@ -94,6 +97,8 @@ export function Hero() {
               </PrimaryButton>
               <SecondaryButton
                 href={contactInfo.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 size="lg"
                 icon={<Download className="size-4" aria-hidden="true" />}
                 iconPosition="left"
@@ -109,65 +114,48 @@ export function Hero() {
             animate="visible"
             className="relative mx-auto w-full max-w-md"
           >
-            {floatingChips.map((chip) => (
-              <motion.div
-                key={chip.label}
-                animate={chipMotion}
-                transition={{ duration: 6 + chip.label.length * 0.15, repeat: Infinity, ease: "easeInOut" }}
-                className={cn(
-                  "absolute z-20 rounded-full border border-border-hairline bg-bg-secondary/95 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-text-primary/80 shadow-sm backdrop-blur-sm",
-                  chip.className,
-                )}
-              >
-                {chip.label}
-              </motion.div>
-            ))}
-
-            <div className="relative overflow-hidden rounded-t-[220px] rounded-b-[28px] border border-[color:var(--border-hairline)] bg-bg-secondary px-8 py-10 shadow-[inset_0_1px_0_rgb(243_238_227/0.06)]">
-              <div className="absolute inset-x-8 top-8 h-px bg-[color:var(--border-hairline)]" />
-              <div className="absolute inset-x-8 bottom-8 h-px bg-[color:var(--border-hairline)]" />
-              <div className="relative aspect-[4/5] overflow-hidden rounded-t-[190px] rounded-b-[18px]">
-                <Image
-                  src={profile.avatarUrl}
-                  alt={`Portrait of ${profile.name}`}
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 80vw, 420px"
-                  className="object-cover object-top"
-                />
+            <motion.div
+              style={
+                prefersReduced
+                  ? undefined
+                  : {
+                      y: scroll.portraitY,
+                      scale: scroll.portraitScale,
+                      opacity: scroll.portraitOpacity,
+                      willChange: "transform",
+                    }
+              }
+              className="relative"
+            >
+              <div className="relative overflow-hidden rounded-t-[220px] rounded-b-[28px] border border-[color:var(--border-hairline)] bg-bg-secondary px-8 py-10 shadow-[inset_0_1px_0_rgb(243_238_227/0.06)]">
+                <div className="absolute inset-x-8 top-8 h-px bg-[color:var(--border-hairline)]" />
+                <div className="absolute inset-x-8 bottom-8 h-px bg-[color:var(--border-hairline)]" />
+                <div className="relative aspect-[4/5] overflow-hidden rounded-t-[190px] rounded-b-[18px]">
+                  <Image
+                    src={profile.avatarUrl}
+                    alt={`Portrait of ${profile.name}`}
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 80vw, 420px"
+                    className="origin-[38%_96%] scale-[1.6] object-cover object-top"
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="absolute z-30 top-6 right-6 hidden size-24 items-center justify-center rounded-full border border-[color:var(--border-hairline)] bg-bg-secondary text-center text-[0.62rem] font-medium uppercase tracking-[0.22em] text-text-primary/80 md:flex">
-              <motion.span
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, ease: "linear", repeat: Infinity }}
-                className="block"
-              >
-                Open to work ↻
-              </motion.span>
-            </div>
+              <div className="absolute z-30 top-6 right-6 hidden size-24 items-center justify-center rounded-full border border-[color:var(--border-hairline)] bg-bg-secondary text-center text-[0.62rem] font-medium uppercase tracking-[0.22em] text-text-primary/80 md:flex">
+                <motion.span
+                  animate={prefersReduced ? undefined : { rotate: 360 }}
+                  transition={{ duration: 20, ease: "linear", repeat: Infinity }}
+                  className="block"
+                >
+                  Open to work ↻
+                </motion.span>
+              </div>
+            </motion.div>
           </motion.div>
         </motion.div>
 
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="mt-12 overflow-hidden border-y border-[color:var(--border-hairline)] bg-bg-secondary py-4"
-        >
-          <div className="marquee-ltr flex w-max items-center gap-5">
-            {[...marqueeItems, ...marqueeItems].map((item, index) => (
-              <span
-                key={`${item}-${index}`}
-                className="flex items-center gap-5 text-xs font-medium uppercase tracking-[0.22em] text-text-primary/80 sm:text-sm"
-              >
-                <span>{item}</span>
-                <span className="text-[color:var(--accent-gold)]">✦</span>
-              </span>
-            ))}
-          </div>
-        </motion.div>
+        <HeroMarquee />
       </div>
     </Section>
   );
