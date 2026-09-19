@@ -8,7 +8,10 @@ import { Code2, Cpu, Database, Layers3, Server, Wrench } from "lucide-react";
 import { Section, SectionHeader } from "@/components/common";
 import { fadeUp, staggerContainerSlow } from "@/lib/motion";
 
-const categoryMeta: Record<string, { icon: ComponentType<{ className?: string }>; summary: string }> = {
+const categoryMeta: Record<
+  string,
+  { icon: ComponentType<{ className?: string }>; summary: string }
+> = {
   Languages: { icon: Code2, summary: "" },
   "Frameworks & Libraries": { icon: Layers3, summary: "" },
   "Cloud & Infrastructure": { icon: Server, summary: "" },
@@ -50,8 +53,7 @@ const skillChapters = [
     overline: "Managing Data",
     heading: "Reliable Data Architecture",
     category: "Databases",
-    summary:
-      "Designing databases and managing data efficiently for modern applications.",
+    summary: "Designing databases and managing data efficiently for modern applications.",
     chips: ["PostgreSQL", "MongoDB", "SQL", "Vector Databases", "Database Design"],
   },
   {
@@ -62,8 +64,6 @@ const skillChapters = [
     summary:
       "Integrating machine learning models, LLMs, and AI workflows into real-world applications.",
     chips: [
-      "OpenAI API",
-      "Amazon Bedrock",
       "Claude",
       "LangChain",
       "Hugging Face",
@@ -71,7 +71,6 @@ const skillChapters = [
       "PyTorch",
       "Machine Learning",
       "Prompt Engineering",
-      "RAG",
       "AI Agents",
     ],
   },
@@ -80,8 +79,7 @@ const skillChapters = [
     overline: "Deploying Systems",
     heading: "Cloud & Infrastructure",
     category: "Cloud & Infrastructure",
-    summary:
-      "Deploying applications, managing infrastructure, and building cloud-native systems.",
+    summary: "Deploying applications, managing infrastructure, and building cloud-native systems.",
     chips: ["AWS", "Azure", "Docker", "GitHub Actions", "Linux", "Nginx", "CI/CD"],
   },
   {
@@ -89,25 +87,30 @@ const skillChapters = [
     overline: "Engineering Workflow",
     heading: "Daily Development Toolkit",
     category: "Tools & Platforms",
-    summary:
-      "The tools I use every day to design, build, debug, collaborate, and ship software.",
-    chips: ["Git", "GitHub", "VS Code", "Postman", "Jupyter Notebook", "Claude Code", "OpenAI Codex", "GitHub Copilot", "Figma", "Terminal"],
+    summary: "The tools I use every day to design, build, debug, collaborate, and ship software.",
+    chips: [
+      "Git",
+      "GitHub",
+      "VS Code",
+      "Jupyter Notebook",
+      "Claude Code",
+      "GitHub Copilot",
+      "Figma",
+    ],
   },
 ] as const;
 
-const editorialPositions = [
-  { top: "12%", left: "38%" },
-  { top: "25%", left: "18%" },
-  { top: "38%", left: "56%" },
-  { top: "52%", left: "8%" },
-  { top: "66%", left: "48%" },
-  { top: "78%", left: "24%" },
-  { top: "8%", left: "10%" },
-  { top: "20%", left: "58%" },
-  { top: "33%", left: "30%" },
-  { top: "58%", left: "62%" },
-  { top: "84%", left: "42%" },
-] as const;
+/** Horizontal offsets (%) cycled down the column so chips zig-zag instead of stacking. */
+const editorialLefts = [30, 4, 40, 12, 34, 2, 38, 16] as const;
+
+/**
+ * Spreads `count` chips evenly over the full height of the canvas, so a chapter
+ * with fewer chips fills the space rather than bunching at the top.
+ */
+function editorialPosition(index: number, count: number) {
+  const top = count > 1 ? 4 + (index * 84) / (count - 1) : 40;
+  return { top: `${top}%`, left: `${editorialLefts[index % editorialLefts.length]}%` };
+}
 
 export function Skills() {
   return (
@@ -178,25 +181,25 @@ export function Skills() {
                   </div>
 
                   <div className="relative min-h-[68vh] overflow-hidden lg:min-h-[72vh]">
-                    {chapter.chips.map((technology, index) => (
-                      <motion.span
-                        key={technology}
-                        variants={fadeUp}
-                        whileHover={{
-                          opacity: 1,
-                          y: -4,
-                          color: "var(--accent-gold)",
-                          textShadow: "0 0 18px rgb(232 185 62 / 0.35)",
-                        }}
-                        className={`absolute font-heading font-medium leading-none tracking-tight text-text-primary/35 transition-colors duration-300 ${textSizes[index % textSizes.length]}`}
-                        style={{
-                          left: editorialPositions[index % editorialPositions.length].left,
-                          top: editorialPositions[index % editorialPositions.length].top,
-                        }}
-                      >
-                        {technology}
-                      </motion.span>
-                    ))}
+                    {chapter.chips.map((technology, index) => {
+                      const position = editorialPosition(index, chapter.chips.length);
+                      return (
+                        <motion.span
+                          key={technology}
+                          variants={fadeUp}
+                          whileHover={{
+                            opacity: 1,
+                            y: -4,
+                            color: "var(--accent-gold)",
+                            textShadow: "0 0 18px rgb(232 185 62 / 0.35)",
+                          }}
+                          className={`absolute font-heading font-medium leading-none tracking-tight text-text-primary/35 transition-colors duration-300 ${textSizes[index % textSizes.length]}`}
+                          style={position}
+                        >
+                          {technology}
+                        </motion.span>
+                      );
+                    })}
                   </div>
                 </div>
               </motion.section>
