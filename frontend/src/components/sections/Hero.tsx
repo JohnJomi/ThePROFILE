@@ -4,126 +4,16 @@ import { useRef } from "react";
 
 import Image from "next/image";
 
-import { motion, useTransform, type MotionValue } from "framer-motion";
+import { motion } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 
 import { Heading, PrimaryButton, SecondaryButton, Section } from "@/components/common";
 import { contactInfo } from "@/data/contact";
 import { profile } from "@/data/profile";
-import { chipWindow, useHeroScroll } from "@/hooks";
+import { useHeroScroll } from "@/hooks";
 import { fadeUp, fadeUpLarge, staggerContainer } from "@/lib/motion";
-import { cn } from "@/lib/utils";
 
 import { HeroMarquee } from "./HeroMarquee";
-
-/**
- * Floating technology pills.
- *
- * `vector` is the chip's dispersal direction in px at full spread — deterministic,
- * never random, so the constellation breaks apart the same way every scroll.
- * `onMobile: false` chips are hidden below `lg` to keep ~4 pills on small screens.
- */
-const floatingChips = [
-  {
-    label: "AI",
-    vector: [-70, -90] as const, // upper-left
-    onMobile: true,
-    className: "left-1/2 -translate-x-1/2 top-[-2.5rem] md:top-[-3rem] lg:top-[-3.5rem]",
-  },
-  {
-    label: "React",
-    vector: [0, -110] as const, // up
-    onMobile: true,
-    className:
-      "left-[-2.5rem] top-[18%] md:left-[-3rem] md:top-[16%] lg:left-[-3.5rem] lg:top-[14%]",
-  },
-  {
-    label: "Next.js",
-    vector: [70, -90] as const, // upper-right
-    onMobile: true,
-    className:
-      "right-[-2.5rem] top-[18%] md:right-[-3rem] md:top-[16%] lg:right-[-3.5rem] lg:top-[14%]",
-  },
-  {
-    label: "AWS",
-    vector: [-110, 0] as const, // left
-    onMobile: false,
-    className: "left-[-2.5rem] top-1/2 -translate-y-1/2 md:left-[-3rem] lg:left-[-3.5rem]",
-  },
-  {
-    label: "Azure",
-    vector: [110, 0] as const, // right
-    onMobile: false,
-    className: "right-[-2.5rem] top-1/2 -translate-y-1/2 md:right-[-3rem] lg:right-[-3.5rem]",
-  },
-  {
-    label: "Node.js",
-    vector: [-80, 70] as const, // lower-left
-    onMobile: false,
-    className:
-      "left-[-2.5rem] bottom-[18%] md:left-[-3rem] md:bottom-[16%] lg:left-[-3.5rem] lg:bottom-[14%]",
-  },
-  {
-    label: "Python",
-    vector: [0, 110] as const, // down
-    onMobile: true,
-    className:
-      "right-[-2.5rem] bottom-[18%] md:right-[-3rem] md:bottom-[16%] lg:right-[-3.5rem] lg:bottom-[14%]",
-  },
-] as const;
-
-const chipMotion = {
-  y: [0, -8, 0],
-};
-
-/**
- * HeroChip — one floating pill.
- *
- * Its own component so each chip can own its `useTransform` calls without
- * calling hooks inside a loop. The idle float stays on the inner element and the
- * scroll dispersal rides on the outer wrapper, so the two never fight.
- */
-function HeroChip({
-  chip,
-  index,
-  progress,
-  chipSpread,
-  chipEnd,
-  prefersReduced,
-}: {
-  chip: (typeof floatingChips)[number];
-  index: number;
-  progress: MotionValue<number>;
-  chipSpread: number;
-  chipEnd: number;
-  prefersReduced: boolean;
-}) {
-  const { start, end } = chipWindow(index, chipEnd);
-  const [vx, vy] = chip.vector;
-
-  const x = useTransform(progress, [start, end], [0, vx * chipSpread]);
-  const y = useTransform(progress, [start, end], [0, vy * chipSpread]);
-  const opacity = useTransform(
-    progress,
-    [start, (start + end) / 2, end],
-    prefersReduced ? [1, 1, 1] : [1, 0.55, 0],
-  );
-
-  return (
-    <motion.div
-      style={prefersReduced ? undefined : { x, y, opacity }}
-      className={cn("absolute z-20", chip.className, chip.onMobile ? "" : "hidden lg:block")}
-    >
-      <motion.div
-        animate={prefersReduced ? undefined : chipMotion}
-        transition={{ duration: 6 + chip.label.length * 0.15, repeat: Infinity, ease: "easeInOut" }}
-        className="rounded-full border border-border-hairline bg-bg-secondary/95 px-3 py-1.5 text-xs uppercase tracking-[0.18em] text-text-primary/80 shadow-sm backdrop-blur-sm"
-      >
-        {chip.label}
-      </motion.div>
-    </motion.div>
-  );
-}
 
 export function Hero() {
   const { name, bio, openToWork } = profile;
@@ -216,29 +106,12 @@ export function Hero() {
             </motion.div>
           </div>
 
-          {/*
-           * The chips sit OUTSIDE the scaling wrapper on purpose: nested inside
-           * it, the portrait's scale would multiply their trajectories and its
-           * fade would double up with theirs.
-           */}
           <motion.div
             variants={fadeUp}
             initial="hidden"
             animate="visible"
             className="relative mx-auto w-full max-w-md"
           >
-            {floatingChips.map((chip, index) => (
-              <HeroChip
-                key={chip.label}
-                chip={chip}
-                index={index}
-                progress={scroll.progress}
-                chipSpread={scroll.chipSpread}
-                chipEnd={scroll.chipEnd}
-                prefersReduced={prefersReduced}
-              />
-            ))}
-
             <motion.div
               style={
                 prefersReduced
