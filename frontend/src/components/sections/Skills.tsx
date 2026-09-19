@@ -2,11 +2,10 @@
 
 import type { ComponentType } from "react";
 
-import { motion } from "framer-motion";
 import { Code2, Cpu, Database, Layers3, Server, Wrench } from "lucide-react";
 
 import { Section, SectionHeader } from "@/components/common";
-import { fadeUp, staggerContainerSlow } from "@/lib/motion";
+import { SkillsChapter } from "@/components/sections/SkillsChapter";
 
 const categoryMeta: Record<
   string,
@@ -100,18 +99,6 @@ const skillChapters = [
   },
 ] as const;
 
-/** Horizontal offsets (%) cycled down the column so chips zig-zag instead of stacking. */
-const editorialLefts = [30, 4, 40, 12, 34, 2, 38, 16] as const;
-
-/**
- * Spreads `count` chips evenly over the full height of the canvas, so a chapter
- * with fewer chips fills the space rather than bunching at the top.
- */
-function editorialPosition(index: number, count: number) {
-  const top = count > 1 ? 4 + (index * 84) / (count - 1) : 40;
-  return { top: `${top}%`, left: `${editorialLefts[index % editorialLefts.length]}%` };
-}
-
 export function Skills() {
   return (
     <Section id="skills" containerSize="full" className="bg-bg-primary text-text-primary">
@@ -130,81 +117,16 @@ export function Skills() {
         </div>
 
         <div className="flex flex-col gap-10">
-          {skillChapters.map((chapter) => {
-            const Icon = categoryMeta[chapter.category]?.icon ?? Wrench;
-            const textSizes = [
-              "text-[38px]",
-              "text-[40px]",
-              "text-[36px]",
-              "text-[44px]",
-              "text-[39px]",
-              "text-[37px]",
-              "text-[41px]",
-              "text-[42px]",
-              "text-[40px]",
-              "text-[38px]",
-              "text-[36px]",
-            ];
-
-            return (
-              <motion.section
-                key={chapter.id}
-                variants={staggerContainerSlow}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: "-18% 0px -18% 0px" }}
-                className="flex min-h-[92vh] flex-col justify-center border-t border-border-hairline py-12 first:border-t-0 first:pt-0 lg:py-16"
-              >
-                <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-                  <div className="flex flex-col gap-5">
-                    <div className="flex items-center gap-3">
-                      <Icon className="size-5 text-accent-gold" aria-hidden="true" />
-                      <motion.h3
-                        variants={fadeUp}
-                        className="text-xs font-medium uppercase tracking-[0.22em] text-accent-gold"
-                      >
-                        {chapter.overline}
-                      </motion.h3>
-                    </div>
-                    <motion.h4
-                      variants={fadeUp}
-                      className="max-w-2xl font-heading text-4xl leading-[0.96] md:text-5xl lg:text-6xl"
-                    >
-                      {chapter.heading}
-                    </motion.h4>
-                    <motion.p
-                      variants={fadeUp}
-                      className="max-w-xl text-base leading-8 text-text-primary/72 md:text-lg"
-                    >
-                      {chapter.summary}
-                    </motion.p>
-                  </div>
-
-                  <div className="relative min-h-[68vh] overflow-hidden lg:min-h-[72vh]">
-                    {chapter.chips.map((technology, index) => {
-                      const position = editorialPosition(index, chapter.chips.length);
-                      return (
-                        <motion.span
-                          key={technology}
-                          variants={fadeUp}
-                          whileHover={{
-                            opacity: 1,
-                            y: -4,
-                            color: "var(--accent-gold)",
-                            textShadow: "0 0 18px rgb(232 185 62 / 0.35)",
-                          }}
-                          className={`absolute font-heading font-medium leading-none tracking-tight text-text-primary/35 transition-colors duration-300 ${textSizes[index % textSizes.length]}`}
-                          style={position}
-                        >
-                          {technology}
-                        </motion.span>
-                      );
-                    })}
-                  </div>
-                </div>
-              </motion.section>
-            );
-          })}
+          {skillChapters.map((chapter) => (
+            <SkillsChapter
+              key={chapter.id}
+              overline={chapter.overline}
+              heading={chapter.heading}
+              summary={chapter.summary}
+              chips={chapter.chips}
+              icon={categoryMeta[chapter.category]?.icon ?? Wrench}
+            />
+          ))}
         </div>
       </div>
     </Section>
