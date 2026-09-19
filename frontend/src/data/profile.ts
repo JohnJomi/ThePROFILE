@@ -20,6 +20,6 @@ export const profile: Profile = {
     "AI engineer and full-stack developer focused on applied ML, product engineering, and cloud delivery.",
   location: "Remote",
   email: "johnjomi1234@gmail.com",
-  avatarUrl: "/profile-photo.png",
+  avatarUrl: "/profile-photo.jpeg",
   openToWork: true,
 };

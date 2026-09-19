@@ -97,6 +97,8 @@ export function Hero() {
               </PrimaryButton>
               <SecondaryButton
                 href={contactInfo.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 size="lg"
                 icon={<Download className="size-4" aria-hidden="true" />}
                 iconPosition="left"
@@ -135,7 +137,7 @@ export function Hero() {
                     fill
                     priority
                     sizes="(max-width: 768px) 80vw, 420px"
-                    className="object-cover object-top"
+                    className="origin-[38%_96%] scale-[1.6] object-cover object-top"
                   />
                 </div>
               </div>
