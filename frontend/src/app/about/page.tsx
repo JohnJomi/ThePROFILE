@@ -11,7 +11,6 @@ import {
 
 import { JourneyTimeline } from "@/components/about/JourneyTimeline";
 import {
-  Badge,
   Button,
   Card,
   Container,
@@ -191,10 +190,10 @@ export default function AboutPage() {
           />
           <RevealGroup className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {values.map((value) => (
-              <Card key={value.title} animated hoverable className="flex flex-col gap-4">
-                <Badge variant="muted" className="self-start bg-bg-secondary/90">
+              <Card key={value.title} animated hoverable className="flex flex-col gap-3">
+                <span className="text-xs font-medium uppercase tracking-[0.16em] text-accent-gold">
                   {value.title}
-                </Badge>
+                </span>
                 <p className="text-sm leading-7 text-text-primary/85">{value.description}</p>
               </Card>
             ))}
