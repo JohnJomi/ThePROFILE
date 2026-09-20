@@ -192,7 +192,7 @@ export default function AboutPage() {
           <RevealGroup className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {values.map((value) => (
               <Card key={value.title} animated hoverable className="flex flex-col gap-4">
-                <Badge variant="muted" className="self-start">
+                <Badge variant="muted" className="self-start bg-bg-secondary/90">
                   {value.title}
                 </Badge>
                 <p className="text-sm leading-7 text-text-primary/85">{value.description}</p>
