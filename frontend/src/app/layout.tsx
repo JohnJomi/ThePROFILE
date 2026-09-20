@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { SiteGradientWaves } from "@/components/common/SiteGradientWaves";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { siteConfig } from "@/config/site";
@@ -24,8 +25,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
     >
       <body className="flex min-h-screen flex-col bg-bg-primary">
         <Providers>
+          <SiteGradientWaves />
           <Navbar />
-          <main className="flex-1 bg-bg-primary pt-16">{children}</main>
+          <main className="flex-1 bg-transparent pt-16">{children}</main>
           <Footer />
         </Providers>
       </body>

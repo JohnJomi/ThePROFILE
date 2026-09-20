@@ -86,7 +86,7 @@ export function SkillsChapter({
           <motion.h4 className="max-w-2xl font-heading text-4xl leading-[0.96] md:text-5xl lg:text-6xl">
             {heading}
           </motion.h4>
-          <motion.p className="max-w-xl text-base leading-8 text-text-primary/72 md:text-lg">
+          <motion.p className="max-w-xl text-base leading-8 text-text-primary/85 md:text-lg">
             {summary}
           </motion.p>
         </motion.div>
@@ -155,7 +155,7 @@ function Chip({
         }}
         whileDrag={{ scale: 1.06, zIndex: 10, cursor: "grabbing" }}
         style={{ fontSize: textSizes[index % textSizes.length] }}
-        className="block select-none md:cursor-grab font-heading font-medium leading-none tracking-tight text-text-primary/35 transition-colors duration-300"
+        className="block select-none md:cursor-grab font-heading font-medium leading-none tracking-tight text-text-primary/50 transition-colors duration-300"
       >
         {label}
       </motion.span>

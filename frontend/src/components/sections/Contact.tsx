@@ -8,7 +8,7 @@ import { featuredSocials } from "@/data/socials";
 
 export function Contact() {
   return (
-    <Section id="contact" containerSize="full" className="bg-bg-primary text-text-primary">
+    <Section id="contact" containerSize="full" className="bg-transparent text-text-primary">
       <div className="section-shell section-pad-y flex flex-col gap-12">
         <SectionHeader
           align="left"
@@ -17,7 +17,7 @@ export function Contact() {
           description="Open to opportunities, research conversations, and thoughtful collaboration around AI and full-stack product work."
           overlineClassName="text-accent-gold"
           headingClassName="max-w-3xl text-text-primary"
-          descriptionClassName="max-w-2xl text-text-primary/72"
+          descriptionClassName="max-w-2xl text-text-primary/85"
           className="mb-0 max-w-3xl"
         />
 
@@ -25,16 +25,16 @@ export function Contact() {
           <div className="flex flex-col gap-8">
             <div className="grid gap-4 border-t border-[color:var(--border-hairline)] pt-6 sm:grid-cols-2">
               <div>
-                <p className="text-xs uppercase tracking-[0.22em] text-text-primary/55">
+                <p className="text-xs uppercase tracking-[0.22em] text-text-primary/68">
                   Availability
                 </p>
-                <p className="mt-2 text-sm leading-7 text-text-primary/72">
+                <p className="mt-2 text-sm leading-7 text-text-primary/85">
                   {contactInfo.availability}
                 </p>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-[0.22em] text-text-primary/55">Location</p>
-                <p className="mt-2 text-sm leading-7 text-text-primary/72">
+                <p className="text-xs uppercase tracking-[0.22em] text-text-primary/68">Location</p>
+                <p className="mt-2 text-sm leading-7 text-text-primary/85">
                   {contactInfo.location}
                 </p>
               </div>
@@ -63,10 +63,10 @@ export function Contact() {
 
           <div className="flex flex-col gap-6 border border-[color:var(--border-hairline)] p-6">
             <div className="flex flex-col gap-1">
-              <p className="text-xs uppercase tracking-[0.22em] text-text-primary/55">
+              <p className="text-xs uppercase tracking-[0.22em] text-text-primary/68">
                 Social Links
               </p>
-              <p className="text-sm leading-7 text-text-primary/72">
+              <p className="text-sm leading-7 text-text-primary/85">
                 Reach out through the most active public channels.
               </p>
             </div>
@@ -83,7 +83,7 @@ export function Contact() {
               ))}
             </div>
 
-            <div className="border-t border-[color:var(--border-hairline)] pt-4 text-sm text-text-primary/72">
+            <div className="border-t border-[color:var(--border-hairline)] pt-4 text-sm text-text-primary/85">
               <p>
                 Email: <span className="text-text-primary">{contactInfo.email}</span>
               </p>

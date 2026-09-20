@@ -103,7 +103,7 @@ function JourneyItem({
         )}
       />
       <div className="flex items-center gap-4">
-        <p className="text-sm uppercase tracking-[0.2em] text-text-primary/60">
+        <p className="text-sm uppercase tracking-[0.2em] text-text-primary/72">
           {String(index + 1).padStart(2, "0")}
         </p>
         <p className="text-lg font-medium text-text-primary">{label}</p>

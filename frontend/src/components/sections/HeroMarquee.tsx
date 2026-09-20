@@ -98,7 +98,7 @@ export function HeroMarquee() {
         {[...marqueeItems, ...marqueeItems].map((item, index) => (
           <span
             key={`${item}-${index}`}
-            className="flex items-center gap-5 text-xs font-medium uppercase tracking-[0.22em] text-text-primary/80 sm:text-sm"
+            className="flex items-center gap-5 text-xs font-medium uppercase tracking-[0.22em] text-text-primary/90 sm:text-sm"
           >
             <span>{item}</span>
             <span className="text-[color:var(--accent-gold)]">✦</span>

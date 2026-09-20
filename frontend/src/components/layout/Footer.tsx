@@ -47,7 +47,7 @@ export function Footer() {
               {name}
             </Link>
             {siteConfig.title && (
-              <p className="max-w-sm text-sm text-text-primary/70">{siteConfig.title}</p>
+              <p className="max-w-sm text-sm text-text-primary/82">{siteConfig.title}</p>
             )}
           </div>
 
@@ -60,7 +60,7 @@ export function Footer() {
                 target={link.external ? "_blank" : undefined}
                 rel={link.external ? "noopener noreferrer" : undefined}
                 className={cn(
-                  "text-xs uppercase tracking-[0.18em] text-text-primary/70 transition-colors",
+                  "text-xs uppercase tracking-[0.18em] text-text-primary/82 transition-colors",
                   "hover:text-text-primary",
                   "focus-visible:outline-none focus-visible:underline",
                 )}
@@ -87,11 +87,11 @@ export function Footer() {
 
         {/* Copyright */}
         <div className="mt-8 border-t border-border-hairline pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p className="text-xs text-text-primary/60">
+          <p className="text-xs text-text-primary/72">
             &copy; {currentYear} {name}. All rights reserved.
           </p>
           {siteConfig.location && (
-            <p className="text-xs text-text-primary/60">{siteConfig.location}</p>
+            <p className="text-xs text-text-primary/72">{siteConfig.location}</p>
           )}
         </div>
       </div>

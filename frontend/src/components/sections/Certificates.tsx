@@ -13,16 +13,16 @@ function CertificateRow({ certificate, index }: { certificate: Certificate; inde
       </p>
 
       <div className="flex flex-col gap-4">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs uppercase tracking-[0.22em] text-text-primary/60">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs uppercase tracking-[0.22em] text-text-primary/72">
           <span>{certificate.issuer}</span>
-          <span className="text-text-primary/35">/</span>
+          <span className="text-text-primary/50">/</span>
           <span>{certificate.date}</span>
         </div>
         <h3 className="max-w-3xl font-heading text-3xl leading-[1] md:text-4xl">
           {certificate.title}
         </h3>
         {certificate.description ? (
-          <p className="max-w-2xl text-base leading-8 text-text-primary/72">
+          <p className="max-w-2xl text-base leading-8 text-text-primary/85">
             {certificate.description}
           </p>
         ) : null}
@@ -43,7 +43,7 @@ function CertificateRow({ certificate, index }: { certificate: Certificate; inde
 
 export function Certificates() {
   return (
-    <Section id="certifications" containerSize="full" className="bg-bg-primary text-text-primary">
+    <Section id="certifications" containerSize="full" className="bg-transparent text-text-primary">
       <div className="section-shell section-pad-y flex flex-col gap-12">
         <SectionHeader
           align="left"
@@ -52,7 +52,7 @@ export function Certificates() {
           description="Courses and training programs completed across AI, cloud, and full-stack development."
           overlineClassName="text-accent-gold"
           headingClassName="max-w-3xl text-text-primary"
-          descriptionClassName="max-w-2xl text-text-primary/72"
+          descriptionClassName="max-w-2xl text-text-primary/85"
           className="mb-0 max-w-3xl"
         />
 

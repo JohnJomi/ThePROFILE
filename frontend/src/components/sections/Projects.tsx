@@ -50,27 +50,27 @@ function ShowcaseProject({ project, index }: { project: Project; index: number }
   return (
     <article className="grid gap-8 border-t border-border-hairline pt-8 lg:grid-cols-[1.25fr_0.75fr] lg:items-end">
       <ProjectReveal from="left" className="flex flex-col gap-6">
-        <div className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-text-primary/60">
+        <div className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-text-primary/72">
           <span className={cn("size-2 rounded-full", status.color)} />
           <span>Featured Project</span>
-          <span className="text-text-primary/35">/</span>
+          <span className="text-text-primary/50">/</span>
           <span className="text-accent-gold">{String(index + 1).padStart(2, "0")}</span>
         </div>
         <h3 className="max-w-3xl font-heading text-4xl leading-[0.96] md:text-5xl lg:text-6xl">
           {project.title}
         </h3>
-        <p className="max-w-2xl text-base leading-8 text-text-primary/72 md:text-lg">
+        <p className="max-w-2xl text-base leading-8 text-text-primary/85 md:text-lg">
           {project.description}
         </p>
         {project.highlights && project.highlights.length > 0 && (
           <div className="flex flex-col gap-3">
-            <p className="text-xs uppercase tracking-[0.2em] text-text-primary/60">
+            <p className="text-xs uppercase tracking-[0.2em] text-text-primary/72">
               Highlight Features
             </p>
-            <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-text-primary/72">
+            <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-text-primary/85">
               {project.highlights.map((highlight) => (
                 <span key={highlight} className="inline-flex items-center gap-3">
-                  <span className="text-text-primary/35">•</span>
+                  <span className="text-text-primary/50">•</span>
                   <span>{highlight}</span>
                 </span>
               ))}
@@ -78,13 +78,13 @@ function ShowcaseProject({ project, index }: { project: Project; index: number }
           </div>
         )}
         <div className="flex flex-col gap-3">
-          <p className="text-xs uppercase tracking-[0.2em] text-text-primary/60">
+          <p className="text-xs uppercase tracking-[0.2em] text-text-primary/72">
             Technology Stack
           </p>
-          <div className="flex flex-wrap items-center gap-3 text-sm text-text-primary/72">
+          <div className="flex flex-wrap items-center gap-3 text-sm text-text-primary/85">
             {project.tags.map((tag, tagIndex) => (
               <span key={tag} className="inline-flex items-center gap-3">
-                <span className={tagIndex === 0 ? "hidden" : "text-text-primary/35"}>·</span>
+                <span className={tagIndex === 0 ? "hidden" : "text-text-primary/50"}>·</span>
                 <span>{tag}</span>
               </span>
             ))}
@@ -97,8 +97,8 @@ function ShowcaseProject({ project, index }: { project: Project; index: number }
         order={1}
         className="flex flex-col gap-4 border border-border-hairline p-6"
       >
-        <p className="text-xs uppercase tracking-[0.2em] text-text-primary/60">Project Details</p>
-        <div className="space-y-3 text-sm leading-7 text-text-primary/76">
+        <p className="text-xs uppercase tracking-[0.2em] text-text-primary/72">Project Details</p>
+        <div className="space-y-3 text-sm leading-7 text-text-primary/88">
           <p>
             <span className="font-medium text-text-primary">Status:</span> {status.label}
           </p>
@@ -147,13 +147,13 @@ function SupportingProject({ project }: { project: Project }) {
 
   return (
     <article className="flex flex-col gap-5 border border-border-hairline p-6">
-      <div className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-text-primary/60">
+      <div className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-text-primary/72">
         <span className={cn("size-2 rounded-full", status.color)} />
         {status.label}
       </div>
       <h3 className="font-heading text-2xl leading-[1] text-text-primary">{project.title}</h3>
-      <p className="text-sm leading-7 text-text-primary/72">{project.description}</p>
-      <p className="text-xs uppercase tracking-[0.16em] text-text-primary/60">
+      <p className="text-sm leading-7 text-text-primary/85">{project.description}</p>
+      <p className="text-xs uppercase tracking-[0.16em] text-text-primary/72">
         {project.tags.slice(0, 4).join(" · ")}
       </p>
       <div className="mt-auto flex flex-wrap items-center gap-4">
@@ -190,7 +190,7 @@ export function Projects() {
   const supportingGroups = distribute(supportingProjects, showcaseProjects.length);
 
   return (
-    <Section id="projects" containerSize="full" className="bg-bg-primary text-text-primary">
+    <Section id="projects" containerSize="full" className="bg-transparent text-text-primary">
       <div className="section-shell section-pad-y flex flex-col gap-12">
         <SectionHeader
           align="left"
@@ -199,7 +199,7 @@ export function Projects() {
           description="A focused set of portfolio projects spanning enterprise platforms, AI applications, scientific computing, and cybersecurity research tooling."
           overlineClassName="text-accent-gold"
           headingClassName="max-w-3xl text-text-primary"
-          descriptionClassName="max-w-2xl text-text-primary/72"
+          descriptionClassName="max-w-2xl text-text-primary/85"
           className="mb-0 max-w-3xl"
         />
 

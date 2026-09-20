@@ -101,7 +101,7 @@ const skillChapters = [
 
 export function Skills() {
   return (
-    <Section id="skills" containerSize="full" className="bg-bg-primary text-text-primary">
+    <Section id="skills" containerSize="full" className="bg-transparent text-text-primary">
       <div className="section-shell section-pad-y flex flex-col gap-16">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeader
@@ -111,7 +111,7 @@ export function Skills() {
             description="A storytelling view of how I build software from idea to production."
             overlineClassName="text-accent-gold"
             headingClassName="max-w-3xl text-text-primary"
-            descriptionClassName="text-text-primary/72 max-w-2xl"
+            descriptionClassName="text-text-primary/85 max-w-2xl"
             className="mb-0 max-w-3xl"
           />
         </div>

@@ -63,3 +63,7 @@ export type { SocialButtonProps } from "./SocialButton";
 // ─── Decorative ───────────────────────────────────────────────────────────────
 export { AnimatedBackground } from "./AnimatedBackground";
 export type { AnimatedBackgroundProps } from "./AnimatedBackground";
+
+export { SiteGradientWaves } from "./SiteGradientWaves";
+export { default as GradientWaves } from "./GradientWaves";
+export type { GradientWavesProps } from "./GradientWaves";

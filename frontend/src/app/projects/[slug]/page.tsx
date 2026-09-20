@@ -56,21 +56,21 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
   const nextProject = projects[(currentIndex + 1) % projects.length];
 
   return (
-    <Section containerSize="full" className="bg-bg-primary text-text-primary">
+    <Section containerSize="full" className="bg-transparent text-text-primary">
       <div className="section-shell section-pad-y flex flex-col gap-12">
         <div className="flex flex-col gap-8">
           <Link
             href="/projects"
-            className="inline-flex w-fit items-center gap-2 text-xs uppercase tracking-[0.22em] text-text-primary/60 transition-colors hover:text-accent-gold"
+            className="inline-flex w-fit items-center gap-2 text-xs uppercase tracking-[0.22em] text-text-primary/72 transition-colors hover:text-accent-gold"
           >
             <ArrowLeft className="size-4" aria-hidden="true" />
             All Projects
           </Link>
 
-          <div className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-text-primary/60">
+          <div className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-text-primary/72">
             <span className={cn("size-2 rounded-full", status.color)} />
             <span>{status.label}</span>
-            <span className="text-text-primary/35">/</span>
+            <span className="text-text-primary/50">/</span>
             <span>Case Study</span>
           </div>
 
@@ -78,7 +78,7 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
             {project.title}
           </h1>
 
-          <p className="max-w-3xl text-base leading-8 text-text-primary/72 md:text-lg">
+          <p className="max-w-3xl text-base leading-8 text-text-primary/85 md:text-lg">
             {caseStudy?.summary ?? project.longDescription ?? project.description}
           </p>
 
@@ -109,7 +109,7 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
         </div>
 
         {caseStudy?.note && (
-          <p className="max-w-3xl border-l-2 border-accent-gold bg-bg-secondary/50 px-5 py-4 text-sm leading-7 text-text-primary/72">
+          <p className="max-w-3xl border-l-2 border-accent-gold bg-bg-secondary/50 px-5 py-4 text-sm leading-7 text-text-primary/85">
             {caseStudy.note}
           </p>
         )}
@@ -119,10 +119,10 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
             {caseStudy ? (
               <>
                 <section className="flex flex-col gap-4">
-                  <h2 className="text-xs uppercase tracking-[0.2em] text-text-primary/60">
+                  <h2 className="text-xs uppercase tracking-[0.2em] text-text-primary/72">
                     The Problem
                   </h2>
-                  <p className="max-w-2xl text-base leading-8 text-text-primary/80">
+                  <p className="max-w-2xl text-base leading-8 text-text-primary/90">
                     {caseStudy.problem}
                   </p>
                 </section>
@@ -133,7 +133,7 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
                       {section.heading}
                     </h2>
                     {section.body && (
-                      <p className="max-w-2xl text-base leading-8 text-text-primary/72">
+                      <p className="max-w-2xl text-base leading-8 text-text-primary/85">
                         {section.body}
                       </p>
                     )}
@@ -142,7 +142,7 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
                         {section.bullets.map((bullet) => (
                           <li
                             key={bullet}
-                            className="flex gap-3 text-sm leading-7 text-text-primary/72"
+                            className="flex gap-3 text-sm leading-7 text-text-primary/85"
                           >
                             <span aria-hidden="true" className="text-accent-gold">
                               —
@@ -161,7 +161,7 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
                                 <th
                                   key={header}
                                   scope="col"
-                                  className="py-3 pr-6 text-xs font-medium uppercase tracking-[0.16em] text-text-primary/60"
+                                  className="py-3 pr-6 text-xs font-medium uppercase tracking-[0.16em] text-text-primary/72"
                                 >
                                   {header}
                                 </th>
@@ -177,7 +177,7 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
                                 >
                                   {key}
                                 </th>
-                                <td className="py-3 align-top leading-7 text-text-primary/72">
+                                <td className="py-3 align-top leading-7 text-text-primary/85">
                                   {value}
                                 </td>
                               </tr>
@@ -190,7 +190,7 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
                 ))}
               </>
             ) : (
-              <p className="max-w-2xl text-base leading-8 text-text-primary/72">
+              <p className="max-w-2xl text-base leading-8 text-text-primary/85">
                 {project.longDescription ?? project.description}
               </p>
             )}
@@ -198,7 +198,7 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
 
           <aside className="flex h-fit flex-col gap-8 lg:sticky lg:top-24">
             <div className="flex flex-col gap-4 border border-border-hairline p-6">
-              <p className="text-xs uppercase tracking-[0.2em] text-text-primary/60">
+              <p className="text-xs uppercase tracking-[0.2em] text-text-primary/72">
                 Technology Stack
               </p>
               {caseStudy?.stack ? (
@@ -206,29 +206,29 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
                   {caseStudy.stack.map((group) => (
                     <div key={group.label} className="flex flex-col gap-2">
                       <p className="text-xs font-medium text-text-primary">{group.label}</p>
-                      <p className="text-sm leading-7 text-text-primary/72">
+                      <p className="text-sm leading-7 text-text-primary/85">
                         {group.items.join(" · ")}
                       </p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-sm leading-7 text-text-primary/72">{project.tags.join(" · ")}</p>
+                <p className="text-sm leading-7 text-text-primary/85">{project.tags.join(" · ")}</p>
               )}
             </div>
 
             {project.highlights && project.highlights.length > 0 && (
               <div className="flex flex-col gap-4 border border-border-hairline p-6">
-                <p className="text-xs uppercase tracking-[0.2em] text-text-primary/60">
+                <p className="text-xs uppercase tracking-[0.2em] text-text-primary/72">
                   Highlight Features
                 </p>
                 <ul className="flex flex-col gap-2">
                   {project.highlights.map((highlight) => (
                     <li
                       key={highlight}
-                      className="flex gap-3 text-sm leading-7 text-text-primary/72"
+                      className="flex gap-3 text-sm leading-7 text-text-primary/85"
                     >
-                      <span aria-hidden="true" className="text-text-primary/35">
+                      <span aria-hidden="true" className="text-text-primary/50">
                         •
                       </span>
                       <span>{highlight}</span>
@@ -242,7 +242,7 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
 
         {nextProject && nextProject.slug !== project.slug && (
           <div className="flex flex-col gap-3 border-t border-border-hairline pt-8">
-            <p className="text-xs uppercase tracking-[0.2em] text-text-primary/60">Next Project</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-text-primary/72">Next Project</p>
             <Link
               href={`/projects/${nextProject.slug}`}
               className="group inline-flex w-fit items-center gap-4 font-heading text-2xl leading-[1.1] text-text-primary transition-colors hover:text-accent-gold md:text-3xl"
