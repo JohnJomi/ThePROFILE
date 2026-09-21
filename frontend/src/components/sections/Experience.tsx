@@ -140,6 +140,7 @@ export function Experience() {
     <Section id="experience" containerSize="full" className="bg-transparent text-text-primary">
       <div className="section-shell section-pad-y flex flex-col gap-16">
         <SectionHeader
+          reveal
           align="left"
           overline="Professional Journey"
           heading="Experience"

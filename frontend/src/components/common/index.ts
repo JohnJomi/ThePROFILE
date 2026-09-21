@@ -32,6 +32,9 @@ export type {
   GradientTextProps,
 } from "./Typography";
 
+export { BlurText } from "./BlurText";
+export type { BlurTextProps } from "./BlurText";
+
 // ─── Buttons ──────────────────────────────────────────────────────────────────
 export { Button } from "./Button";
 export type { ButtonProps } from "./Button";

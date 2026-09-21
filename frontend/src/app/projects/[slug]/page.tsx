@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, MoveUpRight } from "lucide-react";
 
 import { Section } from "@/components/common";
+import { ProjectTitle } from "@/components/sections/ProjectTitle";
 import { caseStudies } from "@/data/case-studies";
 import { projects } from "@/data/projects";
 import { cn } from "@/lib/utils";
@@ -74,9 +75,7 @@ export default async function ProjectCaseStudyPage({ params }: PageProps) {
             <span>Case Study</span>
           </div>
 
-          <h1 className="max-w-4xl font-heading text-4xl leading-[0.96] md:text-5xl lg:text-6xl">
-            {project.title}
-          </h1>
+          <ProjectTitle title={project.title} />
 
           <p className="max-w-3xl text-base leading-8 text-text-primary/85 md:text-lg">
             {caseStudy?.summary ?? project.longDescription ?? project.description}

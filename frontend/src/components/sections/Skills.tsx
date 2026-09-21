@@ -105,6 +105,7 @@ export function Skills() {
       <div className="section-shell section-pad-y flex flex-col gap-16">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeader
+            reveal
             align="left"
             overline="Technical Skills"
             heading="Technologies I Use"

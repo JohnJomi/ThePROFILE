@@ -11,7 +11,7 @@ import { Heading, PrimaryButton, SecondaryButton, Section } from "@/components/c
 import { contactInfo } from "@/data/contact";
 import { profile } from "@/data/profile";
 import { useHeroScroll } from "@/hooks";
-import { fadeUp, fadeUpLarge, staggerContainer } from "@/lib/motion";
+import { blurIn, fadeUp, fadeUpLarge, staggerContainer } from "@/lib/motion";
 
 import { HeroMarquee } from "./HeroMarquee";
 
@@ -62,8 +62,22 @@ export function Hero() {
               }
             >
               <Heading as="h1" size="h1" className="max-w-4xl text-text-primary">
-                <span className="block">{firstName}</span>
-                <span className="block text-accent-rust">{lastName || "Jomi"}</span>
+                <motion.span
+                  variants={blurIn}
+                  initial="hidden"
+                  animate="visible"
+                  className="block"
+                >
+                  {firstName}
+                </motion.span>
+                <motion.span
+                  variants={blurIn}
+                  initial="hidden"
+                  animate="visible"
+                  className="block text-accent-rust"
+                >
+                  {lastName || "Jomi"}
+                </motion.span>
               </Heading>
             </motion.div>
 

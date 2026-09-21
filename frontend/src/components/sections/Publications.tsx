@@ -12,6 +12,7 @@ export function Publications() {
     <Section id="publications">
       <Container size="default" className="flex flex-col gap-12">
         <SectionHeader
+          reveal
           overline="Research"
           heading="Publications"
           description="A working research paper focused on phishing detection and cybersecurity analysis."

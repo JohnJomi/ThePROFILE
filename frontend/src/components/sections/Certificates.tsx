@@ -46,6 +46,7 @@ export function Certificates() {
     <Section id="certifications" containerSize="full" className="bg-transparent text-text-primary">
       <div className="section-shell section-pad-y flex flex-col gap-12">
         <SectionHeader
+          reveal
           align="left"
           overline="Credentials"
           heading="Certifications"
