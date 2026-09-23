@@ -263,7 +263,7 @@ export default function AboutPage() {
           <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.16em] text-text-primary/68">
             <span>Focused on meaningful software</span>
             <span>•</span>
-            <span>Open to collaboration</span>
+            <span>Open for collaboration</span>
             <span>•</span>
             <span>Available via {contactInfo.email}</span>
           </div>
