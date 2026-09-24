@@ -323,12 +323,13 @@ function RevealWord({
   const start = stagger;
   const end = Math.min(1, 0.65 + stagger);
 
-  const y = useTransform(progress, [start, end], [110, 0]);
   const opacity = useTransform(progress, [start, end], [0, 1]);
+  const blur = useTransform(progress, [start, end], [10, 0]);
+  const filter = useTransform(blur, (value) => `blur(${value}px)`);
 
   return (
     <motion.span
-      style={enabled ? { y, opacity, willChange: "transform" } : undefined}
+      style={enabled ? { opacity, filter, willChange: "filter, opacity" } : undefined}
       className="inline-block"
     >
       {children}

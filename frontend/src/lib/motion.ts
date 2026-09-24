@@ -68,6 +68,21 @@ export const fadeUpLarge: Variants = {
   },
 };
 
+/** Sharpens into focus from a blur, no positional movement. For hero headings. */
+export const blurIn: Variants = {
+  hidden: { opacity: 0, filter: "blur(10px)" },
+  visible: {
+    opacity: 1,
+    filter: "blur(0px)",
+    transition: { duration: duration.slow, ease: easing.easeOut },
+  },
+  exit: {
+    opacity: 0,
+    filter: "blur(6px)",
+    transition: { duration: duration.normal, ease: easing.easeIn },
+  },
+};
+
 /** Fade combined with downward translate. For dropdowns and tooltips. */
 export const fadeDown: Variants = {
   hidden: { opacity: 0, y: -16 },

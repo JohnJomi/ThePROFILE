@@ -90,7 +90,15 @@ export function HeroMarquee() {
   const x = useMotionTemplate`${shifted}%`;
 
   return (
-    <div className="mt-12 overflow-hidden border-y border-[color:var(--border-hairline)] bg-bg-secondary py-4">
+    <div
+      className="mt-12 overflow-hidden rounded-2xl border border-[color:var(--border-hairline)] bg-bg-secondary py-4"
+      style={{
+        maskImage:
+          "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+        WebkitMaskImage:
+          "linear-gradient(to right, transparent, black 8%, black 92%, transparent)",
+      }}
+    >
       <motion.div
         className="flex w-max items-center gap-5"
         style={prefersReduced ? undefined : { x, willChange: "transform" }}
@@ -98,7 +106,7 @@ export function HeroMarquee() {
         {[...marqueeItems, ...marqueeItems].map((item, index) => (
           <span
             key={`${item}-${index}`}
-            className="flex items-center gap-5 text-xs font-medium uppercase tracking-[0.22em] text-text-primary/80 sm:text-sm"
+            className="flex items-center gap-5 text-xs font-medium uppercase tracking-[0.22em] text-text-primary/90 sm:text-sm"
           >
             <span>{item}</span>
             <span className="text-[color:var(--accent-gold)]">✦</span>

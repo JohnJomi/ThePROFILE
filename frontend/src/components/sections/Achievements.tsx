@@ -16,6 +16,7 @@ export function Achievements() {
     <Section id="achievements">
       <Container size="default" className="flex flex-col gap-12">
         <SectionHeader
+          reveal
           overline="Recognition"
           heading="Achievements"
           description="A concise view of leadership, academic performance, research, and project execution milestones."

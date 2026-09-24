@@ -32,6 +32,9 @@ export type {
   GradientTextProps,
 } from "./Typography";
 
+export { BlurText } from "./BlurText";
+export type { BlurTextProps } from "./BlurText";
+
 // ─── Buttons ──────────────────────────────────────────────────────────────────
 export { Button } from "./Button";
 export type { ButtonProps } from "./Button";
@@ -63,3 +66,7 @@ export type { SocialButtonProps } from "./SocialButton";
 // ─── Decorative ───────────────────────────────────────────────────────────────
 export { AnimatedBackground } from "./AnimatedBackground";
 export type { AnimatedBackgroundProps } from "./AnimatedBackground";
+
+export { SiteGradientWaves } from "./SiteGradientWaves";
+export { default as GradientWaves } from "./GradientWaves";
+export type { GradientWavesProps } from "./GradientWaves";

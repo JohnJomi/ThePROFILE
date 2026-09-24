@@ -11,7 +11,7 @@ import { Heading, PrimaryButton, SecondaryButton, Section } from "@/components/c
 import { contactInfo } from "@/data/contact";
 import { profile } from "@/data/profile";
 import { useHeroScroll } from "@/hooks";
-import { fadeUp, fadeUpLarge, staggerContainer } from "@/lib/motion";
+import { blurIn, fadeUp, fadeUpLarge, staggerContainer } from "@/lib/motion";
 
 import { HeroMarquee } from "./HeroMarquee";
 
@@ -29,7 +29,7 @@ export function Hero() {
       id="about"
       animated={false}
       containerSize="full"
-      className="relative overflow-hidden bg-bg-primary text-text-primary"
+      className="relative overflow-hidden bg-transparent text-text-primary"
     >
       <div ref={heroRef} className="section-shell section-pad-y relative z-10">
         <motion.div
@@ -62,8 +62,22 @@ export function Hero() {
               }
             >
               <Heading as="h1" size="h1" className="max-w-4xl text-text-primary">
-                <span className="block">{firstName}</span>
-                <span className="block text-accent-rust">{lastName || "Jomi"}</span>
+                <motion.span
+                  variants={blurIn}
+                  initial="hidden"
+                  animate="visible"
+                  className="block"
+                >
+                  {firstName}
+                </motion.span>
+                <motion.span
+                  variants={blurIn}
+                  initial="hidden"
+                  animate="visible"
+                  className="block text-accent-rust"
+                >
+                  {lastName || "Jomi"}
+                </motion.span>
               </Heading>
             </motion.div>
 
@@ -72,7 +86,7 @@ export function Hero() {
               initial="hidden"
               animate="visible"
               style={prefersReduced ? undefined : { y: scroll.bioY, opacity: scroll.bioOpacity }}
-              className="max-w-2xl text-base leading-8 text-text-primary/72 md:text-lg"
+              className="max-w-2xl text-base leading-8 text-text-primary/85 md:text-lg"
             >
               {bio ||
                 "Computer Science undergraduate building AI-powered applications, scalable web platforms, and cloud-native systems. Passionate about creating software that solves real-world problems through thoughtful engineering."}
@@ -142,7 +156,7 @@ export function Hero() {
                 </div>
               </div>
 
-              <div className="absolute z-30 top-6 right-6 hidden size-24 items-center justify-center rounded-full border border-[color:var(--border-hairline)] bg-bg-secondary text-center text-[0.62rem] font-medium uppercase tracking-[0.22em] text-text-primary/80 md:flex">
+              <div className="absolute z-30 top-6 right-6 hidden size-24 items-center justify-center rounded-full border border-[color:var(--border-hairline)] bg-bg-secondary text-center text-[0.62rem] font-medium uppercase tracking-[0.22em] text-text-primary/90 md:flex">
                 <motion.span
                   animate={prefersReduced ? undefined : { rotate: 360 }}
                   transition={{ duration: 20, ease: "linear", repeat: Infinity }}
