@@ -123,6 +123,54 @@ export const projects: Project[] = [
     publishedAt: "2026-09-05",
   },
   {
+    slug: "gnn-credit-card-fraud-detection",
+    title: "FraudGraph — Credit Card Fraud Detection with GNNs",
+    description:
+      "Full-stack fraud detection system that models card transactions as a graph and classifies them with a Graph Convolutional Network, served through FastAPI and explored in a React dashboard.",
+    longDescription:
+      "Built on the Kaggle Credit Card Fraud Detection dataset (284,807 transactions, 492 fraud), the pipeline subsamples to 15,000 nodes while keeping every fraud case, builds a transaction graph, and trains a hand-rolled GCN in plain PyTorch with no torch_geometric dependency. A FastAPI backend exposes stats, graph, per-transaction and prediction endpoints, and the FraudGraph React dashboard renders normal and fraudulent nodes, live model metrics, and per-node inspection that highlights graph neighbours to show how connected transactions influence each prediction. On held-out data the model reaches 97.6% accuracy, 0.97 ROC-AUC and 85% fraud recall.",
+    tags: ["Python", "PyTorch", "Graph Neural Networks", "FastAPI", "React", "TypeScript"],
+    highlights: [
+      "Transaction Graph Modeling",
+      "Hand-Rolled GCN",
+      "0.97 ROC-AUC",
+      "85% Fraud Recall",
+      "FastAPI Inference API",
+      "Interactive Graph Dashboard",
+      "Neighbour Highlighting",
+      "Live Model Metrics",
+    ],
+    githubUrl: "https://github.com/JohnJomi/Credit-Card-Fraud-Detection-using-Graph-Neural-Networks",
+    caseStudyUrl: "",
+    featured: true,
+    status: "completed",
+    publishedAt: "2026-09-22",
+  },
+  {
+    slug: "tomato-freshness-xai",
+    title: "Tomato Freshness Classification with Explainable AI",
+    description:
+      "Full-stack ML system that classifies tomato freshness from gas-sensor and environmental readings and explains every prediction with feature importance, LIME and SHAP.",
+    longDescription:
+      "Six MQ gas sensors plus temperature and humidity are reduced to 26 statistical features per sample and classified into Pure Fresh, Good, or Stale to Spoiled. Random Forest, SVM and XGBoost pipelines are compared with 5-fold stratified cross-validation on the training set only, keeping the held-out test set unbiased; Random Forest was selected and scores 99.1% accuracy and F1 on the test set. Global feature importance and local LIME and SHAP explanations make each prediction auditable, served by a FastAPI backend and explored through an interactive Next.js dashboard.",
+    tags: ["Python", "Scikit-learn", "XGBoost", "SHAP", "LIME", "FastAPI", "Next.js"],
+    highlights: [
+      "Gas Sensor Feature Engineering",
+      "Three-Model Comparison",
+      "99.1% Test Accuracy",
+      "Stratified Cross-Validation",
+      "SHAP Explanations",
+      "LIME Explanations",
+      "FastAPI Model Serving",
+      "Interactive XAI Dashboard",
+    ],
+    githubUrl: "https://github.com/JohnJomi/Tomato-Freshness-Classification-Explainable-AI",
+    caseStudyUrl: "",
+    featured: true,
+    status: "completed",
+    publishedAt: "2026-09-23",
+  },
+  {
     slug: "spotify-music-recommendation-system",
     title: "Music Recommender — AI-Powered Spotify Recommendations",
     description:
