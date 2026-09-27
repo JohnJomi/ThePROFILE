@@ -1,4 +1,7 @@
-import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
+
+// Fonts are self-hosted (latin variable woff2 from Fontsource) so builds
+// never depend on fetching from Google Fonts.
 
 /**
  * Fraunces — display serif for headings and hero typography.
@@ -10,11 +13,11 @@ import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
  * CSS variable: --font-heading
  * Used by: headings, display labels, and hero typography.
  */
-export const fontHeading = Fraunces({
-  subsets: ["latin"],
+export const fontHeading = localFont({
+  src: "../fonts/fraunces-latin-wght-normal.woff2",
   variable: "--font-heading",
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: "100 900",
 });
 
 /**
@@ -27,11 +30,11 @@ export const fontHeading = Fraunces({
  * CSS variable: --font-sans
  * Used by: body text, nav, labels, and supporting copy.
  */
-export const fontSans = Inter({
-  subsets: ["latin"],
+export const fontSans = localFont({
+  src: "../fonts/inter-latin-wght-normal.woff2",
   variable: "--font-sans",
   display: "swap",
-  weight: "variable",
+  weight: "100 900",
 });
 
 /**
@@ -46,9 +49,9 @@ export const fontSans = Inter({
  * CSS variable: --font-mono
  * Used by: code blocks, inline code, terminal snippets, skill tags.
  */
-export const fontMono = JetBrains_Mono({
-  subsets: ["latin"],
+export const fontMono = localFont({
+  src: "../fonts/jetbrains-mono-latin-wght-normal.woff2",
   variable: "--font-mono",
   display: "swap",
-  weight: "variable",
+  weight: "100 800",
 });
