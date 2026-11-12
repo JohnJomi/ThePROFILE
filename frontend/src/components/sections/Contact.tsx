@@ -43,7 +43,7 @@ export function Contact() {
 
             <div className="flex flex-col gap-4 sm:flex-row">
               <Button
-                href={`mailto:${contactInfo.email}`}
+                href={`mailto:${contactInfo.emails[0]}`}
                 size="lg"
                 icon={<Mail className="size-4" />}
               >
@@ -85,9 +85,12 @@ export function Contact() {
             </div>
 
             <div className="border-t border-[color:var(--border-hairline)] pt-4 text-sm text-text-primary/85">
-              <p>
-                Email: <span className="text-text-primary">{contactInfo.email}</span>
-              </p>
+              {contactInfo.emails.map((address, index) => (
+                <p key={address}>
+                  {index === 0 ? "Email" : "Alternate email"}:{" "}
+                  <span className="text-text-primary">{address}</span>
+                </p>
+              ))}
               <p>
                 GitHub: <span className="text-text-primary">{contactInfo.github}</span>
               </p>

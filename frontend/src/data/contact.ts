@@ -1,7 +1,8 @@
 import { siteConfig } from "@/config/site";
 
 export interface ContactInfo {
-  email: string;
+  /** Primary email is `emails[0]`; additional addresses follow it. */
+  emails: string[];
   linkedin: string;
   github: string;
   location: string;
@@ -10,7 +11,9 @@ export interface ContactInfo {
 }
 
 export const contactInfo: ContactInfo = {
-  email: siteConfig.email || "johnjomi1234@gmail.com",
+  emails: siteConfig.emails?.length
+    ? siteConfig.emails
+    : ["john@johnjomi.dev", "johnjomi1234@gmail.com"],
   linkedin: "https://www.linkedin.com/in/john-jomi-68218b316/",
   github: "https://github.com/JohnJomi",
   location: siteConfig.location || "Remote",

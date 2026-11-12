@@ -51,8 +51,8 @@ export const siteConfig = {
   /** Open Graph / Twitter Card cover image (1200×630). */
   ogImageUrl: "/og-image.png",
 
-  /** Primary contact email. */
-  email: "johnjomi1234@gmail.com",
+  /** Contact emails. The first entry is the primary address; the rest are listed below it. */
+  emails: ["john@johnjomi.dev", "johnjomi1234@gmail.com"],
 
   /** Physical or general location shown in the footer/about section. */
   location: "Remote",
