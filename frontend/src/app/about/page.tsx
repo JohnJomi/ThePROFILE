@@ -265,7 +265,7 @@ export default function AboutPage() {
             <span>•</span>
             <span>Open for collaboration</span>
             <span>•</span>
-            <span>Available via {contactInfo.email}</span>
+            <span>Available via {contactInfo.emails[0]}</span>
           </div>
         </Container>
       </Section>
