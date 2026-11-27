@@ -16,7 +16,7 @@ export const certificates: Certificate[] = [
     issuer: "AWS Academy",
     date: "2026-08",
     description:
-      "20-hour training badge covering core AWS cloud concepts, services, and architecture fundamentals.",
+      "20-hour training covering core AWS cloud concepts, services, and architecture fundamentals.",
     fileUrl: "/certificates/aws-academy-cloud-foundations.pdf",
     featured: true,
   },
@@ -66,7 +66,7 @@ export const certificates: Certificate[] = [
   {
     id: "lt-advanced-js-frameworks",
     title: "Advanced JavaScript Frontend Frameworks (Angular / React)",
-    issuer: "L&T EduTech — CollegeConnect Programme",
+    issuer: "L&T EduTech — College Connect Programme",
     date: "2026-03",
     description: "Completed with First Class during the Nov 2025 – Mar 2026 CollegeConnect cohort.",
     fileUrl: "/certificates/lt-advanced-js-frameworks.pdf",
